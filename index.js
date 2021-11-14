@@ -22,6 +22,17 @@ const player = new Player(client, {
 })
 client.player = player
 
+const musicEvents = [
+    "songAdd",
+    "playlistAdd",
+    "songChanged",
+    "queueEnd",
+    "queueDestroyed",
+    "clientDisconnect",
+    "clientUndeafen",
+    "error",
+]
+
 client.commands = new Discord.Collection()
 
 fs.readdir("./commands/", (error, f) => {
@@ -38,16 +49,6 @@ fs.readdir("./commands/", (error, f) => {
     client.commands.set(commande.help.name, commande)
     })
 })
-
-const musicEvents = [
-    "songAdd",
-    "songChanged",
-    "queueEnd",
-    "queueDestroyed",
-    "clientDisconnect",
-    "clientUndeafen",
-    "error",
-]
 
 fs.readdir("./events", (error, f) => {
     if(error) console.log(error)

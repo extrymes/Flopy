@@ -1,4 +1,4 @@
-module.exports = async (client, queue, song) => {
+module.exports = async (client, queue, playlist) => {
     const guild = queue.guild
     client.updateDashboard(guild)
 }

@@ -12,7 +12,7 @@ module.exports = async (client, interaction) => {
 
     async function Lang(langID) {
         await client.updateGuild(guild, { language: langID })
-        client.updateDashboard(guild, interaction.message)
+        client.updateDashboard(guild)
         interaction?.deferUpdate().catch(error => {})
     }
 
@@ -30,18 +30,36 @@ module.exports = async (client, interaction) => {
         } else client.replyRed(interaction, `${lang.USER_NO_CORRECT_VOICE_CHANNEL}`)
     }
 
-    async function Next() {
+    async function Skip() {
         if(clientChannel?.id === memberChannel?.id) {
-            client.musicNext(guild)
+            client.musicSkip(guild)
             interaction?.deferUpdate().catch(error => {})
         } else client.replyRed(interaction, `${lang.USER_NO_CORRECT_VOICE_CHANNEL}`)
     }
 
-    async function Loop() {
+    async function Repeat() {
         if(clientChannel?.id === memberChannel?.id) {
-            client.musicLoop(guild)
+            client.musicRepeat(guild)
             interaction?.deferUpdate().catch(error => {})
         } else client.replyRed(interaction, `${lang.USER_NO_CORRECT_VOICE_CHANNEL}`)
+    }
+
+    async function Shuffle() {
+        if(clientChannel?.id === memberChannel?.id) {
+            client.musicShuffle(guild)
+            interaction?.deferUpdate().catch(error => {})
+        } else client.replyRed(interaction, `${lang.USER_NO_CORRECT_VOICE_CHANNEL}`)
+    }
+
+    async function Volume() {
+        if(clientChannel?.id === memberChannel?.id) {
+            client.musicVolume(guild)
+            interaction?.deferUpdate().catch(error => {})
+        } else client.replyRed(interaction, `${lang.USER_NO_CORRECT_VOICE_CHANNEL}`)
+    }
+
+    async function Progress() {
+        client.musicProgress(guild, interaction)
     }
 
     async function Favorite() {
@@ -49,7 +67,7 @@ module.exports = async (client, interaction) => {
             const queue = client.player.getQueue(guild.id)
 
             if(queue?.nowPlaying) {
-                client.musicFavorite(guild, interaction, user, queue?.nowPlaying?.name)
+                client.musicFavorite(guild, interaction, user, queue?.nowPlaying?.url)
             } else {
                 const userData = await client.getUser(user)
                 if(userData) {

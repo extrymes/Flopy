@@ -12,7 +12,7 @@ module.exports = client => {
         } else {
             const dashboardChannel = guild.channels.cache.find(ch => ch.id === settings.dashboardChannel)
             dashboardChannel?.messages.fetch(settings.dashboardMessage).catch(error => {}).then(dashboard => {
-                if(dashboard) client.updateDashboard(guild, dashboard)
+                if(dashboard) client.updateDashboard(guild)
                 else client.updateGuild(guild, { dashboardMessage: "", dashboardChannel: "" })
             })
         }
