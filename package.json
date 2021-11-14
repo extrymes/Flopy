@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@discordjs/opus": "^0.7.0",
+    "colors": "^1.4.0",
+    "discord-music-player": "^8.3.1",
+    "discord.js": "^13.3.1",
+    "moment": "^2.29.1",
+    "mongodb": "^4.1.0",
+    "mongoose": "^5.13.7",
+    "package.json": "^2.0.1"
+  }
+}
