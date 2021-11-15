@@ -58,8 +58,8 @@ module.exports = async (client, interaction) => {
         } else client.replyRed(interaction, `${lang.USER_NO_CORRECT_VOICE_CHANNEL}`)
     }
 
-    async function Progress() {
-        client.musicProgress(guild, interaction)
+    async function Info() {
+        client.musicInfo(guild, interaction)
     }
 
     async function Favorite() {
