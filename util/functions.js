@@ -107,22 +107,11 @@ module.exports = client => {
     client.setupDashboard = async (guild, channel) => {
         const settings = await client.getGuild(guild)
         const lang = require(`../util/lang/${settings.language}`)
-        const loadingEmbed = new Discord.MessageEmbed().setTitle(`${client.element.EMOJI_LOADING} ${lang.LOADING}`)
+        const langEmbed = new Discord.MessageEmbed().setTitle(`${client.element.EMOJI_LANG} ${lang.SETUP_LANG}`).setColor(client.element.COLOR_FLOPY)
+        const langButtons = new Discord.MessageActionRow().addComponents(new Discord.MessageButton().setLabel(lang.SETUP_LANG_EN).setStyle(`SECONDARY`).setCustomId(`Lang("en")`).setEmoji(client.element.EMOJI_LANG_EN), new Discord.MessageButton().setLabel(lang.SETUP_LANG_FR).setStyle(`SECONDARY`).setCustomId(`Lang("fr")`).setEmoji(client.element.EMOJI_LANG_FR))
         const oldChannel = guild.channels.cache.find(ch => ch.id === settings.dashboardChannel)
         await oldChannel?.messages.fetch(settings.dashboardMessage).catch(error => {}).then(async oldDashboard => await oldDashboard?.delete().catch(error => {}))
-        channel?.send({ embeds: [loadingEmbed] }).catch(error => {}).then(async loading => {
-            await client.updateGuild(guild, { dashboardChannel: channel.id, dashboardMessage: loading.id })
-            client.setupLang(guild, loading)
-        })
-    }
-
-    // Setup language
-    client.setupLang = async (guild, dashboard) => {
-        const settings = await client.getGuild(guild)
-        const lang = require(`../util/lang/${settings.language}`)
-        const langEmbed = new Discord.MessageEmbed().setTitle(`${client.element.EMOJI_LANG} ${lang.SETUP_LANG}`)
-        const langButtons = new Discord.MessageActionRow().addComponents(new Discord.MessageButton().setLabel(lang.SETUP_LANG_EN).setStyle(`SECONDARY`).setCustomId(`Lang("en")`).setEmoji(client.element.EMOJI_LANG_EN), new Discord.MessageButton().setLabel(lang.SETUP_LANG_FR).setStyle(`SECONDARY`).setCustomId(`Lang("fr")`).setEmoji(client.element.EMOJI_LANG_FR))
-        dashboard?.edit({ embeds: [langEmbed], components: [langButtons] }).catch(error => {})
+        channel?.send({ embeds: [langEmbed], components: [langButtons] }).catch(error => {}).then(dashboard => { client.updateGuild(guild, { dashboardChannel: dashboard.channel.id, dashboardMessage: dashboard.id }) })
     }
 
     // Update the dashboard
