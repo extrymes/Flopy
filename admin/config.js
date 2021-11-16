@@ -9,5 +9,6 @@ module.exports = {
     USER_DEFAULTSETTINGS: {
         favorite: ""
     },
+    PREFIX: ".",
     QUEUE_MAX: 40
 }

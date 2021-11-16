@@ -1,4 +1,4 @@
 module.exports = async (client, queue) => {
     const guild = queue.guild
-    client.updateDashboard(guild)
+    client.musicStop(guild)
 }

@@ -15,6 +15,7 @@ client.login(client.config.TOKEN)
 const { Player } = require("discord-music-player")
 const { enableColor } = require("npmlog")
 const player = new Player(client, {
+    quality: "high",
     leaveOnEnd: false,
     leaveOnStop: false,
     leaveOnEmpty: false,
