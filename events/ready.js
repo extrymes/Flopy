@@ -10,10 +10,10 @@ module.exports = client => {
         if(!settings) {
             await client.createGuild(guild)
         } else {
-            const dashboardChannel = guild.channels.cache.find(ch => ch.id === settings.dashboardChannel)
-            dashboardChannel?.messages.fetch(settings.dashboardMessage).catch(error => {}).then(dashboard => {
+            const dashboardChannel1 = guild.channels.cache.find(ch => ch.id === settings.dashboardChannel1)
+            dashboardChannel1?.messages.fetch(settings.dashboardMessage1).catch(error => {}).then(dashboard => {
                 if(dashboard) client.updateDashboard(guild)
-                else client.updateGuild(guild, { dashboardMessage: "", dashboardChannel: "" })
+                else client.updateGuild(guild, { dashboardMessage1: "", dashboardChannel1: "" })
             })
         }
     })

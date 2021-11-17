@@ -5,7 +5,7 @@ module.exports = async(client, message) => {
     const settings = await client.getGuild(guild)
     const lang = require(`../util/lang/${settings.language}`)
 
-    if(message.channel.id === settings.dashboardChannel) {
+    if(message.channel.id === settings.dashboardChannel1) {
         if(message.content.startsWith(client.config.PREFIX)) {
             const args = message.content.slice(client.config.PREFIX.length).trim().split(/ +/g)
             const commande = args.shift()

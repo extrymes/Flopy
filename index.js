@@ -13,7 +13,6 @@ client.mongoose.init()
 client.login(client.config.TOKEN)
 
 const { Player } = require("discord-music-player")
-const { enableColor } = require("npmlog")
 const player = new Player(client, {
     quality: "high",
     leaveOnEnd: false,
@@ -59,7 +58,7 @@ fs.readdir("./events", (error, f) => {
         const events = require(`./events/${f}`)
         const event = f.split(".")[0]
 
-    client.on(event, events.bind(null, client))
-    if(musicEvents.some(e => event.includes(e))) client.player.on(event, events.bind(null, client))
+    if(musicEvents.find(e => e === event)) client.player.on(event, events.bind(null, client))
+    else client.on(event, events.bind(null, client))
     })
 })

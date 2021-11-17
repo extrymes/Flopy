@@ -34,11 +34,6 @@ module.exports = client => {
         return data.updateOne(settings)
     }
 
-    // Delete guild in the database
-    client.deleteGuild = async guild => {
-        await Guild.deleteOne({ guildID: guild.id }).then(console.log(`[~] Old server`.blue))
-    }
-
     // Create user in the database
     client.createUser = async user => {
         const newUser = { userID: user.id }
@@ -109,9 +104,9 @@ module.exports = client => {
         const lang = require(`../util/lang/${settings.language}`)
         const langEmbed = new Discord.MessageEmbed().setTitle(`${client.element.EMOJI_LANG} ${lang.SETUP_LANG}`).setColor(client.element.COLOR_FLOPY)
         const langButtons = new Discord.MessageActionRow().addComponents(new Discord.MessageButton().setLabel(lang.SETUP_LANG_EN).setStyle(`SECONDARY`).setCustomId(`Lang("en")`).setEmoji(client.element.EMOJI_LANG_EN), new Discord.MessageButton().setLabel(lang.SETUP_LANG_FR).setStyle(`SECONDARY`).setCustomId(`Lang("fr")`).setEmoji(client.element.EMOJI_LANG_FR))
-        const oldChannel = guild.channels.cache.find(ch => ch.id === settings.dashboardChannel)
-        await oldChannel?.messages.fetch(settings.dashboardMessage).catch(error => {}).then(async oldDashboard => await oldDashboard?.delete().catch(error => {}))
-        channel?.send({ embeds: [langEmbed], components: [langButtons] }).catch(error => {}).then(dashboard => { client.updateGuild(guild, { dashboardChannel: dashboard.channel.id, dashboardMessage: dashboard.id }) })
+        const oldChannel = guild.channels.cache.find(ch => ch.id === settings.dashboardChannel1)
+        await oldChannel?.messages.fetch(settings.dashboardMessage1).catch(error => {}).then(async oldDashboard => await oldDashboard?.delete().catch(error => {}))
+        channel?.send({ embeds: [langEmbed], components: [langButtons] }).catch(error => {}).then(dashboard => { client.updateGuild(guild, { dashboardChannel1: dashboard.channel.id, dashboardMessage1: dashboard.id }) })
     }
 
     // Update the dashboard
@@ -119,7 +114,7 @@ module.exports = client => {
         const settings = await client.getGuild(guild)
         const lang = require(`../util/lang/${settings.language}`)
         const music = queue[guild.id]?.nowPlaying
-        const dashboardChannel = guild.channels.cache.find(ch => ch.id === settings.dashboardChannel)
+        const dashboardChannel1 = guild.channels.cache.find(ch => ch.id === settings.dashboardChannel1)
         const dashbaordEmbed = new Discord.MessageEmbed()
         const dashboardButtons = new Discord.MessageActionRow()
         if(music) {
@@ -135,20 +130,20 @@ module.exports = client => {
             const volume = `${lang.DASHBOARD_VOLUME} ${queue[guild.id]?.options?.volume}%`
             dashbaordEmbed.setTitle(`[${music?.duration}] ${music?.name}`).setImage(music?.thumbnail || client.element.BANNER).setFooter(`${status} | ${repeat} | ${volume}`).setColor(client.element.COLOR_WHITE)
             dashboardButtons.addComponents(new Discord.MessageButton().setStyle(`SECONDARY`).setCustomId(`PlayPause()`).setEmoji(client.element.EMOJI_PLAY_PAUSE), new Discord.MessageButton().setEmoji(client.element.EMOJI_STOP).setStyle(`SECONDARY`).setCustomId(`Stop()`), new Discord.MessageButton().setEmoji(client.element.EMOJI_NEXT).setStyle(`SECONDARY`).setCustomId(`Skip()`), new Discord.MessageButton().setEmoji(client.element.EMOJI_REPEAT).setStyle(`SECONDARY`).setCustomId(`Repeat()`), new Discord.MessageButton().setEmoji(client.element.EMOJI_VOLUME).setStyle(`SECONDARY`).setCustomId(`Volume()`))
-            dashboardChannel?.messages.fetch(settings.dashboardMessage).catch(error => {}).then(dashboard => { dashboard?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__** ${queueList}`, embeds: [dashbaordEmbed], components: [dashboardButtons] }).catch(error => {}) })
+            dashboardChannel1?.messages.fetch(settings.dashboardMessage1).catch(error => {}).then(dashboard => { dashboard?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__** ${queueList}`, embeds: [dashbaordEmbed], components: [dashboardButtons] }).catch(error => {}) })
         } else {
             dashbaordEmbed.setTitle(`${lang.DASHBOARD_MUSIC_NO_CURRENT_PLAYING}`).setImage(client.element.BANNER).setColor(client.element.COLOR_FLOPY)
             dashboardButtons.addComponents(new Discord.MessageButton().setEmoji(client.element.EMOJI_PLAY_PAUSE).setStyle(`SECONDARY`).setCustomId(`PlayPause()`).setDisabled(), new Discord.MessageButton().setEmoji(client.element.EMOJI_STOP).setStyle(`SECONDARY`).setCustomId(`Stop()`).setDisabled(), new Discord.MessageButton().setEmoji(client.element.EMOJI_NEXT).setStyle(`SECONDARY`).setCustomId(`Skip()`).setDisabled(), new Discord.MessageButton().setEmoji(client.element.EMOJI_REPEAT).setStyle(`SECONDARY`).setCustomId(`Repeat()`).setDisabled(), new Discord.MessageButton().setEmoji(client.element.EMOJI_VOLUME).setStyle(`SECONDARY`).setCustomId(`Volume()`).setDisabled())
-            dashboardChannel?.messages.fetch(settings.dashboardMessage).catch(error => {}).then(dashboard => { dashboard?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__**\n${lang.DASHBOARD_QUEUE_DEFAULT}`, embeds: [dashbaordEmbed], components: [dashboardButtons] }).catch(error => {}) })
+            dashboardChannel1?.messages.fetch(settings.dashboardMessage1).catch(error => {}).then(dashboard => { dashboard?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__**\n${lang.DASHBOARD_QUEUE_DEFAULT}`, embeds: [dashbaordEmbed], components: [dashboardButtons] }).catch(error => {}) })
         }
     }
 
     client.sendCommands = async guild => {
         const settings = await client.getGuild(guild)
         const lang = require(`../util/lang/${settings.language}`)
-        const dashboardChannel = guild.channels.cache.find(ch => ch.id === settings.dashboardChannel)
-        const commandsEmbed = new Discord.MessageEmbed().setTitle(`${lang.COMMAND_TITLE}`).setDescription(`**${client.config.PREFIX}shuffle** ${lang.COMMAND_SHUFFLE}\n**${client.config.PREFIX}info** ${lang.COMMAND_INFO}\n**${client.config.PREFIX}fav** ${lang.COMMAND_FAVORITE}`).setColor(client.element.COLOR_FLOPY)
-        dashboardChannel?.send({ embeds: [commandsEmbed] }).catch(error => {}).then(m => setTimeout(() => { m?.delete().catch(error => {}) }, 8000))
+        const dashboardChannel1 = guild.channels.cache.find(ch => ch.id === settings.dashboardChannel1)
+        const commandsEmbed = new Discord.MessageEmbed().setTitle(`${lang.COMMAND_TITLE}`).setDescription(`**${client.config.PREFIX}shuffle** ${lang.COMMAND_SHUFFLE}\n**${client.config.PREFIX}clear** ${lang.COMMAND_CLEAR}\n**${client.config.PREFIX}info** ${lang.COMMAND_INFO}\n**${client.config.PREFIX}fav** ${lang.COMMAND_FAVORITE}`).setColor(client.element.COLOR_FLOPY)
+        dashboardChannel1?.send({ embeds: [commandsEmbed] }).catch(error => {}).then(m => setTimeout(() => { m?.delete().catch(error => {}) }, 8000))
     }
 
     // Play music
@@ -196,12 +191,6 @@ module.exports = client => {
         client.updateDashboard(guild)
     }
 
-    // Shuffle music
-    client.musicShuffle = async guild => {
-        try { queue[guild.id]?.shuffle() } catch {}
-        client.updateDashboard(guild)
-    }
-
     // Volume music
     client.musicVolume = async guild => {
         const volume = queue[guild.id]?.options?.volume
@@ -209,6 +198,18 @@ module.exports = client => {
         else if(volume === 50) try { queue[guild.id]?.setVolume(150) } catch {}
         else if(volume === 150) try { queue[guild.id]?.setVolume(200) } catch {}
         else try { queue[guild.id]?.setVolume(100) } catch {}
+        client.updateDashboard(guild)
+    }
+
+    // Shuffle queue
+    client.musicShuffle = async guild => {
+        try { queue[guild.id]?.shuffle() } catch {}
+        client.updateDashboard(guild)
+    }
+
+    // Clear queue
+    client.musicClear = async guild => {
+        try { queue[guild.id]?.clearQueue() } catch {}
         client.updateDashboard(guild)
     }
 

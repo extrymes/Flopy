@@ -1,1 +1,1 @@
-module.exports = async (client, error, queue) => {}
+module.exports = async (client, error, queue) => { console.log(error) }

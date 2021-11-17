@@ -12,13 +12,29 @@ const guildShema = {
         "type": String,
         "default": defaults.language
     },
-    dashboardChannel: {
+    dashboardChannel1: {
         "type": String,
-        "default": defaults.dashboardChannel
+        "default": defaults.dashboardChannel1
     },
-    dashboardMessage: {
+    dashboardMessage1: {
         "type": String,
-        "default": defaults.dashboardMessage
+        "default": defaults.dashboardMessage1
+    },
+    dashboardChannel2: {
+        "type": String,
+        "default": defaults.dashboardChannel2
+    },
+    dashboardMessage2: {
+        "type": String,
+        "default": defaults.dashboardMessage2
+    },
+    dashboardChannel3: {
+        "type": String,
+        "default": defaults.dashboardChannel3
+    },
+    dashboardMessage3: {
+        "type": String,
+        "default": defaults.dashboardMessage3
     },
 }
 

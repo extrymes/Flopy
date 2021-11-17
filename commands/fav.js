@@ -1,5 +1,3 @@
-const Discord = require("discord.js")
-
 module.exports.run = async (client, message, args, settings, lang) => {
 	const guild = message.guild
     const queue = client.player.getQueue(guild.id)

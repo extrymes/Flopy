@@ -15,6 +15,7 @@ module.exports = {
     // COMMAND
     COMMAND_TITLE: "Additional commands",
     COMMAND_SHUFFLE: "Shuffle the queue",
+    COMMAND_CLEAR: "Clear the queue",
     COMMAND_INFO: "Info on the current music",
     COMMAND_FAVORITE: "Play/define/remove music as a favorite",
     COMMAND_NO_FOUND: "No command found",

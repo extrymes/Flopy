@@ -15,6 +15,7 @@ module.exports = {
     // COMMAND
     COMMAND_TITLE: "Commandes supplémentaires",
     COMMAND_SHUFFLE: "Mélanger la file d'attente",
+    COMMAND_CLEAR: "Vider la file d'attente",
     COMMAND_INFO: "Infos sur la musique en cours",
     COMMAND_FAVORITE: "Jouer/définir/retirer une musique en tant que favori",
     COMMAND_NO_FOUND: "Aucune commande trouvée",
