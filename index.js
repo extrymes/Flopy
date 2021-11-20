@@ -58,7 +58,7 @@ fs.readdir("./events", (error, f) => {
         const events = require(`./events/${f}`)
         const event = f.split(".")[0]
 
-    if(musicEvents.find(e => e === event)) client.player.on(event, events.bind(null, client))
+    if(musicEvents.find(evt => evt === event)) client.player.on(event, events.bind(null, client))
     else client.on(event, events.bind(null, client))
     })
 })

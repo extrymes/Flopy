@@ -6,8 +6,8 @@ module.exports.run = async (client, message, args, settings, lang) => {
         const memberChannel = message.member.voice.channel
         if(memberChannel) {
             const userData = await client.getUser(message.author)
-            if(userData) client.musicPlay(guild, memberChannel, userData.favorite)
-            else client.sendError(message.channel, `${lang.USER_MUSIC_FAVORITE_NO}`)
+            if(userData) client.musicPlay(guild, lang, message.channel, memberChannel, userData.favorite)
+            else client.sendError(message.channel, `${lang.MUSIC_FAVORITE_NO}`)
         } else client.sendError(message.channel, `${lang.USER_NO_VOICE_CHANNEL}`)
     }
 }

@@ -14,5 +14,5 @@ module.exports = {
         favorite: ""
     },
     PREFIX: ".",
-    QUEUE_MAX: 40
+    QUEUE_DISPLAY_MAX: 30
 }

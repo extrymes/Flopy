@@ -9,20 +9,20 @@ module.exports = async (client, interaction) => {
 
     async function Lang(langID) {
         await client.updateGuild(guild, { language: langID })
-        client.updateDashboard(guild)
+        client.updateDashboard(guild, settings, lang, interaction.channel)
         interaction?.deferUpdate().catch(error => {})
     }
 
     async function PlayPause() {
         if(clientChannel?.id === memberChannel?.id) {
-            client.musicPlayPause(guild)
+            client.musicPlayPause(guild, settings, lang, interaction.channel)
             interaction?.deferUpdate().catch(error => {})
         } else client.replyError(interaction, `${lang.USER_NO_CORRECT_VOICE_CHANNEL}`)
     }
 
     async function Stop() {
         if(clientChannel?.id === memberChannel?.id) {
-            client.musicStop(guild)
+            client.musicStop(guild, settings, lang, interaction.channel)
             interaction?.deferUpdate().catch(error => {})
         } else client.replyError(interaction, `${lang.USER_NO_CORRECT_VOICE_CHANNEL}`)
     }
@@ -36,14 +36,14 @@ module.exports = async (client, interaction) => {
 
     async function Repeat() {
         if(clientChannel?.id === memberChannel?.id) {
-            client.musicRepeat(guild)
+            client.musicRepeat(guild, settings, lang, interaction.channel)
             interaction?.deferUpdate().catch(error => {})
         } else client.replyError(interaction, `${lang.USER_NO_CORRECT_VOICE_CHANNEL}`)
     }
 
     async function Volume() {
         if(clientChannel?.id === memberChannel?.id) {
-            client.musicVolume(guild)
+            client.musicVolume(guild, settings, lang, interaction.channel)
             interaction?.deferUpdate().catch(error => {})
         } else client.replyError(interaction, `${lang.USER_NO_CORRECT_VOICE_CHANNEL}`)
     }
