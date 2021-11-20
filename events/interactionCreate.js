@@ -8,8 +8,9 @@ module.exports = async (client, interaction) => {
     eval(interaction.customId)
 
     async function Lang(langID) {
+        const newLang = require(`../util/lang/${langID}`)
         await client.updateGuild(guild, { language: langID })
-        client.updateDashboard(guild, settings, lang, interaction.channel)
+        client.updateDashboard(guild, settings, newLang, interaction.channel)
         interaction?.deferUpdate().catch(error => {})
     }
 
