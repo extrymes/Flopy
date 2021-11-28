@@ -1,9 +1,13 @@
 {
   "dependencies": {
-    "@discordjs/opus": "^0.7.0",
+    "@discordjs/opus": "github:discordjs/opus",
+    "@distube/spotify": "^1.0.0",
     "colors": "^1.4.0",
-    "discord-music-player": "^8.3.1",
     "discord.js": "^13.3.1",
+    "distube": "^3.0.3",
+    "ffmpeg": "^0.0.4",
+    "ffmpeg-static": "^4.4.0",
+    "libsodium-wrappers": "^0.7.9",
     "moment": "^2.29.1",
     "mongodb": "^4.1.0",
     "mongoose": "^5.13.7",

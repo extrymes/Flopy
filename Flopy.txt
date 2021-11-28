@@ -1,9 +1,12 @@
 Flopy
 - OTA5MjA1MTQ2ODYzNTY2ODU4.YZA5Rw._ZYcJYG13HdvlkC2SspssfPM_6I
+- dashboardChannl1 | dashboardMessage1
 - #39a8c1
 Flopy 2
 - OTA5NTMzNDExMjQ3NTQ2MzY4.YZFq_w.BgS9oGpwi_Q3HZBdqcZKunS-hF0
+- dashboardChannl2 | dashboardMessage2
 - #ab74e1
 Flopy 3
 - OTA5NTMzOTc1ODA5MjMyOTI2.YZFrhg.rgCHspQkoio1VVYEVuvvMPWKSUE
+- dashboardChannl3 | dashboardMessage3
 - #e36167

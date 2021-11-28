@@ -12,24 +12,30 @@ client.mongoose = require("./admin/mongoose")
 client.mongoose.init()
 client.login(client.config.TOKEN)
 
-const { Player } = require("discord-music-player")
-const player = new Player(client, {
-    quality: "high",
-    leaveOnEnd: false,
+const DisTube = require("distube")
+const { SpotifyPlugin } = require("@distube/spotify")
+client.distube = new DisTube.default(client, {
+    leaveOnFinish: false,
     leaveOnStop: false,
-    leaveOnEmpty: false,
-    deafenOnJoin: true,
+    pauseOnEmpty: true,
+    emitNewSongOnly: false,
+    searchSongs: 0,
+    searchCooldown: 60,
+    emptyCooldown: 60,
+    nsfw: true,
+    youtubeDL: true,
+    updateYouTubeDL: true,
+    youtubeCookie: client.config.YOUTUBE_COOKIE,
+    plugins: [new SpotifyPlugin({ emitEventsAfterFetching: true })],
 })
-client.player = player
 
-const musicEvents = [
-    "songAdd",
-    "playlistAdd",
-    "songChanged",
-    "queueEnd",
-    "queueDestroyed",
-    "clientDisconnect",
-    "clientUndeafen",
+const songEvents = [
+    "playSong",
+    "addSong",
+    "addList",
+    "deleteQueue",
+    "empty",
+    "searchNoResult",
     "error",
 ]
 
@@ -58,7 +64,7 @@ fs.readdir("./events", (error, f) => {
         const events = require(`./events/${f}`)
         const event = f.split(".")[0]
 
-    if(musicEvents.find(evt => evt === event)) client.player.on(event, events.bind(null, client))
+    if(songEvents.find(evt => evt === event)) client.distube.on(event, events.bind(null, client))
     else client.on(event, events.bind(null, client))
     })
 })

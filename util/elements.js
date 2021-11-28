@@ -9,6 +9,9 @@ module.exports = {
     EMOJI_VOLUME: "📶",
     EMOJI_LANG_EN: "909503548339933195",
     EMOJI_LANG_FR: "909503548558041129",
+    // SYMBOL
+    SYMBOL_LINE: "▬",
+    SYMBOL_CIRCLE: "⬤",
     // COLOR
     COLOR_FLOPY: "#39a8c1",
     COLOR_WHITE: "ffffff",

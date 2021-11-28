@@ -11,9 +11,10 @@ module.exports = client => {
             await client.createGuild(guild)
         } else {
             const lang = require(`../util/lang/${settings.language}`)
+            const queue = client.distube.getQueue(guild)
             const dashboardChannel1 = guild.channels.cache.find(ch => ch.id === settings.dashboardChannel1)
             dashboardChannel1?.messages.fetch(settings.dashboardMessage1).catch(error => {}).then(dashboard => {
-                if(dashboard) client.updateDashboard(guild, settings, lang, dashboardChannel1)
+                if(dashboard) client.updateDashboard(queue, settings, lang, dashboardChannel1)
                 else client.updateGuild(guild, { dashboardMessage1: "", dashboardChannel1: "" })
             })
         }

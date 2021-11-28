@@ -4,9 +4,9 @@ const { USER_DEFAULTSETTINGS: defaults } = require("../admin/config")
 const userShema = {
     _id: mongoose.Schema.Types.ObjectId,
     userID: String,
-    favorite: {
-        "type": String,
-        "default": defaults.favorite
+    favorites: {
+        "type": Array,
+        "default": defaults.favorites
     }
 }
 
