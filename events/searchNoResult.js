@@ -1,4 +1,5 @@
 module.exports = async (client, message, queue) => {
+    console.log(true)
     const guild = message.guild
     const settings = await client.getGuild(guild)
     const lang = require(`../util/lang/${settings.language}`)

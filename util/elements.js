@@ -1,6 +1,7 @@
 module.exports = {
     // IMAGE
     IMAGE_BANNER: "https://cdn.discordapp.com/attachments/909213855106891844/909213955044573214/banner.png",
+    IMAGE_BANNER2: "https://cdn.discordapp.com/attachments/909213855106891844/915006075865010176/banner2.jpg",
     // EMOJI
     EMOJI_PLAY_PAUSE: "⏯",
     EMOJI_STOP: "⏹",

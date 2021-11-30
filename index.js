@@ -15,29 +15,19 @@ client.login(client.config.TOKEN)
 const DisTube = require("distube")
 const { SpotifyPlugin } = require("@distube/spotify")
 client.distube = new DisTube.default(client, {
-    leaveOnFinish: false,
-    leaveOnStop: false,
-    pauseOnEmpty: true,
-    emitNewSongOnly: false,
-    searchSongs: 0,
-    searchCooldown: 60,
-    emptyCooldown: 60,
-    nsfw: true,
-    youtubeDL: true,
-    updateYouTubeDL: true,
-    youtubeCookie: client.config.YOUTUBE_COOKIE,
-    plugins: [new SpotifyPlugin({ emitEventsAfterFetching: true })],
+    leaveOnFinish: client.config.DISTUBE_LEAVE_ON_FINISH,
+    leaveOnStop: client.config.DISTUBE_LEAVE_ON_STOP,
+    pauseOnEmpty: client.config.DISTUBE_PAUSE_ON_EMPTY,
+    emitNewSongOnly: client.config.DISTUBE_EMIT_NEW_SONG_ONLY,
+    searchSongs: client.config.DISTUBE_SEARCH_SONG,
+    searchCooldown: client.config.DISTUBE_SEARCH_COOLDOWN,
+    emptyCooldown: client.config.DISTUBE_EMPTY_COOLDOWN,
+    nsfw: client.config.DISTUBE_NSFW,
+    youtubeDL: client.config.DISTUBE_YOUTUBE_DL,
+    updateYouTubeDL: client.config.DISTUBE_UPDATE_YOUTUBE_DL,
+    youtubeCookie: client.config.DISTUBE_YOUTUBE_COOKIE,
+    plugins: [new SpotifyPlugin({ emitEventsAfterFetching: client.config.SPOTIFY_EMIT_EVENTS_AFTER_FETCHING })],
 })
-
-const songEvents = [
-    "playSong",
-    "addSong",
-    "addList",
-    "deleteQueue",
-    "empty",
-    "searchNoResult",
-    "error",
-]
 
 client.commands = new Discord.Collection()
 
@@ -64,7 +54,7 @@ fs.readdir("./events", (error, f) => {
         const events = require(`./events/${f}`)
         const event = f.split(".")[0]
 
-    if(songEvents.find(evt => evt === event)) client.distube.on(event, events.bind(null, client))
+    if(client.config.DISTUBE_EVENTS.find(evt => evt === event)) client.distube.on(event, events.bind(null, client))
     else client.on(event, events.bind(null, client))
     })
 })

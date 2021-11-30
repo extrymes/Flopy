@@ -1,7 +1,6 @@
 module.exports = {
     TOKEN: "OTA5NTM0MTUxMTEwMTg5MTU2.YZFrrw.uI7QkhGOxH_0jKnQyUtOGyx-Jvc",
     DBCONNECTION: "mongodb+srv://Extrymes:'gCGkCy76*J*s`n@flopy.ockfu.mongodb.net/Flopy?retryWrites=true&w=majority",
-    YOUTUBE_COOKIE: "YSC=xxlh7pjMD5Y; PREF=tz=Europe.Brussels&f6=40000000; VISITOR_INFO1_LIVE=bbVEptvHpPw; CONSENT=YES+yt.411630896.fr+FX+148; GPS=1; CONSISTENCY=AGDxDeMlH_jqvKTd6gtktpwYYA4rzuCVDcLM9He6UnCCjbjaioxxo9CcBNvCsCXC6BQg17Wyj3O6EJDYWyfrY-CPwZ2pDn0CfFr-J-eTPu7k2GYFobsDKSTAkQAIEEibAdvxx7Fsbgge1fK9G3YN5cc",
     GUILD_DEFAULTSETTINGS: {
         language: "en",
         dashboardChannel1: "",
@@ -16,4 +15,17 @@ module.exports = {
     },
     PREFIX: ".",
     QUEUE_MAX_DISPLAY: 30,
+    DISTUBE_EVENTS: [ "playSong", "addSong", "addList", "deleteQueue", "searchNoResult", "noRelated", "disconnect", "empty", "error" ],
+    DISTUBE_LEAVE_ON_FINISH: false,
+    DISTUBE_LEAVE_ON_STOP: false,
+    DISTUBE_PAUSE_ON_EMPTY: true,
+    DISTUBE_EMIT_NEW_SONG_ONLY: true,
+    DISTUBE_SEARCH_SONG: 0,
+    DISTUBE_SEARCH_COOLDOWN: 60,
+    DISTUBE_EMPTY_COOLDOWN: 60,
+    DISTUBE_NSFW: true,
+    DISTUBE_YOUTUBE_DL: true,
+    DISTUBE_UPDATE_YOUTUBE_DL: true,
+    DISTUBE_YOUTUBE_COOKIE: "YSC=xxlh7pjMD5Y; PREF=tz=Europe.Brussels&f6=40000000; VISITOR_INFO1_LIVE=bbVEptvHpPw; CONSENT=YES+yt.411630896.fr+FX+148; GPS=1; CONSISTENCY=AGDxDeMlH_jqvKTd6gtktpwYYA4rzuCVDcLM9He6UnCCjbjaioxxo9CcBNvCsCXC6BQg17Wyj3O6EJDYWyfrY-CPwZ2pDn0CfFr-J-eTPu7k2GYFobsDKSTAkQAIEEibAdvxx7Fsbgge1fK9G3YN5cc",
+    SPOTIFY_EMIT_EVENTS_AFTER_FETCHING: true,
 }
