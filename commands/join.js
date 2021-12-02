@@ -6,7 +6,7 @@ module.exports.run = async (client, message, args, queue, settings, lang) => {
         if(memberChannel) {
             if(clientChannel !== memberChannel) client.join(lang, message.channel, memberChannel)
             else client.sendError(message.channel, `${lang.ERROR_CHANNEL_ALREADY_JOINED}`)
-        } else client.sendError(message.channel, `${lang.USER_NO_CHANNEL}`)
+        } else client.sendError(message.channel, `${lang.ERROR_USER_NO_CHANNEL}`)
     } else client.sendError(message.channel, `${lang.SONG_PLAYING}`)
 }
 module.exports.help = {

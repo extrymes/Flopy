@@ -6,9 +6,9 @@ module.exports.run = async (client, message, args, queue, settings, lang) => {
         const memberChannel = message.member.voice.channel
         if(memberChannel) {
             const userData = await client.getUser(message.author)
-            if(userData) client.songPlayFavorites(lang, message, userData.favorites)
-            else client.sendError(message.channel, `${lang.SONG_FAVORITES_NO_ADDED}`)
-        } else client.sendError(message.channel, `${lang.USER_NO_CHANNEL}`)
+            if(userData) client.songPlayFavorites(message, userData.favorites)
+            else client.sendError(message.channel, `${lang.ERROR_SONG_NO_FAVORITES}`)
+        } else client.sendError(message.channel, `${lang.ERROR_USER_NO_CHANNEL}`)
     }
 }
 module.exports.help = {

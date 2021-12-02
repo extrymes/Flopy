@@ -116,14 +116,14 @@ module.exports = client => {
             const songs = queue?.songs?.slice(1, client.config.QUEUE_MAX_DISPLAY + 1).map((m, i) => { return `${i + 1}. ${m?.name}` }).reverse().join("\n")
             const queueCount = queue?.songs?.length - 1
             const queueList = `${queueCount > client.config.QUEUE_MAX_DISPLAY ? `\n**+${queueCount - client.config.QUEUE_MAX_DISPLAY} ${lang.DASHBOARD_QUEUE_MORE}**\n${songs}` : `\n${songs || lang.DASHBOARD_QUEUE_NO_SONG}`}`
-            const status = queue?.paused?.toString().replace("false", `${lang.DASHBOARD_SONG_PLAYING}`).replace("true", `${lang.DASHBOARD_SONG_PAUSED}`)
-            const repeat = `${lang.DASHBOARD_REPEAT} ${queue?.repeatMode.toString().replace("0", `${lang.DASHBOARD_REPEAT_OFF}`).replace("1", `${lang.DASHBOARD_REPEAT_SONG}`).replace("2", `${lang.DASHBOARD_REPEAT_QUEUE}`)}`
+            const status = `${queue?.paused ? lang.DASHBOARD_SONG_PAUSED : lang.DASHBOARD_SONG_PLAYING}`
+            const repeat = `${lang.DASHBOARD_REPEAT} ${queue?.repeatMode === 0 ? lang.DASHBOARD_REPEAT_OFF : queue?.repeatMode === 1 ? lang.DASHBOARD_REPEAT_SONG : lang.DASHBOARD_REPEAT_QUEUE}`
             const volume = `${lang.DASHBOARD_VOLUME} ${queue?.volume}%`
             dashbaordEmbed.setTitle(`[${song?.formattedDuration}] ${song?.name}`).setImage(song?.thumbnail || client.element.IMAGE_BANNER2).setFooter(`${status} | ${repeat} | ${volume}`).setColor(client.element.COLOR_WHITE)
             dashboardButtons.addComponents(new Discord.MessageButton().setStyle(`SECONDARY`).setCustomId(`PlayPause()`).setEmoji(client.element.EMOJI_PLAY_PAUSE), new Discord.MessageButton().setEmoji(client.element.EMOJI_STOP).setStyle(`SECONDARY`).setCustomId(`Stop()`), new Discord.MessageButton().setEmoji(client.element.EMOJI_NEXT).setStyle(`SECONDARY`).setCustomId(`Skip()`), new Discord.MessageButton().setEmoji(client.element.EMOJI_REPEAT).setStyle(`SECONDARY`).setCustomId(`Repeat()`), new Discord.MessageButton().setEmoji(client.element.EMOJI_VOLUME).setStyle(`SECONDARY`).setCustomId(`Volume()`))
             channel?.messages?.fetch(settings.dashboardMessage1).catch(error => {}).then(dashboard => { dashboard?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__** ${queueList}`, embeds: [dashbaordEmbed], components: [dashboardButtons] }).catch(error => {}) })
         } else {
-            dashbaordEmbed.setTitle(`${lang.DASHBOARD_SONG_NO_PLAYING}`).setImage(client.element.IMAGE_BANNER).setColor(client.element.COLOR_FLOPY)
+            dashbaordEmbed.setTitle(`${lang.DASHBOARD_SONG_NO_PLAYING}`).setImage(client.element.IMAGE_BANNER).setFooter(`${lang.DASHBOARD_LINKS}`).setColor(client.element.COLOR_FLOPY)
             dashboardButtons.addComponents(new Discord.MessageButton().setEmoji(client.element.EMOJI_PLAY_PAUSE).setStyle(`SECONDARY`).setCustomId(`PlayPause()`).setDisabled(), new Discord.MessageButton().setEmoji(client.element.EMOJI_STOP).setStyle(`SECONDARY`).setCustomId(`Stop()`).setDisabled(), new Discord.MessageButton().setEmoji(client.element.EMOJI_NEXT).setStyle(`SECONDARY`).setCustomId(`Skip()`).setDisabled(), new Discord.MessageButton().setEmoji(client.element.EMOJI_REPEAT).setStyle(`SECONDARY`).setCustomId(`Repeat()`).setDisabled(), new Discord.MessageButton().setEmoji(client.element.EMOJI_VOLUME).setStyle(`SECONDARY`).setCustomId(`Volume()`).setDisabled())
             channel?.messages?.fetch(settings.dashboardMessage1).catch(error => {}).then(dashboard => { dashboard?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__**\n${lang.DASHBOARD_QUEUE_DEFAULT}`, embeds: [dashbaordEmbed], components: [dashboardButtons] }).catch(error => {}) })
         }
@@ -143,14 +143,19 @@ module.exports = client => {
         } catch(error) { client.distube.emit("error", channel, error) }
     }
 
+    // Leave channel
+    client.leave = async guild => {
+        try { client.distube.voices.leave(guild).catch(error => {}) } catch {}
+    }
+
     // Play song
-    client.songPlay = async (lang, message) => {
+    client.songPlay = async message => {
         message.channel?.sendTyping().catch(error => {})
         try { client.distube.play(message, message.content).catch(error => {}) } catch(error) { client.distube.emit("error", message.channel, error) }
     }
 
     // Play favorites song
-    client.songPlayFavorites = async (lang, message, favorites) => {
+    client.songPlayFavorites = async (message, favorites) => {
         message.channel?.sendTyping().catch(error => {})
         try { client.distube.playCustomPlaylist(message, favorites).catch(error => {}) } catch(error) { client.distube.emit("error", message.channel, error) }
     }
@@ -171,13 +176,14 @@ module.exports = client => {
     }
 
     // Stop song
-    client.songStop = async (queue) => {
+    client.songStop = async queue => {
         client.distube.stop(queue).catch(error => {})
     }
 
     // Skip song
-    client.songSkip = async (queue) => {
+    client.songSkip = async queue => {
         client.distube.skip(queue).catch(error => {})
+        if(queue?.paused) client.distube.resume(queue)
     }
 
     // Repeat song
@@ -214,7 +220,7 @@ module.exports = client => {
             } else if(percentage !== -1) {
                 percentage = -1
                 progress = progress + client.element.SYMBOL_CIRCLE
-            } else progress = progress + " "
+            } else progress = pr,ogress + " "
         }
         const bar = `\`[${progress}][${queue?.formattedCurrentTime}/${song?.formattedDuration}]\``
         const infoEmbed = new Discord.MessageEmbed().setTitle(`${song?.name}`).setURL(song?.url).setThumbnail(song?.thumbnail || client.element.IMAGE_BANNER2).addFields({ name: `**${lang.SONG_AUTHOR}**`, value: `${song?.uploader?.name || "?"}`, inline: true }, { name: `**${lang.SONG_VIEWS}**`, value: `${song?.views || "?"}`, inline: true }, { name: `**${lang.SONG_LIKES}**`, value: `${song?.likes || "?"}`, inline: true }, { name: `**${lang.SONG_DURATION}**`, value: `${bar}` }).setColor(client.element.COLOR_FLOPY)
@@ -249,5 +255,4 @@ module.exports = client => {
             }
         }
     }
-
 }

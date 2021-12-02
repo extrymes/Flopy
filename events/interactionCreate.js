@@ -19,34 +19,34 @@ module.exports = async (client, interaction) => {
         if(clientChannel?.id === memberChannel?.id) {
             client.songPlayPause(queue, settings, lang, interaction.channel)
             interaction?.deferUpdate().catch(error => {})
-        } else client.replyError(interaction, `${lang.USER_NO_CORRECT_CHANNEL}`)
+        } else client.replyError(interaction, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)
     }
 
     async function Stop() {
         if(clientChannel?.id === memberChannel?.id) {
             client.songStop(queue)
             interaction?.deferUpdate().catch(error => {})
-        } else client.replyError(interaction, `${lang.USER_NO_CORRECT_CHANNEL}`)
+        } else client.replyError(interaction, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)
     }
 
     async function Skip() {
         if(clientChannel?.id === memberChannel?.id) {
             client.songSkip(queue)
             interaction?.deferUpdate().catch(error => {})
-        } else client.replyError(interaction, `${lang.USER_NO_CORRECT_CHANNEL}`)
+        } else client.replyError(interaction, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)
     }
 
     async function Repeat() {
         if(clientChannel?.id === memberChannel?.id) {
             client.songRepeat(queue, settings, lang, interaction.channel)
             interaction?.deferUpdate().catch(error => {})
-        } else client.replyError(interaction, `${lang.USER_NO_CORRECT_CHANNEL}`)
+        } else client.replyError(interaction, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)
     }
 
     async function Volume() {
         if(clientChannel?.id === memberChannel?.id) {
             client.songVolume(queue, settings, lang, interaction.channel)
             interaction?.deferUpdate().catch(error => {})
-        } else client.replyError(interaction, `${lang.USER_NO_CORRECT_CHANNEL}`)
+        } else client.replyError(interaction, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)
     }
 }
