@@ -220,7 +220,7 @@ module.exports = client => {
             } else if(percentage !== -1) {
                 percentage = -1
                 progress = progress + client.element.SYMBOL_CIRCLE
-            } else progress = pr,ogress + " "
+            } else progress = progress + " "
         }
         const bar = `\`[${progress}][${queue?.formattedCurrentTime}/${song?.formattedDuration}]\``
         const infoEmbed = new Discord.MessageEmbed().setTitle(`${song?.name}`).setURL(song?.url).setThumbnail(song?.thumbnail || client.element.IMAGE_BANNER2).addFields({ name: `**${lang.SONG_AUTHOR}**`, value: `${song?.uploader?.name || "?"}`, inline: true }, { name: `**${lang.SONG_VIEWS}**`, value: `${song?.views || "?"}`, inline: true }, { name: `**${lang.SONG_LIKES}**`, value: `${song?.likes || "?"}`, inline: true }, { name: `**${lang.SONG_DURATION}**`, value: `${bar}` }).setColor(client.element.COLOR_FLOPY)
