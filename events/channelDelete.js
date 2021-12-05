@@ -4,6 +4,6 @@ module.exports = async(client, channel) => {
     
     if(channel.id === settings.dashboardChannel1) {
         await client.updateGuild(guild, { dashboardMessage1: "", dashboardChannel1: "" })
-        client.leave(guild)
+        client.channelLeave(guild)
     }
 }

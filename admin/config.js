@@ -13,8 +13,11 @@ module.exports = {
     USER_DEFAULTSETTINGS: {
         favorites: [],
     },
+    INVITE_FLOPY: "https://discord.com/api/oauth2/authorize?client_id=909205146863566858&permissions=3172352&scope=bot",
+    INVITE_FLOPY2: "https://discord.com/api/oauth2/authorize?client_id=909533411247546368&permissions=3172352&scope=bot",
+    INVITE_FLOPY3: "https://discord.com/api/oauth2/authorize?client_id=909533975809232926&permissions=3172352&scope=bot",
     PREFIX: ".",
-    QUEUE_MAX_DISPLAY: 30,
+    QUEUE_MAX_DISPLAY: 20,
     DISTUBE_EVENTS: [ "playSong", "addSong", "addList", "deleteQueue", "searchNoResult", "noRelated", "disconnect", "empty", "error" ],
     DISTUBE_LEAVE_ON_FINISH: false,
     DISTUBE_LEAVE_ON_STOP: false,
@@ -27,5 +30,4 @@ module.exports = {
     DISTUBE_YOUTUBE_DL: false,
     DISTUBE_UPDATE_YOUTUBE_DL: false,
     DISTUBE_YOUTUBE_COOKIE: "YSC=xxlh7pjMD5Y; PREF=tz=Europe.Brussels&f6=40000000; VISITOR_INFO1_LIVE=bbVEptvHpPw; CONSENT=YES+yt.411630896.fr+FX+148; GPS=1; CONSISTENCY=AGDxDeMlH_jqvKTd6gtktpwYYA4rzuCVDcLM9He6UnCCjbjaioxxo9CcBNvCsCXC6BQg17Wyj3O6EJDYWyfrY-CPwZ2pDn0CfFr-J-eTPu7k2GYFobsDKSTAkQAIEEibAdvxx7Fsbgge1fK9G3YN5cc",
-    SPOTIFY_EMIT_EVENTS_AFTER_FETCHING: true,
 }

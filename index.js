@@ -13,7 +13,6 @@ client.mongoose.init()
 client.login(client.config.TOKEN)
 
 const DisTube = require("distube")
-const { SpotifyPlugin } = require("@distube/spotify")
 client.distube = new DisTube.default(client, {
     leaveOnFinish: client.config.DISTUBE_LEAVE_ON_FINISH,
     leaveOnStop: client.config.DISTUBE_LEAVE_ON_STOP,
@@ -26,7 +25,6 @@ client.distube = new DisTube.default(client, {
     youtubeDL: client.config.DISTUBE_YOUTUBE_DL,
     updateYouTubeDL: client.config.DISTUBE_UPDATE_YOUTUBE_DL,
     youtubeCookie: client.config.DISTUBE_YOUTUBE_COOKIE,
-    plugins: [new SpotifyPlugin({ emitEventsAfterFetching: client.config.SPOTIFY_EMIT_EVENTS_AFTER_FETCHING })],
 })
 
 client.commands = new Discord.Collection()

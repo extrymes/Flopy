@@ -4,7 +4,7 @@ module.exports = {
     DASHBOARD_QUEUE_DEFAULT: "Join a voice channel and add a song by sending its name or url in this channel.",
     DASHBOARD_QUEUE_NO_SONG: "No song in the queue.",
     DASHBOARD_QUEUE_MORE: "more",
-    DASHBOARD_SONG_NO_PLAYING: "No song playing",
+    DASHBOARD_SONG_NO_PLAYING: "No song playing currently",
     DASHBOARD_SONG_PLAYING: "Song playing",
     DASHBOARD_SONG_PAUSED: "Song paused",
     DASHBOARD_REPEAT: "Repeat:",
@@ -12,7 +12,6 @@ module.exports = {
     DASHBOARD_REPEAT_SONG: "Song",
     DASHBOARD_REPEAT_QUEUE: "Queue",
     DASHBOARD_VOLUME: "Volume:",
-    DASHBOARD_LINKS: "Supported links: Youtube & Spotify",
     // COMMAND
     COMMAND_TITLE: "Additional commands",
     COMMAND_JOIN: "Join your voice channel",
@@ -21,7 +20,7 @@ module.exports = {
     COMMAND_AUTOPLAY: "Enable/disable autoplay",
     COMMAND_FAVORITE: "Play/add/remove favorite song",
     // SONG
-    SONG_PLAYING: "Song playing",
+    SONG_PLAYING: "Song playing currently",
     SONG_ADDED_TO_QUEUE: "Song added to queue",
     SONG_ADDED_TO_QUEUE2: "Playlist added to queue",
     SONG_CHANNEL_JOINED: "Voice channel joined",
@@ -34,13 +33,9 @@ module.exports = {
     SONG_AUTOPLAY_DISABLED: "Autoplay disabled",
     SONG_FAVORITES_ADDED: "Song added to favorites",
     SONG_FAVORITES_REMOVED: "Song removed from favorites",
-    // SETUP
-    SETUP_LANG: "Choose a language",
-    SETUP_LANG_EN: "English",
-    SETUP_LANG_FR: "Français",
     // ERROR
     ERROR_OCCURED: "An error has occurred",
-    ERROR_SONG_NO_PLAYING: "No song playing",
+    ERROR_SONG_NO_PLAYING: "No song playing currently",
     ERROR_SONG_NO_QUEUE: "No song in the queue",
     ERROR_SONG_NO_RELATED: "No related songs found",
     ERROR_SONG_NO_FAVORITES: "No song added to favorites",
@@ -55,4 +50,8 @@ module.exports = {
     ERROR_USER_NO_CORRECT_CHANNEL: "You must be in my voice channel",
     ERROR_USER_NO_PERMISSION_MANAGE_SERVER: "You must have permission to manage server",
     ERROR_USER_COOLDOWN: "Wait a while before doing this action",
+    ERROR_SPOTIFY: "Spotify :(",
+    ERROR_SPOTIFY2: "Spotify links are no longer supported due to major performance issues.\nHowever, there is a solution if you want to play your playlist. [Click here](https://soundiiz.com/) to convert a spotify playlist into a youtube playlist.",
+    // SETUP
+    SETUP_LANG: "Choose a language",
 }

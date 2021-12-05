@@ -19,7 +19,7 @@ module.exports = async(client, message) => {
             const memberChannel = message.member.voice.channel
             if(memberChannel) {
                 if(!clientChannel?.id || clientChannel?.id === memberChannel?.id) {
-                    if(!client.cooldown(message.author.id, 3000)) client.songPlay(message)
+                    if(!client.cooldown(message.author.id, 3000)) client.songPlay(lang, message)
                     else client.sendError(message.channel, `${lang.ERROR_USER_COOLDOWN}`)
                 }
                 else client.sendError(message.channel, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)

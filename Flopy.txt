@@ -1,12 +1,15 @@
 Flopy
-- OTA5MjA1MTQ2ODYzNTY2ODU4.YZA5Rw._ZYcJYG13HdvlkC2SspssfPM_6I
-- dashboardChannel1 | dashboardMessage1
-- #39a8c1
+- Token: OTA5MjA1MTQ2ODYzNTY2ODU4.YZA5Rw._ZYcJYG13HdvlkC2SspssfPM_6I
+- Dashboard: dashboardChannel1 | dashboardMessage1
+- Banner: https://cdn.discordapp.com/attachments/909213855106891844/917048408026513428/banner.png
+- Color: #39a8c1
 Flopy 2
-- OTA5NTMzNDExMjQ3NTQ2MzY4.YZFq_w.BgS9oGpwi_Q3HZBdqcZKunS-hF0
-- dashboardChannel2 | dashboardMessage2
-- #ab74e1
+- Token: OTA5NTMzNDExMjQ3NTQ2MzY4.YZFq_w.BgS9oGpwi_Q3HZBdqcZKunS-hF0
+- Dashboard: dashboardChannel2 | dashboardMessage2
+- Banner: https://cdn.discordapp.com/attachments/909213855106891844/917048435797028894/banner2.png
+- Color: #ab74e1
 Flopy 3
-- OTA5NTMzOTc1ODA5MjMyOTI2.YZFrhg.rgCHspQkoio1VVYEVuvvMPWKSUE
-- dashboardChannel3 | dashboardMessage3
-- #e36167
+- Token: OTA5NTMzOTc1ODA5MjMyOTI2.YZFrhg.rgCHspQkoio1VVYEVuvvMPWKSUE
+- Dashboard: dashboardChannel3 | dashboardMessage3
+- Banner: https://cdn.discordapp.com/attachments/909213855106891844/917048451844427806/banner3.png
+- Color: #e36167
