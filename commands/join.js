@@ -1,7 +1,7 @@
 module.exports.run = async (client, message, args, queue, settings, lang) => {
     const guild = message.guild
     if(!queue?.songs[0]) {
-        const clientChannel = guild.members.cache.get(client.user.id).voice.channel
+        const clientChannel = guild.me.voice.channel
         const memberChannel = message.member.voice.channel
         if(memberChannel) {
             if(clientChannel !== memberChannel) client.channelJoin(lang, message.channel, memberChannel)

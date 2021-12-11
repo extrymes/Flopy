@@ -3,7 +3,7 @@ module.exports = async (client, interaction) => {
     const settings = await client.getGuild(guild)
     const lang = require(`../util/lang/${settings.language}`)
     const queue = client.distube.getQueue(guild)
-    const clientChannel = guild.members.cache.get(client.user.id).voice.channel
+    const clientChannel = guild.me.voice.channel
     const memberChannel = interaction.member.voice.channel
 
     eval(interaction.customId)

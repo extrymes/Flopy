@@ -1,15 +1,15 @@
 Flopy
 - Token: OTA5MjA1MTQ2ODYzNTY2ODU4.YZA5Rw._ZYcJYG13HdvlkC2SspssfPM_6I
-- Dashboard: dashboardChannel1 | dashboardMessage1
-- Banner: https://cdn.discordapp.com/attachments/909213855106891844/917048408026513428/banner.png
+- Dashboard: dashboard1
+- Banner: https://cdn.discordapp.com/attachments/909213855106891844/918943238776324116/banner.png
 - Color: #39a8c1
 Flopy 2
 - Token: OTA5NTMzNDExMjQ3NTQ2MzY4.YZFq_w.BgS9oGpwi_Q3HZBdqcZKunS-hF0
-- Dashboard: dashboardChannel2 | dashboardMessage2
-- Banner: https://cdn.discordapp.com/attachments/909213855106891844/917048435797028894/banner2.png
+- Dashboard: dashboard2
+- Banner: https://cdn.discordapp.com/attachments/909213855106891844/918943254282633266/banner2.png
 - Color: #ab74e1
 Flopy 3
 - Token: OTA5NTMzOTc1ODA5MjMyOTI2.YZFrhg.rgCHspQkoio1VVYEVuvvMPWKSUE
-- Dashboard: dashboardChannel3 | dashboardMessage3
-- Banner: https://cdn.discordapp.com/attachments/909213855106891844/917048451844427806/banner3.png
+- Dashboard: dashboard3
+- Banner: https://cdn.discordapp.com/attachments/909213855106891844/918943266228039680/banner3.png
 - Color: #e36167

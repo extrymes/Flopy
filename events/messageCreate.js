@@ -5,7 +5,7 @@ module.exports = async(client, message) => {
     const lang = require(`../util/lang/${settings.language}`)
     const queue = client.distube.getQueue(guild)
 
-    if(message.channel.id === settings.dashboardChannel1) {
+    if(message.channel.id === settings.dashboard1.channel) {
         if(message.content.startsWith(client.config.PREFIX)) {
             const args = message.content.slice(client.config.PREFIX.length).trim().split(/ +/g)
             const commande = args.shift()
@@ -15,7 +15,7 @@ module.exports = async(client, message) => {
                 else client.sendError(message.channel, `${lang.ERROR_USER_COOLDOWN}`)
             } else client.sendError(message.channel, `${lang.ERROR_COMMAND_NO_FOUND}`)
         } else {
-            const clientChannel = guild.members.cache.get(client.user.id).voice.channel
+            const clientChannel = guild.me.voice.channel
             const memberChannel = message.member.voice.channel
             if(memberChannel) {
                 if(!clientChannel?.id || clientChannel?.id === memberChannel?.id) {

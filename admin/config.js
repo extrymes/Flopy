@@ -3,12 +3,9 @@ module.exports = {
     DBCONNECTION: "mongodb+srv://Extrymes:'gCGkCy76*J*s`n@flopy.ockfu.mongodb.net/Flopy?retryWrites=true&w=majority",
     GUILD_DEFAULTSETTINGS: {
         language: "en",
-        dashboardChannel1: "",
-        dashboardMessage1: "",
-        dashboardChannel2: "",
-        dashboardMessage2: "",
-        dashboardChannel3: "",
-        dashboardMessage3: "",
+        dashboard1: { channel: "", message: "" },
+        dashboard2: { channel: "", message: "" },
+        dashboard3: { channel: "", message: "" },
     },
     USER_DEFAULTSETTINGS: {
         favorites: [],
@@ -29,5 +26,5 @@ module.exports = {
     DISTUBE_NSFW: true,
     DISTUBE_YOUTUBE_DL: false,
     DISTUBE_UPDATE_YOUTUBE_DL: false,
-    DISTUBE_YOUTUBE_COOKIE: "YSC=xxlh7pjMD5Y; PREF=tz=Europe.Brussels&f6=40000000; VISITOR_INFO1_LIVE=bbVEptvHpPw; CONSENT=YES+yt.411630896.fr+FX+148; GPS=1; CONSISTENCY=AGDxDeMlH_jqvKTd6gtktpwYYA4rzuCVDcLM9He6UnCCjbjaioxxo9CcBNvCsCXC6BQg17Wyj3O6EJDYWyfrY-CPwZ2pDn0CfFr-J-eTPu7k2GYFobsDKSTAkQAIEEibAdvxx7Fsbgge1fK9G3YN5cc",
+    DISTUBE_YOUTUBE_COOKIE: "CONSENT=YES+BE.fr+V10+BX+027; VISITOR_INFO1_LIVE=uJjXsA_Juos; YSC=YHdDCo-8_qE; LOGIN_INFO=AFmmF2swRAIgahStEzGQj0ZUK4hW__DrYJH0aq8WtYEGHOSLZx1ts_kCIG93kCQQANYKthDyXq5k6KObl_ukpC2PGkbxouw3qcia:QUQ3MjNmejJBRDR1MVFkZkQ1MFpzUmhZR0JHVTVlUmxWT0VNamJkMThzNFU3ZHFpYTN2WnVrcGYwdGN4RlJJb0pEbEtweExONUVmMG15NU0xdHVOcDEyNFB3MXBOVXRDaC02QUNockR1TTA5M0hXM1FHQUpzS2lWYnJnTThDNzhjaEh1T0diRnR3Nm1MTEszRFRBM01ON2hqcnJNeWo5M3J3; wide=0; SID=EggEFRiv7AKGFkJ2pusXvM4ULOlEXybOxCxyraptf7KbJ-18VoxCoS0e7-3f9_B9HcT6yQ.; __Secure-1PSID=EggEFRiv7AKGFkJ2pusXvM4ULOlEXybOxCxyraptf7KbJ-18Eq8PeEe_lfsXwPgIFlGieg.; __Secure-3PSID=EggEFRiv7AKGFkJ2pusXvM4ULOlEXybOxCxyraptf7KbJ-18V1dqwaLtRuNzT5KVz3g54g.; HSID=A7KUntiPnKMARl0eS; SSID=AaAc1WIR3KglZXwF5; APISID=CeROx9hINo9-ygEB/AvsuPGB7-XBBZb9h-; SAPISID=wZYqBQULwuytE5mI/A42cOsE_PXVAxrTf4; __Secure-1PAPISID=wZYqBQULwuytE5mI/A42cOsE_PXVAxrTf4; __Secure-3PAPISID=wZYqBQULwuytE5mI/A42cOsE_PXVAxrTf4; PREF=f6=480&hl=fr&tz=Europe.Brussels&f5=30000&volume=5&library_tab_browse_id=FEmusic_liked_playlists; SIDCC=AJi4QfHTdOPZHmumkQlkN91SAp8svWJyhQETd0qUL_9hSFQa1rPVRNegIjmGP0T59o4okxxfv8NJ; __Secure-3PSIDCC=AJi4QfHoNlfooMnH2B5oIwrwFjxjMCDQZdskQTXla0K9DTxAENDBAgEF4dYEuc1l780XK0dpya9m",
 }

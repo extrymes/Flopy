@@ -1,7 +1,7 @@
 module.exports.run = async (client, message, args, queue, settings, lang) => {
-    if(queue?.songs[0]) {
-        const song = queue?.songs[0]
-        client.songFavavorites(message.author, lang, message.channel, song?.url)
+    const song = queue?.songs[0]
+    if(song) {
+        client.songFavavorites(message.author, lang, message.channel, song.url)
     } else {
         const memberChannel = message.member.voice.channel
         if(memberChannel) {
