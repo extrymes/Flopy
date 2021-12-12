@@ -2,7 +2,7 @@ module.exports = {
     // BANNER
     BANNER_FLOPY: "https://cdn.discordapp.com/attachments/909213855106891844/918943238776324116/banner.png",
     BANNER_DASHBOARD: "https://cdn.discordapp.com/attachments/909213855106891844/909213955044573214/banner.png",
-    BANNER_DASHBOARD2: "https://cdn.discordapp.com/attachments/909213855106891844/915006075865010176/banner2.jpg",
+    BANNER_DASHBOARD_2: "https://cdn.discordapp.com/attachments/909213855106891844/915006075865010176/banner2.jpg",
     // EMOJI
     EMOJI_PLAY_PAUSE: "⏯",
     EMOJI_STOP: "⏹",

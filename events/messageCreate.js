@@ -2,7 +2,7 @@ module.exports = async(client, message) => {
     if(message.author.bot) return
     const guild = message.guild
     const settings = await client.getGuild(guild)
-    const lang = require(`../util/lang/${settings.language}`)
+    const lang = require(`../util/lang/${settings.dashboard1.language}`)
     const queue = client.distube.getQueue(guild)
 
     if(message.channel.id === settings.dashboard1.channel) {
@@ -19,7 +19,7 @@ module.exports = async(client, message) => {
             const memberChannel = message.member.voice.channel
             if(memberChannel) {
                 if(!clientChannel?.id || clientChannel?.id === memberChannel?.id) {
-                    if(!client.cooldown(message.author.id, 3000)) client.songPlay(lang, message)
+                    if(!client.cooldown(message.author.id, 3000)) client.songPlay(message)
                     else client.sendError(message.channel, `${lang.ERROR_USER_COOLDOWN}`)
                 }
                 else client.sendError(message.channel, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)

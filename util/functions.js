@@ -101,7 +101,7 @@ module.exports = client => {
         const oldChannel = guild.channels.cache.find(ch => ch.id === settings.dashboard1.channel)
         await oldChannel?.messages?.fetch(settings.dashboard1.message).catch(error => {}).then(oldDashboard => oldDashboard?.delete().catch(error => {}))
         channel?.send({ embeds: [langEmbed] }).catch(error => {}).then(async dashboard => {
-            await client.updateGuild(guild, { dashboard1: { channel: dashboard?.channel?.id, message: dashboard?.id } })
+            await client.updateGuild(guild, { dashboard1: { channel: dashboard?.channel?.id, message: dashboard?.id, language: settings.dashboard1.language } })
             dashboard?.edit({ embeds: [langEmbed], components: [langButtons] }).catch(error => {})
         })
     }
@@ -118,7 +118,7 @@ module.exports = client => {
             const status = `${queue.paused ? lang.DASHBOARD_SONG_PAUSED : lang.DASHBOARD_SONG_PLAYING}`
             const repeat = `${lang.DASHBOARD_REPEAT} ${queue.repeatMode === 0 ? lang.DASHBOARD_REPEAT_OFF : queue.repeatMode === 1 ? lang.DASHBOARD_REPEAT_SONG : lang.DASHBOARD_REPEAT_QUEUE}`
             const volume = `${lang.DASHBOARD_VOLUME} ${queue.volume}%`
-            dashboardEmbed.setTitle(`[${song.formattedDuration}] ${song.name}`).setImage(song.thumbnail || client.element.BANNER_DASHBOARD2).setFooter(`${status} | ${repeat} | ${volume}`).setColor(client.element.COLOR_WHITE)
+            dashboardEmbed.setTitle(`[${song.formattedDuration}] ${song.name}`).setImage(song.thumbnail || client.element.BANNER_DASHBOARD_2).setFooter(`${status} | ${repeat} | ${volume}`).setColor(client.element.COLOR_WHITE)
             dashboardButtons.addComponents(new Discord.MessageButton().setCustomId(`PlayPause()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_PLAY_PAUSE), new Discord.MessageButton().setCustomId(`Stop()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_STOP), new Discord.MessageButton().setCustomId(`Skip()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_NEXT), new Discord.MessageButton().setCustomId(`Repeat()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_REPEAT), new Discord.MessageButton().setCustomId(`Volume()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_VOLUME))
             channel?.messages?.fetch(settings.dashboard1.message).catch(error => {}).then(dashboard => { dashboard?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__** ${queueList}`, embeds: [dashboardEmbed], components: [dashboardButtons] }).catch(error => {}) })
         } else {
@@ -160,7 +160,7 @@ module.exports = client => {
     }
 
     // Play song
-    client.songPlay = async (lang, message) => {
+    client.songPlay = async message => {
         message.channel.sendTyping().catch(error => {})
         try { client.distube.play(message, message.content).catch(error => {}) } catch(error) { client.distube.emit("error", message.channel, error) }
     }
@@ -234,7 +234,7 @@ module.exports = client => {
             } else progress = progress + " "
         }
         const bar = `\`[${progress}][${queue.formattedCurrentTime}/${song.formattedDuration}]\``
-        const infoEmbed = new Discord.MessageEmbed().setTitle(`${song.name}`).setURL(song.url).setThumbnail(song.thumbnail || client.element.BANNER_DASHBOARD2).addFields({ name: `**${lang.SONG_AUTHOR}**`, value: `${song.uploader?.name || "?"}`, inline: true }, { name: `**${lang.SONG_VIEWS}**`, value: `${song.views || "?"}`, inline: true }, { name: `**${lang.SONG_LIKES}**`, value: `${song.likes || "?"}`, inline: true }, { name: `**${lang.SONG_DURATION}**`, value: `${bar}` }).setColor(client.element.COLOR_FLOPY)
+        const infoEmbed = new Discord.MessageEmbed().setTitle(`${song.name}`).setURL(song.url).setThumbnail(song.thumbnail || client.element.BANNER_DASHBOARD_2).addFields({ name: `**${lang.SONG_AUTHOR}**`, value: `${song.uploader?.name || "?"}`, inline: true }, { name: `**${lang.SONG_VIEWS}**`, value: `${song.views || "?"}`, inline: true }, { name: `**${lang.SONG_LIKES}**`, value: `${song.likes || "?"}`, inline: true }, { name: `**${lang.SONG_DURATION}**`, value: `${bar}` }).setColor(client.element.COLOR_FLOPY)
         channel?.send({ embeds: [infoEmbed] }).catch(error => {}).then(m => setTimeout(() => { m?.delete().catch(error => {}) }, 8000))
     }
 

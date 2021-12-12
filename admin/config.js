@@ -2,10 +2,9 @@ module.exports = {
     TOKEN: "OTA5NTM0MTUxMTEwMTg5MTU2.YZFrrw.uI7QkhGOxH_0jKnQyUtOGyx-Jvc",
     DBCONNECTION: "mongodb+srv://Extrymes:'gCGkCy76*J*s`n@flopy.ockfu.mongodb.net/Flopy?retryWrites=true&w=majority",
     GUILD_DEFAULTSETTINGS: {
-        language: "en",
-        dashboard1: { channel: "", message: "" },
-        dashboard2: { channel: "", message: "" },
-        dashboard3: { channel: "", message: "" },
+        dashboard1: { channel: "", message: "", language: "en" },
+        dashboard2: { channel: "", message: "", language: "en" },
+        dashboard3: { channel: "", message: "", language: "en" },
     },
     USER_DEFAULTSETTINGS: {
         favorites: [],

@@ -22,7 +22,7 @@ module.exports = {
     // SONG
     SONG_PLAYING: "Song playing currently",
     SONG_ADDED_TO_QUEUE: "Song added to queue",
-    SONG_ADDED_TO_QUEUE2: "Playlist added to queue",
+    SONG_ADDED_TO_QUEUE_2: "Playlist added to queue",
     SONG_CHANNEL_JOINED: "Voice channel joined",
     SONG_QUEUE_MIXED: "Queue mixed",
     SONG_AUTHOR: "Author",

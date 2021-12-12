@@ -22,7 +22,7 @@ module.exports = {
     // SONG
     SONG_PLAYING: "Musique en cours de lecture",
     SONG_ADDED_TO_QUEUE: "Musique ajoutée à la file d'attente",
-    SONG_ADDED_TO_QUEUE2: "Playlist ajoutée à la file d'attente",
+    SONG_ADDED_TO_QUEUE_2: "Playlist ajoutée à la file d'attente",
     SONG_CHANNEL_JOINED: "Salon vocal rejoint",
     SONG_QUEUE_MIXED: "File d'attente mélangée",
     SONG_AUTHOR: "Auteur",
