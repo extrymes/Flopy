@@ -3,7 +3,7 @@ module.exports = async(client, message) => {
     const settings = await client.getGuild(guild)
     
     if(message.id === settings.dashboard1.message) {
-        await client.updateGuild(guild, { dashboard1: { channel: "", message: "", language: settings.dashboard1.language } })
+        await client.updateGuild(guild, { dashboard1: client.config.GUILD_DEFAULTSETTINGS.dashboard1 })
         client.channelLeave(guild)
     }
 }

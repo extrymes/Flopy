@@ -60,6 +60,18 @@ module.exports = client => {
         await User.deleteOne({ userID: user.id }).then(console.log(`[~] Old user`.blue))
     }
 
+    // First message
+    client.firstMessage = async guild => {
+        let firstChannel = false
+        const firstEmbed = new Discord.MessageEmbed().setTitle(`Get ready to listen to some music!`).setDescription(`Thank you for adding me to your server.\nTo start listening to music, mention me in a channel.`).setImage(client.element.BANNER_FLOPY).setColor(client.element.COLOR_FLOPY)
+        guild.channels.cache.forEach(channel => {
+            if(!firstChannel && channel.type === "GUILD_TEXT" && channel.viewable && channel.permissionsFor(guild.me).has("SEND_MESSAGES")) {
+                firstChannel = true
+                channel.send({ embeds: [firstEmbed] }).catch(error => {})
+            }
+        })
+    }
+
     // Cooldown
     client.cooldown = (id, time) => {
     	if(cooldown[id]) return true
@@ -82,12 +94,6 @@ module.exports = client => {
         channel?.send({ embeds: [errorEmbed] }).catch(error => {}).then(m => setTimeout(() => { m?.delete().catch(error => {}) }, 5000))
     }
 
-    // Reply correct
-    client.replyCorrect = async (interaction, content) => {
-        const correctEmbed = new Discord.MessageEmbed().setTitle(`${content}`).setColor(client.element.COLOR_FLOPY)
-        interaction?.reply({ embeds: [correctEmbed], ephemeral: true }).catch(error => {})
-    }
-
     // Reply error
     client.replyError = async (interaction, content) => {
         const errorEmbed = new Discord.MessageEmbed().setTitle(`${content}`).setColor(client.element.COLOR_GREY)
@@ -96,7 +102,7 @@ module.exports = client => {
 
     // Setup dashboard
     client.setupDashboard = async (guild, settings, lang, channel) => {
-        const langEmbed = new Discord.MessageEmbed().setTitle(`${lang.SETUP_LANG}`).setImage(client.element.BANNER_DASHBOARD).setColor(client.element.COLOR_FLOPY)
+        const langEmbed = new Discord.MessageEmbed().setTitle(`Choose a language`).setImage(client.element.BANNER_DASHBOARD).setColor(client.element.COLOR_FLOPY)
         const langButtons = new Discord.MessageActionRow().addComponents(new Discord.MessageButton().setCustomId(`Lang("en")`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_LANG_EN), new Discord.MessageButton().setCustomId(`Lang("fr")`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_LANG_FR))
         const oldChannel = guild.channels.cache.find(ch => ch.id === settings.dashboard1.channel)
         await oldChannel?.messages?.fetch(settings.dashboard1.message).catch(error => {}).then(oldDashboard => oldDashboard?.delete().catch(error => {}))
@@ -126,18 +132,6 @@ module.exports = client => {
             dashboardButtons.addComponents(new Discord.MessageButton().setCustomId(`PlayPause()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_PLAY_PAUSE).setDisabled(), new Discord.MessageButton().setCustomId(`Stop()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_STOP).setDisabled(), new Discord.MessageButton().setCustomId(`Skip()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_NEXT).setDisabled(), new Discord.MessageButton().setCustomId(`Repeat()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_REPEAT).setDisabled(), new Discord.MessageButton().setCustomId(`Volume()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_VOLUME).setDisabled())
             channel?.messages?.fetch(settings.dashboard1.message).catch(error => {}).then(dashboard => { dashboard?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__**\n${lang.DASHBOARD_QUEUE_DEFAULT}`, embeds: [dashboardEmbed], components: [dashboardButtons] }).catch(error => {}) })
         }
-    }
-
-    // First message
-    client.firstMessage = async guild => {
-        let firstChannel = false
-        const firstEmbed = new Discord.MessageEmbed().setTitle(`Get ready to listen to some music!`).setDescription(`Thank you for adding me to your server.\nTo start listening to music, mention me in a channel.`).setImage(client.element.BANNER_FLOPY).setColor(client.element.COLOR_FLOPY)
-        guild.channels.cache.forEach(channel => {
-            if(!firstChannel && channel.type === "GUILD_TEXT" && channel.viewable && channel.permissionsFor(guild.me).has("SEND_MESSAGES")) {
-                firstChannel = true
-                channel.send({ embeds: [firstEmbed] }).catch(error => {})
-            }
-        })
     }
 
     // Help

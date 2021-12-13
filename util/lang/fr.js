@@ -45,12 +45,11 @@ module.exports = {
     ERROR_RESULT_NO_FOUND: "Aucun résultat trouvé",
     ERROR_VIDEO_UNAVAILABLE: "Vidéo non disponible",
     ERROR_URL_UNSUPPORTED: "URL non supportée",
+    ERROR_UNKNOWN_PLAYLIST: "Playlist inconnue",
     ERROR_AGE_RESTRICTED: "Åge restreint",
     ERROR_COMMAND_NO_FOUND: "Aucune commande trouvée",
     ERROR_USER_NO_CHANNEL: "Vous devez être dans un salon vocal",
     ERROR_USER_NO_CORRECT_CHANNEL: "Vous devez être dans mon salon vocal",
     ERROR_USER_NO_PERMISSION_MANAGE_SERVER: "Vous devez avoir la permission de gérer le serveur",
     ERROR_USER_COOLDOWN: "Attendez un peu avant de faire cette action",
-    // SETUP
-    SETUP_LANG: "Choisissez une langue",
 }
