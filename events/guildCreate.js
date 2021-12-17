@@ -5,9 +5,9 @@ module.exports = async (client, guild) => {
         await client.createGuild(guild)
         client.firstMessage(guild)
     } else {
-        const dashboardChannel = guild.channels.cache.find(ch => ch.id === settings.dashboard1.channel)
-        dashboardChannel?.messages?.fetch(settings.dashboard1.message).catch(error => {}).then(dashboard => {
-            if(!dashboard) client.updateGuild(guild, { dashboard1: client.config.GUILD_DEFAULTSETTINGS.dashboard1 })
-        })
+        const queue = client.distube.getQueue(guild)
+        const lang = require(`../util/lang/${settings.dashboard1.language}`)
+        await client.getDashboard(guild, settings)
+        setTimeout(() => { client.updateDashboard(guild, queue, lang) }, 1000)
     }
 }
