@@ -1,6 +1,5 @@
 const Discord = require("discord.js")
 const mongoose = require("mongoose")
-const guild = require("../models/guild")
 const { Guild, User } = require("../models/index")
 
 const dashboard = {}
