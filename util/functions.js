@@ -128,7 +128,6 @@ module.exports = client => {
 
     // Update dashboard
     client.updateDashboard = async (guild, queue, lang) => {
-        console.log(true)
         const song = queue?.songs[0]
         const dashboardEmbed = new Discord.MessageEmbed()
         const dashboardButtons = new Discord.MessageActionRow()

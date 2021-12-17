@@ -3,7 +3,7 @@
     "@discordjs/opus": "github:discordjs/opus",
     "colors": "^1.4.0",
     "discord.js": "^13.3.1",
-    "distube": "^3.0.3",
+    "distube": "^3.0.4",
     "ffmpeg": "^0.0.4",
     "ffmpeg-static": "^4.4.0",
     "libsodium-wrappers": "^0.7.9",
