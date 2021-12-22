@@ -79,13 +79,13 @@ module.exports = client => {
 
     // Send error
     client.sendError = async (channel, content) => {
-        const errorEmbed = new Discord.MessageEmbed().setTitle(`${content}`).setColor(client.element.COLOR_GREY)
+        const errorEmbed = new Discord.MessageEmbed().setTitle(`${content}`).setColor(client.element.COLOR_GREY_2)
         channel?.send({ embeds: [errorEmbed] }).catch(error => {}).then(m => setTimeout(() => { m?.delete().catch(error => {}) }, 5000))
     }
 
     // Reply error
     client.replyError = async (interaction, content) => {
-        const errorEmbed = new Discord.MessageEmbed().setTitle(`${content}`).setColor(client.element.COLOR_GREY)
+        const errorEmbed = new Discord.MessageEmbed().setTitle(`${content}`).setColor(client.element.COLOR_GREY_2)
         interaction.reply({ embeds: [errorEmbed], ephemeral: true }).catch(error => {})
     }
 
@@ -134,11 +134,13 @@ module.exports = client => {
         if(song) {
             const songs = queue.songs.slice(1, client.config.QUEUE_MAX_DISPLAY + 1).map((m, i) => { return `${i + 1}. ${m?.name}` }).reverse().join("\n")
             const queueCount = queue.songs.length - 1
-            const queueList = `${queueCount > client.config.QUEUE_MAX_DISPLAY ? `\n**+${queueCount - client.config.QUEUE_MAX_DISPLAY} ${lang.DASHBOARD_QUEUE_MORE}**\n${songs}` : `\n${songs || lang.DASHBOARD_QUEUE_NO_SONG}`}`
-            const color = `${queue.paused ? client.element.COLOR_GREY_2 : client.element.COLOR_WHITE}`
+            const queueList = `${queueCount > client.config.QUEUE_MAX_DISPLAY ? `\n**+${queueCount - client.config.QUEUE_MAX_DISPLAY} ${lang.DASHBOARD_QUEUE_MORE_SONG}**\n${songs}` : `\n${songs || lang.DASHBOARD_QUEUE_NO_SONG}`}`
+            const thumbnail = song.thumbnail || client.element.BANNER_DASHBOARD_2
+            const avatar = song.member.avatarURL() || song.member.user.avatarURL() || client.element.AVATAR_DEFAULT
             const repeat = `${lang.DASHBOARD_REPEAT} ${queue.repeatMode === 0 ? lang.DASHBOARD_REPEAT_OFF : queue.repeatMode === 1 ? lang.DASHBOARD_REPEAT_SONG : lang.DASHBOARD_REPEAT_QUEUE}`
             const volume = `${lang.DASHBOARD_VOLUME} ${queue.volume}%`
-            dashboardEmbed.setTitle(`[${song.formattedDuration}] ${song.name}`).setImage(song.thumbnail || client.element.BANNER_DASHBOARD_2).setFooter(`${repeat} | ${volume}`, song.member.avatarURL() || song.member.user.avatarURL() || client.element.AVATAR_DEFAULT).setColor(color)
+            const color = `${queue.playing ? client.element.COLOR_WHITE : client.element.COLOR_GREY}`
+            dashboardEmbed.setTitle(`[${song.formattedDuration}] ${song.name}`).setImage(thumbnail).setFooter(`${repeat} | ${volume}`, avatar).setColor(color)
             dashboardButtons.addComponents(new Discord.MessageButton().setCustomId(`PlayPause()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_PLAY_PAUSE), new Discord.MessageButton().setCustomId(`Stop()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_STOP), new Discord.MessageButton().setCustomId(`Skip()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_NEXT), new Discord.MessageButton().setCustomId(`Repeat()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_REPEAT), new Discord.MessageButton().setCustomId(`Volume()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_VOLUME))
             dashboard[guild.id]?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__** ${queueList}`, embeds: [dashboardEmbed], components: [dashboardButtons] }).catch(error => {})
         } else {
@@ -162,19 +164,13 @@ module.exports = client => {
     // Play song
     client.playSong = async message => {
         message.channel.sendTyping().catch(error => {})
-        try {
-            client.distube.voices.join(message.member.voice.channel)
-            client.distube.play(message, message.content)
-        } catch(error) { client.distube.emit("error", message.channel, error) }
+        try { client.distube.play(message, message.content).catch(error => client.distube.emit("error", message.channel, error)) } catch(error) { client.distube.emit("error", message.channel, error) }
     }
 
     // Play favorite songs
     client.playFavoriteSongs = async (message, favorites) => {
         message.channel.sendTyping().catch(error => {})
-        try {
-            client.distube.voices.join(message.member.voice.channel)
-            client.distube.playCustomPlaylist(message, favorites)
-        } catch(error) { client.distube.emit("error", message.channel, error) }
+        try { client.distube.playCustomPlaylist(message, favorites).catch(error => client.distube.emit("error", message.channel, error)) } catch(error) { client.distube.emit("error", message.channel, error) }
     }
 
     // PlayPause song

@@ -19,6 +19,6 @@ module.exports = {
     // COLOR
     COLOR_FLOPY: "#39a8c1",
     COLOR_WHITE: "#ffffff",
-    COLOR_GREY: "#6d6a6a",
-    COLOR_GREY_2: "#2f3136",
+    COLOR_GREY: "#2f3136",
+    COLOR_GREY_2: "#6d6a6a",
 }
