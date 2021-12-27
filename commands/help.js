@@ -1,7 +1,11 @@
 module.exports.run = async (client, message, args, queue, settings, lang) => {
-    if(!client.cooldown(message.author.id, 3000)) client.sendCommands(lang, message.channel)
-    else client.sendError(message.channel, `${lang.ERROR_USER_COOLDOWN}`)
+    const channel = message.channel
+    const command = client.commands.filter(item => item.help.name !== "help").find(item => item.help.name === args[0])
+
+    if(command) client.help(lang, channel, `${command.help.name}`)
+    else client.help(lang, channel)
 }
 module.exports.help = {
-    name: "help"
+    name: "help",
+    type: "command",
 }

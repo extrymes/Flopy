@@ -3,8 +3,6 @@ module.exports = async (client, interaction) => {
     const queue = client.distube.getQueue(guild)
     const settings = await client.getGuild(guild)
     const lang = require(`../util/lang/${settings.dashboard1.language}`)
-    const clientChannel = guild.me.voice.channel
-    const memberChannel = interaction.member.voice.channel
 
     eval(interaction.customId)
 
@@ -16,44 +14,48 @@ module.exports = async (client, interaction) => {
     }
 
     async function PlayPause() {
-        if(clientChannel?.id === memberChannel?.id) {
-            client.playPauseSong(guild, queue, lang)
+        if(client.checkChannel(guild, interaction.member)) {
+            if(queue.playing) client.distube.pause(queue)
+            else client.distube.resume(queue)
+            client.updateDashboard(guild, queue, lang)
             interaction.deferUpdate().catch(error => {})
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)
     }
 
     async function Stop() {
-        if(clientChannel?.id === memberChannel?.id) {
-            client.stopSong(queue)
+        if(client.checkChannel(guild, interaction.member)) {
+            client.distube.stop(queue)
             interaction.deferUpdate().catch(error => {})
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)
     }
 
     async function Skip() {
-        if(clientChannel?.id === memberChannel?.id) {
-            client.skipSong(queue)
+        if(client.checkChannel(guild, interaction.member)) {
+            client.distube.skip(queue).catch(error => {})
+            if(queue.songs.length - 1 > 0 && queue.paused) client.distube.resume(queue)
             interaction.deferUpdate().catch(error => {})
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)
     }
 
     async function Repeat() {
-        if(clientChannel?.id === memberChannel?.id) {
-            client.repeatSong(guild, queue, lang)
+        if(client.checkChannel(guild, interaction.member)) {
+            const repeatMode = queue.repeatMode
+            client.distube.setRepeatMode(queue, repeatMode === 0 ? 1 : repeatMode === 1 ? 2 : 0)
+            client.updateDashboard(guild, queue, lang)
             interaction.deferUpdate().catch(error => {})
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)
     }
 
     async function Volume() {
-        if(clientChannel?.id === memberChannel?.id) {
-            client.volumeSong(guild, queue, lang)
+        if(client.checkChannel(guild, interaction.member)) {
+            const volume = queue.volume
+            client.distube.setVolume(queue, volume === 50 ? 25 : volume === 25 ? 75 : volume === 75 ? 100 : 50)
+            client.updateDashboard(guild, queue, lang)
             interaction.deferUpdate().catch(error => {})
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)
     }
 
-    async function Seek() {
-        if(clientChannel?.id === memberChannel?.id) {
-            client.seekSong(queue, lang, interaction.channel, Number(interaction.values[0]))
-            interaction.message.delete().catch(error => {})
-        } else client.replyError(interaction, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)
+    async function Hide() {
+        interaction.message.delete().catch(error => {})
     }
 }

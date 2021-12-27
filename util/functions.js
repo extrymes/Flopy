@@ -71,26 +71,34 @@ module.exports = client => {
         }
     }
 
+    // Check channel
+    client.checkChannel = (guild, member) => {
+        const clientChannel = guild.me.voice.channel
+        const memberChannel = member.voice.channel
+        if(clientChannel?.id === memberChannel?.id) return true
+        else return false
+    }
+
     // Send correct
     client.sendCorrect = async (channel, content) => {
         const correctEmbed = new Discord.MessageEmbed().setTitle(`${content}`).setColor(client.element.COLOR_FLOPY)
-        channel?.send({ embeds: [correctEmbed] }).catch(error => {}).then(m => setTimeout(() => { m?.delete().catch(error => {}) }, 5000))
+        channel?.send({ embeds: [correctEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 5000))
     }
 
     // Send error
     client.sendError = async (channel, content) => {
-        const errorEmbed = new Discord.MessageEmbed().setTitle(`${content}`).setColor(client.element.COLOR_GREY_2)
-        channel?.send({ embeds: [errorEmbed] }).catch(error => {}).then(m => setTimeout(() => { m?.delete().catch(error => {}) }, 5000))
+        const errorEmbed = new Discord.MessageEmbed().setTitle(`${content}`).setColor(client.element.COLOR_GREY)
+        channel?.send({ embeds: [errorEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 5000))
     }
 
     // Reply error
     client.replyError = async (interaction, content) => {
-        const errorEmbed = new Discord.MessageEmbed().setTitle(`${content}`).setColor(client.element.COLOR_GREY_2)
+        const errorEmbed = new Discord.MessageEmbed().setTitle(`${content}`).setColor(client.element.COLOR_GREY)
         interaction.reply({ embeds: [errorEmbed], ephemeral: true }).catch(error => {})
     }
 
-    // First message
-    client.firstMessage = async guild => {
+    // Send first message
+    client.sendFirstMessage = async guild => {
         let firstChannel = false
         const firstEmbed = new Discord.MessageEmbed().setTitle(`Get ready to listen to some music!`).setDescription(`Thank you for adding me to your server.\nTo start listening to music, mention me in a channel.`).setImage(client.element.BANNER_FLOPY).setColor(client.element.COLOR_FLOPY)
         guild.channels.cache.forEach(channel => {
@@ -99,6 +107,14 @@ module.exports = client => {
                 channel.send({ embeds: [firstEmbed] }).catch(error => {})
             }
         })
+    }
+
+    // Send update message
+    client.sendUpdateMessage = async (guild, lang) => {
+        const channel = dashboard[guild.id]?.channel
+        const updateEmbed = new Discord.MessageEmbed().setAuthor(`${lang.UPDATE_TITLE}`, client.element.ICON_FLOPY).setDescription(lang.UPDATE_DESCRIPTION).setImage(client.element.BANNER_FLOPY).setColor(client.element.COLOR_FLOPY)
+        const hideButton = new Discord.MessageActionRow().addComponents(new Discord.MessageButton().setCustomId(`Hide()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_UPDATE))
+        channel?.send({ embeds: [updateEmbed], components: [hideButton] }).catch(error => {})
     }
 
     // Setup dashboard
@@ -132,90 +148,29 @@ module.exports = client => {
         const dashboardEmbed = new Discord.MessageEmbed()
         const dashboardButtons = new Discord.MessageActionRow()
         if(song) {
-            const songs = queue.songs.slice(1, client.config.QUEUE_MAX_DISPLAY + 1).map((m, i) => { return `${i + 1}. ${m?.name}` }).reverse().join("\n")
+            const songs = queue.songs.slice(1, client.config.QUEUE_MAX_DISPLAY + 1).map((item, i) => { return `${i + 1}. ${item.name}` }).reverse().join("\n")
             const queueCount = queue.songs.length - 1
-            const queueList = `${queueCount > client.config.QUEUE_MAX_DISPLAY ? `\n**+${queueCount - client.config.QUEUE_MAX_DISPLAY} ${lang.DASHBOARD_QUEUE_MORE_SONG}**\n${songs}` : `\n${songs || lang.DASHBOARD_QUEUE_NO_SONG}`}`
+            const queueList = `${queueCount < client.config.QUEUE_MAX_DISPLAY ? `\n${songs || lang.DASHBOARD_QUEUE_NO_SONG}` : `\n**${queueCount - client.config.QUEUE_MAX_DISPLAY} ${lang.DASHBOARD_QUEUE_MORE_SONG}**\n${songs}`}`
             const thumbnail = song.thumbnail || client.element.BANNER_DASHBOARD_2
-            const avatar = song.member.avatarURL() || song.member.user.avatarURL() || client.element.AVATAR_DEFAULT
+            const avatar = song.member.displayAvatarURL() || song.member.user.displayAvatarURL()
             const repeat = `${lang.DASHBOARD_REPEAT} ${queue.repeatMode === 0 ? lang.DASHBOARD_REPEAT_OFF : queue.repeatMode === 1 ? lang.DASHBOARD_REPEAT_SONG : lang.DASHBOARD_REPEAT_QUEUE}`
             const volume = `${lang.DASHBOARD_VOLUME} ${queue.volume}%`
-            const color = `${queue.playing ? client.element.COLOR_WHITE : client.element.COLOR_GREY}`
-            dashboardEmbed.setTitle(`[${song.formattedDuration}] ${song.name}`).setImage(thumbnail).setFooter(`${repeat} | ${volume}`, avatar).setColor(color)
-            dashboardButtons.addComponents(new Discord.MessageButton().setCustomId(`PlayPause()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_PLAY_PAUSE), new Discord.MessageButton().setCustomId(`Stop()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_STOP), new Discord.MessageButton().setCustomId(`Skip()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_NEXT), new Discord.MessageButton().setCustomId(`Repeat()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_REPEAT), new Discord.MessageButton().setCustomId(`Volume()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_VOLUME))
+            const emoji = `${queue.playing ? client.element.EMOJI_PAUSE : client.element.EMOJI_PLAY}`
+            dashboardEmbed.setTitle(`[${song.formattedDuration}] ${song.name}`).setImage(thumbnail).setFooter(`${repeat} | ${volume}`, avatar).setColor(client.element.COLOR_WHITE)
+            dashboardButtons.addComponents(new Discord.MessageButton().setCustomId(`PlayPause()`).setStyle(`SECONDARY`).setEmoji(emoji), new Discord.MessageButton().setCustomId(`Stop()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_STOP), new Discord.MessageButton().setCustomId(`Skip()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_NEXT), new Discord.MessageButton().setCustomId(`Repeat()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_REPEAT), new Discord.MessageButton().setCustomId(`Volume()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_VOLUME))
             dashboard[guild.id]?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__** ${queueList}`, embeds: [dashboardEmbed], components: [dashboardButtons] }).catch(error => {})
         } else {
-            dashboardEmbed.setTitle(`${lang.DASHBOARD_SONG_NO_PLAYING}`).setDescription(`[Flopy](${client.config.INVITE_FLOPY}) | [Flopy 2](${client.config.INVITE_FLOPY2}) | [Flopy 3](${client.config.INVITE_FLOPY3})`).setImage(client.element.BANNER_DASHBOARD).setColor(client.element.COLOR_FLOPY)
-            dashboardButtons.addComponents(new Discord.MessageButton().setCustomId(`PlayPause()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_PLAY_PAUSE).setDisabled(), new Discord.MessageButton().setCustomId(`Stop()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_STOP).setDisabled(), new Discord.MessageButton().setCustomId(`Skip()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_NEXT).setDisabled(), new Discord.MessageButton().setCustomId(`Repeat()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_REPEAT).setDisabled(), new Discord.MessageButton().setCustomId(`Volume()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_VOLUME).setDisabled())
-            dashboard[guild.id]?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__**\n${lang.DASHBOARD_QUEUE_DEFAULT}`, embeds: [dashboardEmbed], components: [dashboardButtons] }).catch(error => {})
+            dashboardEmbed.setTitle(`${lang.DASHBOARD_SONG_NO_PLAYING}`).setDescription(`[Flopy](${client.config.INVITE_FLOPY}) | [Flopy 2](${client.config.INVITE_FLOPY2}) | [Flopy 3](${client.config.INVITE_FLOPY3})`).setImage(client.element.BANNER_DASHBOARD).setFooter(`${lang.DASHBOARD_HELP_COMMAND} ${client.config.PREFIX}help`).setColor(client.element.COLOR_FLOPY)
+            dashboardButtons.addComponents(new Discord.MessageButton().setCustomId(`PlayPause()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_PLAY).setDisabled(), new Discord.MessageButton().setCustomId(`Stop()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_STOP).setDisabled(), new Discord.MessageButton().setCustomId(`Skip()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_NEXT).setDisabled(), new Discord.MessageButton().setCustomId(`Repeat()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_REPEAT).setDisabled(), new Discord.MessageButton().setCustomId(`Volume()`).setStyle(`SECONDARY`).setEmoji(client.element.EMOJI_VOLUME).setDisabled())
+            dashboard[guild.id]?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__**\n${lang.DASHBOARD_QUEUE_NONE}`, embeds: [dashboardEmbed], components: [dashboardButtons] }).catch(error => {})
         }
     }
 
-    // Send commands
-    client.sendCommands = async (lang, channel) => {
-        const commandsEmbed = new Discord.MessageEmbed().setTitle(`${lang.COMMAND_TITLE}`).setDescription(`**${client.config.PREFIX}info** ${lang.COMMAND_INFO}\n**${client.config.PREFIX}seek** ${lang.COMMAND_SEEK}\n**${client.config.PREFIX}auto** ${lang.COMMAND_AUTOPLAY}\n**${client.config.PREFIX}fav** ${lang.COMMAND_FAVORITE}\n**${client.config.PREFIX}mix** ${lang.COMMAND_MIX}`).setColor(client.element.COLOR_FLOPY)
-        channel.send({ embeds: [commandsEmbed] }).catch(error => {}).then(m => setTimeout(() => { m?.delete().catch(error => {}) }, 8000))
-    }
-
-    // Leave channel
-    client.leaveChannel = async guild => {
-        client.distube.voices.leave(guild)
-    }
-
-    // Play song
-    client.playSong = async message => {
-        message.channel.sendTyping().catch(error => {})
-        try { client.distube.play(message, message.content).catch(error => client.distube.emit("error", message.channel, error)) } catch(error) { client.distube.emit("error", message.channel, error) }
-    }
-
-    // Play favorite songs
-    client.playFavoriteSongs = async (message, favorites) => {
-        message.channel.sendTyping().catch(error => {})
-        try { client.distube.playCustomPlaylist(message, favorites).catch(error => client.distube.emit("error", message.channel, error)) } catch(error) { client.distube.emit("error", message.channel, error) }
-    }
-
-    // PlayPause song
-    client.playPauseSong = async (guild, queue, lang) => {
-        if(queue.playing) client.distube.pause(queue)
-        else client.distube.resume(queue)
-        client.updateDashboard(guild, queue, lang)
-    }
-
-    // Pause song
-    client.pauseSong = async (guild, queue, lang) => {
-        if(queue.playing) {
-            client.distube.pause(queue)
-            client.updateDashboard(guild, queue, lang)
-        }
-    }
-
-    // Stop song
-    client.stopSong = async queue => {
-        client.distube.stop(queue)
-    }
-
-    // Skip song
-    client.skipSong = async queue => {
-        client.distube.skip(queue).catch(error => {})
-        if(queue.songs.length - 1 > 0 && queue.paused) client.distube.resume(queue)
-    }
-
-    // Repeat song
-    client.repeatSong = async (guild, queue, lang) => {
-        const repeatMode = queue.repeatMode
-        client.distube.setRepeatMode(queue, repeatMode === 0 ? 1 : repeatMode === 1 ? 2 : 0)
-        client.updateDashboard(guild, queue, lang)
-    }
-
-    // Volume song
-    client.volumeSong = async (guild, queue, lang) => {
-        const volume = queue.volume
-        client.distube.setVolume(queue, volume === 50 ? 25 : volume === 25 ? 75 : volume === 75 ? 100 : 50)
-        client.updateDashboard(guild, queue, lang)
-    }
-
-    // Info song
-    client.infoSong = async (queue, lang, channel) => {
-        const song = queue.songs[0]
+    // Get song data
+    client.getSongData = async (queue, song) => {
+        const author = song.uploader.name || "?"
+        const views = song.views.toString().replace(/(.)(?=(\d{3})+$)/g,'$1,') || "?"
+        const likes = song.likes.toString().replace(/(.)(?=(\d{3})+$)/g,'$1,') || "?"
         let percentage = ((queue.currentTime / song.duration) * 100).toFixed(0)
         let progress = ""
         for(i = 0; i < 20; i++) {
@@ -228,70 +183,20 @@ module.exports = client => {
             } else progress = progress + " "
         }
         const bar = `\`[${progress}][${queue.formattedCurrentTime}/${song.formattedDuration}]\``
-        const infoEmbed = new Discord.MessageEmbed().setTitle(`${song.name}`).setURL(song.url).setThumbnail(song.thumbnail || client.element.BANNER_DASHBOARD_2).addFields({ name: `**${lang.SONG_AUTHOR}**`, value: `${song.uploader?.name || "?"}`, inline: true }, { name: `**${lang.SONG_VIEWS}**`, value: `${song.views || "?"}`, inline: true }, { name: `**${lang.SONG_LIKES}**`, value: `${song.likes || "?"}`, inline: true }, { name: `**${lang.SONG_DURATION}**`, value: `${bar}` }).setColor(client.element.COLOR_FLOPY)
-        channel.send({ embeds: [infoEmbed] }).catch(error => {}).then(m => setTimeout(() => { m?.delete().catch(error => {}) }, 8000))
+        return { author, views, likes, bar }
     }
 
-    // Seek song
-    client.seekSong = async (queue, lang, channel, time) => {
-        if(time > -1) {
-            try {
-                client.distube.seek(queue, time)
-                client.sendCorrect(channel, `${lang.SONG_MOMENT_SEEKED}`)
-            } catch(error) { client.distube.emit("error", channel, error) }
+    // Help
+    client.help = async (lang, channel, name) => {
+        if(!name) {
+            const commands = client.commands.filter(item => item.help.name !== "help" && item.help.type === "command").map((item, i) => { return `\`${item.help.name}\`` }).join(", ")
+            const filters = client.commands.filter(item => item.help.type === "filter").map((item, i) => { return `\`${item.help.name}\`` }).join(", ")
+            const helpEmbed = new Discord.MessageEmbed().setAuthor(`${lang.HELP_COMMAND_HELP}`, client.element.ICON_FLOPY).addFields({ name: `**${lang.HELP_COMMANDS}**`, value: `${commands}` }, { name: `**${lang.HELP_FILTERS}**`, value: `${filters}` }).setFooter(`${lang.HELP_COMMAND_HELP_DETAILS} ${client.config.PREFIX}help <command>`).setColor(client.element.COLOR_FLOPY)
+            channel.send({ embeds: [helpEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 10000))
         } else {
-            const song = queue.songs[0]
-            const optionsArray = []
-            for(i = 0; i < 20; i++) {
-                const calculedTime = (((i * 5) / 100) * song.duration).toFixed(0)
-                const formatInt = (int) => (int < 10 ? `0${int}` : int)
-                const seconds = Math.round(calculedTime % 60)
-                const minutes = Math.floor((calculedTime % 3600) / 60)
-                const hours = Math.floor(calculedTime / 3600)
-                if (hours > 0) formattedTime = `${formatInt(hours)}:${formatInt(minutes)}:${formatInt(seconds)}`
-                else if (minutes > 0) formattedTime = `${formatInt(minutes)}:${formatInt(seconds)}`
-                else formattedTime =  `00:${formatInt(seconds)}`
-                optionsArray.push({ label: `${formattedTime}`, value: calculedTime })
-            }
-            const seekMenu = new Discord.MessageActionRow().addComponents(new Discord.MessageSelectMenu().setCustomId(`Seek()`).setPlaceholder(`${lang.SONG_SELECT_MOMENT}`).addOptions([optionsArray]))
-            channel.send({ content: `ㅤ`, components: [seekMenu] }).catch(error => {}).then(m => setTimeout(() => { m?.delete().catch(error => {}) }, 10000))
+            const command = client.commands.find(item => item.help.name === name)
+            const commandEmbed = new Discord.MessageEmbed().setAuthor(`${eval(command.help.title)}`, client.element.ICON_FLOPY).addFields({ name: `**${lang.HELP_DESCRIPTION}**`, value: `${eval(command.help.description)}` }, { name: `**${lang.HELP_USAGE}**`, value: `\`${client.config.PREFIX}${command.help.name}${command.help.usage}\`` }).setColor(client.element.COLOR_FLOPY)
+            channel.send({ embeds: [commandEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 8000))
         }
-    }
-
-    // AutoPlay song
-    client.autoPlaySong = async (queue, lang, channel) => {
-        const autoplay = client.distube.toggleAutoplay(queue)
-        client.sendCorrect(channel, `${autoplay ? lang.SONG_AUTOPLAY_ENABLED : lang.SONG_AUTOPLAY_DISABLED}`)
-    }
-
-    // Favorites songs
-    client.favoriteSongs = async (user, lang, channel, songURL) => {
-        const userData = await client.getUser(user)
-        if(!userData) {
-            await client.createUser(user)
-            setTimeout(() => { client.updateUser(user, { favorites: [ songURL ] }) }, 500)
-            client.sendCorrect(channel, `${lang.SONG_FAVORITES_ADDED}`)
-        } else {
-            const favorites = userData.favorites
-            if(!favorites.find(url => url === songURL)) {
-                favorites.push(songURL)
-                await client.updateUser(user, { favorites: favorites })
-                client.sendCorrect(channel, `${lang.SONG_FAVORITES_ADDED}`)
-            } else {
-                const index = favorites.indexOf(songURL)
-                favorites.splice(index, 1)
-                if(favorites.length > 0) await client.updateUser(user, { favorites: favorites })
-                else await client.deleteUser(user)
-                client.sendCorrect(channel, `${lang.SONG_FAVORITES_REMOVED}`)
-            }
-        }
-    }
-
-    // Mix queue
-    client.mixQueue = async (guild, queue, lang, channel) => {
-        await client.distube.shuffle(queue)
-        const newQueue = client.distube.getQueue(guild)
-        client.updateDashboard(guild, newQueue, lang)
-        client.sendCorrect(channel, `${lang.SONG_QUEUE_MIXED}`)
     }
 }

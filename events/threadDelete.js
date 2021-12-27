@@ -1,8 +1,8 @@
-module.exports = async(client, message) => {
-    const guild = message.guild
+module.exports = async(client, thread) => {
+    const guild = thread.guild
     const settings = await client.getGuild(guild)
     
-    if(message.id === settings.dashboard1.message) {
+    if(thread.id === settings.dashboard1.channel) {
         await client.updateGuild(guild, { dashboard1: client.config.GUILD_DEFAULTSETTINGS.dashboard1 })
         client.distube.voices.leave(guild)
     }

@@ -4,6 +4,6 @@ module.exports = async(client, messages) => {
     
     if(messages.find(message => message.id === settings.dashboard1.message)) {
         await client.updateGuild(guild, { dashboard1: client.config.GUILD_DEFAULTSETTINGS.dashboard1 })
-        client.leaveChannel(guild)
+        client.distube.voices.leave(guild)
     }
 }
