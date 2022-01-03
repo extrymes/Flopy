@@ -1,8 +1,8 @@
 const Discord = require("discord.js")
-const {Client, Intents, Collection } = require('discord.js')
+const { Client, Intents, Collection } = require("discord.js")
 const fs = require ("fs")
 
-const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] })
+const client = new Discord.Client({ partials: ["MESSAGE", "CHANNEL", "REACTION"], intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] })
 require("./util/crash")(client)
 require("./util/functions")(client)
 
@@ -19,7 +19,7 @@ client.distube = new DisTube.default(client, {
     leaveOnStop: client.config.DISTUBE_LEAVE_ON_STOP,
     pauseOnEmpty: client.config.DISTUBE_PAUSE_ON_EMPTY,
     emitNewSongOnly: client.config.DISTUBE_EMIT_NEW_SONG_ONLY,
-    searchSongs: client.config.DISTUBE_SEARCH_SONG,
+    searchSongs: client.config.DISTUBE_SEARCH_SONGS,
     searchCooldown: client.config.DISTUBE_SEARCH_COOLDOWN,
     emptyCooldown: client.config.DISTUBE_EMPTY_COOLDOWN,
     nsfw: client.config.DISTUBE_NSFW,

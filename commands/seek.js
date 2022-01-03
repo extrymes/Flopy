@@ -7,7 +7,7 @@ module.exports.run = async (client, message, args, queue, settings, lang) => {
     if(!song) return client.sendError(channel, `${lang.ERROR_SONG_NO_PLAYING}`)
     if(!client.checkChannel(guild, message.member)) return client.sendError(channel, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)
     if(song.isLive) return client.sendError(channel, `${lang.ERROR_ACTION_IMPOSSIBLE_WITH_LIVE}`)
-    if(isNaN(time) || time < 0) return client.help(lang, channel, `seek`)
+    if(isNaN(time) || time < 0) return client.help(lang, channel, "seek")
 
     let sec = 0
     sec = sec + Number(time[time.length - 1] || 0)
@@ -17,19 +17,19 @@ module.exports.run = async (client, message, args, queue, settings, lang) => {
     sec = sec + Number(time[time.length - 5] || 0) * 60 * 60
     sec = sec + Number(time[time.length - 6] || 0) * 60 * 60 * 10
 
-    if(sec > song.duration) return client.sendError(channel, `${lang.ERROR_TIME_LONGER}`)
+    if(sec > song.duration) return client.sendError(channel, `${lang.ERROR_SONG_TIME_LONGER}`)
     if(queue.paused) {
         client.distube.resume(queue)
         client.updateDashboard(guild, queue, lang)
     }
     await client.distube.seek(queue, sec)
-    const data = await client.getSongData(queue, song)
-    client.sendCorrect(channel, `${data.bar}`)
+    const bar = await client.createBar(queue, song)
+    client.sendCorrect(channel, `${bar}`)
 }
 module.exports.help = {
     name: "seek",
     type: "command",
-    title: "lang.HELP_COMMAND_SEEK",
-    description: "lang.HELP_COMMAND_SEEK_DESCRIPTION",
+    title: "lang.HELP_COMMAND",
+    description: "lang.HELP_COMMAND_SEEK",
     usage: " [time: hhmmss]",
 }

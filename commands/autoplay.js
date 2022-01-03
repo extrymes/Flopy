@@ -10,7 +10,7 @@ module.exports.run = async (client, message, args, queue, settings, lang) => {
 module.exports.help = {
     name: "autoplay",
     type: "command",
-    title: "lang.HELP_COMMAND_AUTOPLAY",
-    description: "lang.HELP_COMMAND_AUTOPLAY_DESCRIPTION",
+    title: "lang.HELP_COMMAND",
+    description: "lang.HELP_COMMAND_AUTOPLAY",
     usage: "",
 }

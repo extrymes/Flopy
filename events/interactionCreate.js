@@ -39,8 +39,7 @@ module.exports = async (client, interaction) => {
 
     async function Repeat() {
         if(client.checkChannel(guild, interaction.member)) {
-            const repeatMode = queue.repeatMode
-            client.distube.setRepeatMode(queue, repeatMode === 0 ? 1 : repeatMode === 1 ? 2 : 0)
+            client.distube.setRepeatMode(queue, queue.repeatMode === 0 ? 1 : queue.repeatMode === 1 ? 2 : 0)
             client.updateDashboard(guild, queue, lang)
             interaction.deferUpdate().catch(error => {})
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)
@@ -48,8 +47,7 @@ module.exports = async (client, interaction) => {
 
     async function Volume() {
         if(client.checkChannel(guild, interaction.member)) {
-            const volume = queue.volume
-            client.distube.setVolume(queue, volume === 50 ? 25 : volume === 25 ? 75 : volume === 75 ? 100 : 50)
+            client.distube.setVolume(queue, queue.volume === 50 ? 25 : queue.volume === 25 ? 75 : queue.volume === 75 ? 100 : 50)
             client.updateDashboard(guild, queue, lang)
             interaction.deferUpdate().catch(error => {})
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)

@@ -6,6 +6,6 @@ module.exports = async (client, queue, playlist) => {
     if(queue.songs[0] === playlist.songs[0]) client.sendCorrect(queue.textChannel, `${lang.PLAYLIST_PLAYING}`)
     else {
         client.updateDashboard(guild, queue, lang)
-        client.sendCorrect(queue.textChannel, `${lang.PLAYLIST_ADDED_TO_QUEUE}`)
+        client.sendCorrect(queue.textChannel, `${lang.QUEUE_PLAYLIST_ADDED}`)
     }
 }

@@ -6,16 +6,16 @@ module.exports.run = async (client, message, args, queue, settings, lang) => {
 
     if(!queueCount > 0) return client.sendError(channel, `${lang.ERROR_QUEUE_NO_SONG}`)
     if(!client.checkChannel(guild, message.member)) return client.sendError(channel, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)
-    if(isNaN(position)) return client.help(lang, channel, `remove`)
-    if(position < 1 || position > queueCount) return client.sendError(channel, `${lang.ERROR_NO_CORRECT_SONG_POSITION}`)
+    if(isNaN(position)) return client.help(lang, channel, "remove")
+    if(position < 1 || position > queueCount) return client.sendError(channel, `${lang.ERROR_SONG_NO_CORRECT_POSITION}`)
     queue.songs.splice(position, 1)
     client.updateDashboard(guild, queue, lang)
-    client.sendCorrect(channel, `${lang.SONG_REMOVED_FROM_QUEUE}`)
+    client.sendCorrect(channel, `${lang.QUEUE_SONG_REMOVED}`)
 }
 module.exports.help = {
     name: "remove",
     type: "command",
-    title: "lang.HELP_COMMAND_REMOVE",
-    description: "lang.HELP_COMMAND_REMOVE_DESCRIPTION",
+    title: "lang.HELP_COMMAND",
+    description: "lang.HELP_COMMAND_REMOVE",
     usage: " [position]",
 }
