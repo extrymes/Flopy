@@ -73,7 +73,7 @@ module.exports = {
     ERROR_UNKNOWN_PLAYLIST: "Unknown playlist",
     ERROR_AGE_RESTRICTED: "Age restricted",
     ERROR_NAME_TOO_LONG: "Name too long",
-    ERROR_ACTION_TOO_LONG: "Action too fast",
+    ERROR_ACTION_TOO_FAST: "Action too fast",
     ERROR_ACTION_IMPOSSIBLE_WITH_LIVE: "Action not possible with a livestream",
     ERROR_COMMAND_NO_FOUND: "No commands found",
     ERROR_OCCURED: "An error has occurred",

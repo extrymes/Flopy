@@ -1,6 +1,7 @@
 module.exports.run = async (client, message, args, queue, settings, lang) => {
     const guild = message.guild
     const channel = message.channel
+    const member = message.member
     const userData = await client.getUser(message.author)
     const save = args.slice(0).join(" ")
 
@@ -17,14 +18,14 @@ module.exports.run = async (client, message, args, queue, settings, lang) => {
         }
     } else {
         if(!userData) return client.sendError(channel, `${lang.ERROR_NO_SAVE}`)
-        if(client.checkChannel(guild, message.member)) {
+        if(client.checkChannel(guild, member)) {
             channel.sendTyping().catch(error => {})
-            try { client.distube.play(message, userData.saved) } catch(error) { client.distube.emit("error", channel, error) }
+            try { client.distube.play(member.voice.channel, userData.saved, { textChannel: channel, member: member }) } catch(error) { client.distube.emit("error", channel, error) }
         } else if(!queue) {
-            if(message.member.voice.channel) {
+            if(member.voice.channel) {
                 client.distube.voices.leave(guild)
                 channel.sendTyping().catch(error => {})
-                try { client.distube.play(message, userData.saved) } catch(error) { client.distube.emit("error", channel, error) }
+                try { client.distube.play(member.voice.channel, userData.saved, { textChannel: channel, member: member }) } catch(error) { client.distube.emit("error", channel, error) }
             } else client.sendError(channel, `${lang.ERROR_USER_NO_CHANNEL}`)
         } else client.sendError(channel, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)
     }

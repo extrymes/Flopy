@@ -1,10 +1,11 @@
 module.exports.run = async (client, message, args, queue, settings, lang) => {
     const guild = message.guild
     const channel = message.channel
+    const member = message.member
     const filter = "echo"
 
     if(!queue) return client.sendError(channel, `${lang.ERROR_SONG_NO_PLAYING}`)
-    if(!client.checkChannel(guild, message.member)) return client.sendError(channel, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)
+    if(!client.checkChannel(guild, member)) return client.sendError(channel, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)
     if(queue.paused) {
         client.distube.resume(queue)
         client.updateDashboard(guild, queue, lang)

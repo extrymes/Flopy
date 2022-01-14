@@ -17,7 +17,7 @@ const DisTube = require("distube")
 client.distube = new DisTube.default(client, {
     leaveOnFinish: client.config.DISTUBE_LEAVE_ON_FINISH,
     leaveOnStop: client.config.DISTUBE_LEAVE_ON_STOP,
-    pauseOnEmpty: client.config.DISTUBE_PAUSE_ON_EMPTY,
+    stopOnEmpty: client.config.DISTUBE_STOP_ON_EMPTY,
     emitNewSongOnly: client.config.DISTUBE_EMIT_NEW_SONG_ONLY,
     searchSongs: client.config.DISTUBE_SEARCH_SONGS,
     searchCooldown: client.config.DISTUBE_SEARCH_COOLDOWN,

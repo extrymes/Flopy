@@ -3,8 +3,5 @@ module.exports = async (client, queue) => {
     const settings = await client.getGuild(guild)
     const lang = require(`../util/lang/${settings.dashboard1.language}`)
 
-    if(queue.playing) {
-        client.distube.pause(queue)
-        client.updateDashboard(guild, queue, lang)
-    }
+    client.distube.stop(queue)
 }
