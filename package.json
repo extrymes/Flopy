@@ -4,7 +4,7 @@
     "@distube/ytdl-core": "^4.9.4",
     "colors": "^1.4.0",
     "discord.js": "^13.6.0",
-    "distube": "^3.2.1",
+    "distube": "^3.2.2",
     "ffmpeg": "^0.0.4",
     "ffmpeg-static": "^4.4.0",
     "libsodium-wrappers": "^0.7.9",
