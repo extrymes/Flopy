@@ -55,7 +55,7 @@ module.exports = {
     QUEUE_AUTOPLAY_DISABLED: "Autoplay disabled",
     // ERROR
     ERROR_SONG_NO_PLAYING: "No song playing currently",
-    ERROR_SONG_NO_RELATED: "No related songs found",
+    ERROR_SONG_NO_RELATED: "No related song found",
     ERROR_SONG_ALREADY_SAVED: "Song already saved",
     ERROR_SONG_NO_CORRECT_POSITION: "No song at this position",
     ERROR_SONG_TIME_LONGER: "Time longer than the song's duration",
@@ -67,7 +67,7 @@ module.exports = {
     ERROR_NO_SAVE: "No song or playlist saved",
     ERROR_UNABLE_TO_JOIN_CHANNEL: "Unable to join the voice channel",
     ERROR_CHANNEL_DISCONNECTED: "Voice channel disconnected",
-    ERROR_RESULT_NO_FOUND: "No results found",
+    ERROR_RESULT_NO_FOUND: "No result found",
     ERROR_VIDEO_UNAVAILABLE: "Video not available",
     ERROR_URL_UNSUPPORTED: "URL not supported",
     ERROR_UNKNOWN_PLAYLIST: "Unknown playlist",
@@ -75,7 +75,7 @@ module.exports = {
     ERROR_NAME_TOO_LONG: "Name too long",
     ERROR_ACTION_TOO_FAST: "Action too fast",
     ERROR_ACTION_IMPOSSIBLE_WITH_LIVE: "Action not possible with a livestream",
-    ERROR_COMMAND_NO_FOUND: "No commands found",
+    ERROR_COMMAND_NO_FOUND: "No command found",
     ERROR_OCCURED: "An error has occurred",
     // UPDATE
     UPDATE_TITLE: "",

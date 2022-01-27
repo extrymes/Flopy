@@ -4,6 +4,7 @@ module.exports = async (client, channel, error) => {
     const lang = require(`../util/lang/${settings.dashboard1.language}`)
  
     if(error.message.includes("You do not have permission to join this voice channel") || error.message.includes("Cannot connect to the voice channel") || error.message.includes("The voice channel is full")) client.sendError(channel, `${lang.ERROR_UNABLE_TO_JOIN_CHANNEL}`)
+    else if(error.message.includes("No result found")) client.sendError(channel, `${lang.ERROR_RESULT_NO_FOUND}`)
     else if(error.message.includes("Video unavailable") || error.message.includes("This video is unavailable")) client.sendError(channel, `${lang.ERROR_VIDEO_UNAVAILABLE}`)
     else if(error.message.includes("Unsupported URL") || error.message.includes("This url is not supported")) client.sendError(channel, `${lang.ERROR_URL_UNSUPPORTED}`)
     else if(error.message.includes("Unknown Playlist")) client.sendError(channel, `${lang.ERROR_UNKNOWN_PLAYLIST}`)

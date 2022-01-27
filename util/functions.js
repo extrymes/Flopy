@@ -73,7 +73,7 @@ module.exports = client => {
 
     // Check channel
     client.checkChannel = (guild, member) => {
-        const clientChannel = guild.me.voice.channel || "none"
+        const clientChannel = guild.me.voice.channel || false
         const memberChannel = member.voice.channel
         if(clientChannel === memberChannel) return true
         else return false
