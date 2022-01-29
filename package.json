@@ -3,6 +3,7 @@
     "@discordjs/opus": "github:discordjs/opus",
     "@distube/ytdl-core": "^4.9.4",
     "colors": "^1.4.0",
+    "discord-together": "^1.3.25",
     "discord.js": "^13.6.0",
     "distube": "^3.2.2",
     "ffmpeg": "^0.0.4",

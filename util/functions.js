@@ -1,7 +1,6 @@
 const Discord = require("discord.js")
 const mongoose = require("mongoose")
 const { Guild, User } = require("../models/index")
-
 const dashboard = {}
 const cooldown = {}
 
@@ -157,11 +156,11 @@ module.exports = client => {
             const volume = `${lang.DASHBOARD_VOLUME} ${queue.volume}%`
             const emoji = queue.playing ? client.element.EMOJI_PAUSE : client.element.EMOJI_PLAY
             dashboardEmbed.setTitle(`[${song.formattedDuration}] ${song.name}`).setImage(thumbnail).setFooter({ text: `${repeat} | ${volume}`, iconURL: avatar }).setColor(client.element.COLOR_WHITE)
-            dashboardButtons.addComponents(new Discord.MessageButton().setCustomId("PlayPause()").setStyle("SECONDARY").setEmoji(emoji), new Discord.MessageButton().setCustomId("Stop()").setStyle("SECONDARY").setEmoji(client.element.EMOJI_STOP), new Discord.MessageButton().setCustomId("Skip()").setStyle("SECONDARY").setEmoji(client.element.EMOJI_NEXT), new Discord.MessageButton().setCustomId("Repeat()").setStyle("SECONDARY").setEmoji(client.element.EMOJI_REPEAT), new Discord.MessageButton().setCustomId("Volume()").setStyle("SECONDARY").setEmoji(client.element.EMOJI_VOLUME))
+            dashboardButtons.addComponents(new Discord.MessageButton().setCustomId("PlayPause()").setStyle("SECONDARY").setEmoji(emoji), new Discord.MessageButton().setCustomId("Stop()").setStyle("SECONDARY").setEmoji(client.element.EMOJI_STOP), new Discord.MessageButton().setCustomId("Skip()").setStyle("SECONDARY").setEmoji(client.element.EMOJI_SKIP), new Discord.MessageButton().setCustomId("Repeat()").setStyle("SECONDARY").setEmoji(client.element.EMOJI_REPEAT), new Discord.MessageButton().setCustomId("Volume()").setStyle("SECONDARY").setEmoji(client.element.EMOJI_VOLUME))
             dashboard[guild.id]?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__** ${queueList}`, embeds: [dashboardEmbed], components: [dashboardButtons] }).catch(error => {})
         } else {
             dashboardEmbed.setTitle(`${lang.DASHBOARD_SONG_NO_PLAYING}`).setDescription(`[Flopy](${client.config.INVITE_FLOPY}) | [Flopy 2](${client.config.INVITE_FLOPY2}) | [Flopy 3](${client.config.INVITE_FLOPY3})`).setImage(client.element.BANNER_DASHBOARD).setFooter({ text: `${lang.DASHBOARD_HELP_COMMAND} ${client.config.PREFIX}help` }).setColor(client.element.COLOR_FLOPY)
-            dashboardButtons.addComponents(new Discord.MessageButton().setCustomId("PlayPause()").setStyle("SECONDARY").setEmoji(client.element.EMOJI_PLAY).setDisabled(), new Discord.MessageButton().setCustomId("Stop()").setStyle("SECONDARY").setEmoji(client.element.EMOJI_STOP).setDisabled(), new Discord.MessageButton().setCustomId("Skip()").setStyle("SECONDARY").setEmoji(client.element.EMOJI_NEXT).setDisabled(), new Discord.MessageButton().setCustomId("Repeat()").setStyle("SECONDARY").setEmoji(client.element.EMOJI_REPEAT).setDisabled(), new Discord.MessageButton().setCustomId("Volume()").setStyle("SECONDARY").setEmoji(client.element.EMOJI_VOLUME).setDisabled())
+            dashboardButtons.addComponents(new Discord.MessageButton().setCustomId("PlayPause()").setStyle("SECONDARY").setEmoji(client.element.EMOJI_PLAY).setDisabled(), new Discord.MessageButton().setCustomId("Stop()").setStyle("SECONDARY").setEmoji(client.element.EMOJI_STOP).setDisabled(), new Discord.MessageButton().setCustomId("Skip()").setStyle("SECONDARY").setEmoji(client.element.EMOJI_SKIP).setDisabled(), new Discord.MessageButton().setCustomId("Repeat()").setStyle("SECONDARY").setEmoji(client.element.EMOJI_REPEAT).setDisabled(), new Discord.MessageButton().setCustomId("Volume()").setStyle("SECONDARY").setEmoji(client.element.EMOJI_VOLUME).setDisabled())
             dashboard[guild.id]?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__**\n${lang.DASHBOARD_QUEUE_NONE}`, embeds: [dashboardEmbed], components: [dashboardButtons] }).catch(error => {})
         }
     }
@@ -185,7 +184,7 @@ module.exports = client => {
     // Help
     client.help = async (lang, channel, name) => {
         if(!name) {
-            const commands = client.commands.filter(item => item.help.name !== "help" && item.help.type === "command").map((item, i) => { return `\`${item.help.name}\`` }).join(", ")
+            const commands = client.commands.filter(item => item.help.type === "command" && item.help.name !== "help").map((item, i) => { return `\`${item.help.name}\`` }).join(", ")
             const filters = client.commands.filter(item => item.help.type === "filter").map((item, i) => { return `\`${item.help.name}\`` }).join(", ")
             const helpEmbed = new Discord.MessageEmbed().setAuthor({ name: `${lang.HELP_COMMAND.replace("%s", "Help")}`, iconURL: client.element.ICON_FLOPY }).addFields({ name: `**${lang.HELP_COMMAND_2}**`, value: `${commands}` }, { name: `**${lang.HELP_FILTER_2}**`, value: `${filters}` }).setFooter({ text: `${lang.HELP_DETAILS} ${client.config.PREFIX}help <command>` }).setColor(client.element.COLOR_FLOPY)
             channel.send({ embeds: [helpEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 10000))

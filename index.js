@@ -29,6 +29,9 @@ client.distube = new DisTube.default(client, {
     youtubeCookie: client.config.DISTUBE_YOUTUBE_COOKIE,
 })
 
+const { DiscordTogether } = require('discord-together')
+client.activity = new DiscordTogether(client)
+
 client.commands = new Discord.Collection()
 
 fs.readdir("./commands/", (error, f) => {

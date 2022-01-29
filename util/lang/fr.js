@@ -28,6 +28,7 @@ module.exports = {
     HELP_COMMAND_SAVE: "Jouer et sauvegarder une musique ou une playlist.",
     HELP_COMMAND_SEEK: "Aller à un moment spécifique dans la musique en cours de lecture.",
     HELP_COMMAND_SHUFFLE: "Mélanger la file d'attente.",
+    HELP_COMMAND_WATCH: "Lancer l'activité Watch Together.",
     HELP_FILTER_FILTER: "Activer ou désactiver le filtre.",
     // SONG
     SONG_PLAYING: "Musique en cours de lecture",
@@ -66,6 +67,7 @@ module.exports = {
     ERROR_USER_NO_PERMISSION: "Vous devez avoir la permission de gérer le serveur",
     ERROR_NO_SAVE: "Aucune musique ou playlist sauvegardée",
     ERROR_UNABLE_TO_JOIN_CHANNEL: "Impossible de rejoindre le salon vocal",
+    ERROR_UNABLE_TO_CREATE_INVITE: "Impossible de créer une invitation",
     ERROR_CHANNEL_DISCONNECTED: "Salon vocal déconnecté",
     ERROR_RESULT_NO_FOUND: "Aucun résultat trouvé",
     ERROR_VIDEO_UNAVAILABLE: "Vidéo non disponible",
@@ -78,6 +80,6 @@ module.exports = {
     ERROR_COMMAND_NO_FOUND: "Aucune commande trouvée",
     ERROR_OCCURED: "Une erreur est survenue",
     // UPDATE
-    UPDATE_TITLE: "",
-    UPDATE_DESCRIPTION: "",
+    UPDATE_TITLE: "Mise à jour",
+    UPDATE_DESCRIPTION: "Une nouvelle fonctionnalité vient d'être ajoutée !\nVous pouvez désormais regarder youtube avec vos amis directement dans un salon vocal avec la commande `.watch`. 📺\n\nMerci d'utiliser Flopy ! 😎",
 }
