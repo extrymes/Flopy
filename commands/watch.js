@@ -8,10 +8,9 @@ module.exports.run = async (client, message, args, queue, settings, lang) => {
 
     if(!member.voice.channel) return client.sendError(channel, `${lang.ERROR_USER_NO_CHANNEL}`)
     if(!member.voice.channel.permissionsFor(guild.me).has("CREATE_INSTANT_INVITE")) return client.sendError(channel, `${lang.ERROR_UNABLE_TO_CREATE_INVITE}`)
+    if(client.cooldown(guild.id + "watch", 8000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
     await client.fetchInvite(code[member.voice.channel.id]).catch(async error => {
-        await client.activity.createTogetherCode(member.voice.channel.id, "youtube").then(invite => {
-            code[member.voice.channel.id] = invite.code
-        })
+        await client.activity.createTogetherCode(member.voice.channel.id, "youtube").then(invite => code[member.voice.channel.id] = invite.code)
     })
     const gameEmbed = new Discord.MessageEmbed().setAuthor({ name: "Watch Together", iconURL: client.element.ICON_FLOPY }).setImage(client.element.BANNER_YOUTUBE).setColor(client.element.COLOR_FLOPY)
     const gameButtons = new Discord.MessageActionRow().addComponents(new Discord.MessageButton().setURL(code[member.voice.channel.id]).setStyle("LINK").setEmoji(client.element.EMOJI_PLAY))

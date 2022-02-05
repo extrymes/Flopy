@@ -7,7 +7,7 @@ module.exports.run = async (client, message, args, queue, settings, lang) => {
     if(!song) return client.sendError(channel, `${lang.ERROR_SONG_NO_PLAYING}`)
     if(!client.checkChannel(guild, message.member)) return client.sendError(channel, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)
     if(song.isLive) return client.sendError(channel, `${lang.ERROR_ACTION_IMPOSSIBLE_WITH_LIVE}`)
-    if(isNaN(time) || time < 0) return client.help(lang, channel, "seek")
+    if(isNaN(time) || time < 0) return client.help(lang, channel, client.commands.get("seek"))
 
     let sec = 0
     sec = sec + Number(time[time.length - 1] || 0)
@@ -18,6 +18,7 @@ module.exports.run = async (client, message, args, queue, settings, lang) => {
     sec = sec + Number(time[time.length - 6] || 0) * 60 * 60 * 10
 
     if(sec > song.duration) return client.sendError(channel, `${lang.ERROR_SONG_TIME_LONGER}`)
+    if(client.cooldown(guild.id + "seek", 2000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
     if(queue.paused) {
         client.distube.resume(queue)
         client.updateDashboard(guild, queue, lang)

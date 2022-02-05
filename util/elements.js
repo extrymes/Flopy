@@ -1,6 +1,6 @@
 module.exports = {
     // BANNER
-    BANNER_FLOPY: "https://cdn.discordapp.com/attachments/909213855106891844/923542291757551616/flopy_banner.png",
+    BANNER_FLOPY: "https://cdn.discordapp.com/attachments/909213855106891844/939203625090179193/flopy_banner.png",
     BANNER_DASHBOARD: "https://cdn.discordapp.com/attachments/909213855106891844/909213955044573214/banner.png",
     BANNER_DASHBOARD_2: "https://cdn.discordapp.com/attachments/909213855106891844/926075051650973746/banner2.png",
     BANNER_YOUTUBE: "https://cdn.discordapp.com/attachments/909213855106891844/936937535198879744/youtube.png",
@@ -20,7 +20,7 @@ module.exports = {
     SYMBOL_LINE: "▬",
     SYMBOL_CIRCLE: "⬤",
     // COLOR
-    COLOR_FLOPY: "#39a8c1",
+    COLOR_FLOPY: "#3d81ee",
     COLOR_WHITE: "#ffffff",
     COLOR_GREY: "#6d6a6a",
 }

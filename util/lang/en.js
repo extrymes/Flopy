@@ -26,6 +26,7 @@ module.exports = {
     HELP_COMMAND_REMOVE: "Remove a specific song from the queue.",
     HELP_COMMAND_REPLAY: "Replay the current song.",
     HELP_COMMAND_SAVE: "Play and save a song or a playlist.",
+    HELP_COMMAND_SEARCH: "Search and select a song.",
     HELP_COMMAND_SEEK: "Seek a specific time in the current song.",
     HELP_COMMAND_SHUFFLE: "Shuffle the queue.",
     HELP_COMMAND_WATCH: "Start the Watch Together activity.",
@@ -33,6 +34,7 @@ module.exports = {
     // SONG
     SONG_PLAYING: "Song playing",
     SONG_SAVED: "Song saved",
+    SONG_FOUND_2: "Songs found",
     SONG_REPLAYED: "Song replayed",
     SONG_JUMPED: "Song jumped",
     SONG_JUMPED_2: "Songs jumped",
@@ -56,7 +58,8 @@ module.exports = {
     QUEUE_AUTOPLAY_DISABLED: "Autoplay disabled",
     // ERROR
     ERROR_SONG_NO_PLAYING: "No song playing currently",
-    ERROR_SONG_NO_RELATED: "No related song found",
+    ERROR_SONG_NO_FOUND: "No song found",
+    ERROR_SONG_NO_RELATED_FOUND: "No related song found",
     ERROR_SONG_ALREADY_SAVED: "Song already saved",
     ERROR_SONG_NO_CORRECT_POSITION: "No song at this position",
     ERROR_SONG_TIME_LONGER: "Time longer than the song's duration",
@@ -69,7 +72,6 @@ module.exports = {
     ERROR_UNABLE_TO_JOIN_CHANNEL: "Unable to join the voice channel",
     ERROR_UNABLE_TO_CREATE_INVITE: "Unable to create an invitation",
     ERROR_CHANNEL_DISCONNECTED: "Voice channel disconnected",
-    ERROR_RESULT_NO_FOUND: "No result found",
     ERROR_VIDEO_UNAVAILABLE: "Video not available",
     ERROR_URL_UNSUPPORTED: "URL not supported",
     ERROR_UNKNOWN_PLAYLIST: "Unknown playlist",
@@ -80,6 +82,6 @@ module.exports = {
     ERROR_COMMAND_NO_FOUND: "No command found",
     ERROR_OCCURED: "An error has occurred",
     // UPDATE
-    UPDATE_TITLE: "Update",
-    UPDATE_DESCRIPTION: "A new feature has just been added! You can now watch youtube with your friends directly in a voice channel with the command `.watch`. 📺\n\nThank you for using Flopy! 😎",
+    UPDATE_TITLE: "",
+    UPDATE_DESCRIPTION: "",
 }

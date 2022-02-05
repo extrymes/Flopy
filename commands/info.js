@@ -1,10 +1,12 @@
 const Discord = require("discord.js")
 
 module.exports.run = async (client, message, args, queue, settings, lang) => {
+    const guild = message.guild
     const channel = message.channel
     const song = queue?.songs[0]
 
     if(!song) return client.sendError(channel, `${lang.ERROR_SONG_NO_PLAYING}`)
+    if(client.cooldown(guild.id + "info", 8000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
     const author = song.uploader.name || "?"
     const views = song.views.toString().replace(/(.)(?=(\d{3})+$)/g,'$1,') || "?"
     const likes = song.likes.toString().replace(/(.)(?=(\d{3})+$)/g,'$1,') || "?"

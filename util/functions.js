@@ -120,12 +120,13 @@ module.exports = client => {
     client.setupDashboard = async (guild, settings, channel) => {
         const langEmbed = new Discord.MessageEmbed().setTitle("Choose a language").setImage(client.element.BANNER_DASHBOARD).setColor(client.element.COLOR_FLOPY)
         const langButtons = new Discord.MessageActionRow().addComponents(new Discord.MessageButton().setCustomId("Lang(\"en\")").setStyle("SECONDARY").setEmoji(client.element.EMOJI_LANG_EN), new Discord.MessageButton().setCustomId("Lang(\"fr\")").setStyle("SECONDARY").setEmoji(client.element.EMOJI_LANG_FR))
-        const oldChannel = guild.channels.cache.find(ch => ch.id === settings.dashboard1.channel)
-        await oldChannel?.messages?.fetch(settings.dashboard1.message).catch(error => {}).then(oldDashboard => oldDashboard?.delete().catch(error => {}))
-        channel.send({ embeds: [langEmbed] }).catch(error => {}).then(async dashboardMessage => {
-            await client.updateGuild(guild, { dashboard1: { channel: dashboardMessage?.channel?.id, message: dashboardMessage?.id, language: settings.dashboard1.language } })
-            await client.getDashboard(guild, settings, dashboardMessage)
-            dashboardMessage?.edit({ embeds: [langEmbed], components: [langButtons] }).catch(error => {})
+        await dashboard[guild.id]?.delete().catch(error => {})
+        channel.send({ embeds: [langEmbed] }).catch(error => {}).then(async message => {
+            if(message) {
+                await client.updateGuild(guild, { flopy1: { channel: channel.id, message: message.id, voice: settings.flopy1.voice, language: settings.flopy1.language } })
+                await client.getDashboard(guild, settings, message)
+                message.edit({ embeds: [langEmbed], components: [langButtons] }).catch(error => {})
+            }
         })
     }
 
@@ -133,11 +134,17 @@ module.exports = client => {
     client.getDashboard = async (guild, settings, message) => {
         if(message) dashboard[guild.id] = message
         else {
-            const dashboardChannel = guild.channels.cache.find(ch => ch.id === settings.dashboard1.channel)
-            dashboardChannel?.messages?.fetch(settings.dashboard1.message).catch(error => {}).then(dashboardMessage => {
-                if(dashboardMessage) dashboard[guild.id] = dashboardMessage
-                else client.updateGuild(guild, { dashboard1: client.config.GUILD_DEFAULTSETTINGS.dashboard1 })
-            })
+            let found = false
+            const channel = guild.channels.cache.get(settings.flopy1.channel)
+            if(channel) {
+                await channel.messages.fetch(settings.flopy1.message).catch(error => {}).then(message => {
+                    if(message) {
+                        dashboard[guild.id] = message
+                        found = true
+                    } else client.updateGuild(guild, { flopy1: client.config.GUILD_DEFAULTSETTINGS.flopy1 })
+                })
+            } else client.updateGuild(guild, { flopy1: client.config.GUILD_DEFAULTSETTINGS.flopy1 })
+            return found
         }
     }
 
@@ -182,14 +189,13 @@ module.exports = client => {
     }
 
     // Help
-    client.help = async (lang, channel, name) => {
-        if(!name) {
+    client.help = async (lang, channel, command) => {
+        if(!command) {
             const commands = client.commands.filter(item => item.help.type === "command" && item.help.name !== "help").map((item, i) => { return `\`${item.help.name}\`` }).join(", ")
             const filters = client.commands.filter(item => item.help.type === "filter").map((item, i) => { return `\`${item.help.name}\`` }).join(", ")
             const helpEmbed = new Discord.MessageEmbed().setAuthor({ name: `${lang.HELP_COMMAND.replace("%s", "Help")}`, iconURL: client.element.ICON_FLOPY }).addFields({ name: `**${lang.HELP_COMMAND_2}**`, value: `${commands}` }, { name: `**${lang.HELP_FILTER_2}**`, value: `${filters}` }).setFooter({ text: `${lang.HELP_DETAILS} ${client.config.PREFIX}help <command>` }).setColor(client.element.COLOR_FLOPY)
             channel.send({ embeds: [helpEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 10000))
         } else {
-            const command = client.commands.find(item => item.help.name === name)
             const commandEmbed = new Discord.MessageEmbed().setAuthor({ name: `${eval(command.help.title).replace("%s", command.help.name.charAt(0).toUpperCase() + command.help.name.slice(1))}`, iconURL: client.element.ICON_FLOPY }).addFields({ name: `**${lang.HELP_DESCRIPTION}**`, value: `${eval(command.help.description)}` }, { name: `**${lang.HELP_USAGE}**`, value: `\`${client.config.PREFIX}${command.help.name}${command.help.usage}\`` }).setColor(client.element.COLOR_FLOPY)
             channel.send({ embeds: [commandEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 8000))
         }

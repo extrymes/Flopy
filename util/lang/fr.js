@@ -26,6 +26,7 @@ module.exports = {
     HELP_COMMAND_REMOVE: "Retirer une musique spécifique de la file d'attente.",
     HELP_COMMAND_REPLAY: "Rejouer la musique en cours de lecture.",
     HELP_COMMAND_SAVE: "Jouer et sauvegarder une musique ou une playlist.",
+    HELP_COMMAND_SEARCH: "Chercher et sélectionner une musique.",
     HELP_COMMAND_SEEK: "Aller à un moment spécifique dans la musique en cours de lecture.",
     HELP_COMMAND_SHUFFLE: "Mélanger la file d'attente.",
     HELP_COMMAND_WATCH: "Lancer l'activité Watch Together.",
@@ -33,6 +34,7 @@ module.exports = {
     // SONG
     SONG_PLAYING: "Musique en cours de lecture",
     SONG_SAVED: "Musique sauvegardée",
+    SONG_FOUND_2: "Musiques trouvées",
     SONG_REPLAYED: "Musique rejouée",
     SONG_JUMPED: "Musique passée",
     SONG_JUMPED_2: "Musiques passées",
@@ -56,7 +58,8 @@ module.exports = {
     QUEUE_AUTOPLAY_DISABLED: "Lecture automatique désactivée",
     // ERROR
     ERROR_SONG_NO_PLAYING: "Aucune musique en cours de lecture",
-    ERROR_SONG_NO_RELATED: "Aucune musique similaire trouvée",
+    ERROR_SONG_NO_FOUND: "Aucune musique trouvée",
+    ERROR_SONG_NO_RELATED_FOUND: "Aucune musique similaire trouvée",
     ERROR_SONG_ALREADY_SAVED: "Musique déjà sauvegardée",
     ERROR_SONG_NO_CORRECT_POSITION: "Aucune musique à cette position",
     ERROR_SONG_TIME_LONGER: "Moment plus long que la durée de la musique",
@@ -69,7 +72,6 @@ module.exports = {
     ERROR_UNABLE_TO_JOIN_CHANNEL: "Impossible de rejoindre le salon vocal",
     ERROR_UNABLE_TO_CREATE_INVITE: "Impossible de créer une invitation",
     ERROR_CHANNEL_DISCONNECTED: "Salon vocal déconnecté",
-    ERROR_RESULT_NO_FOUND: "Aucun résultat trouvé",
     ERROR_VIDEO_UNAVAILABLE: "Vidéo non disponible",
     ERROR_URL_UNSUPPORTED: "URL non supportée",
     ERROR_UNKNOWN_PLAYLIST: "Playlist inconnue",
@@ -80,6 +82,6 @@ module.exports = {
     ERROR_COMMAND_NO_FOUND: "Aucune commande trouvée",
     ERROR_OCCURED: "Une erreur est survenue",
     // UPDATE
-    UPDATE_TITLE: "Mise à jour",
-    UPDATE_DESCRIPTION: "Une nouvelle fonctionnalité vient d'être ajoutée !\nVous pouvez désormais regarder youtube avec vos amis directement dans un salon vocal avec la commande `.watch`. 📺\n\nMerci d'utiliser Flopy ! 😎",
+    UPDATE_TITLE: "",
+    UPDATE_DESCRIPTION: "",
 }

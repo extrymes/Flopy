@@ -6,6 +6,7 @@ module.exports.run = async (client, message, args, queue, settings, lang) => {
 
     if(!queue) return client.sendError(channel, `${lang.ERROR_SONG_NO_PLAYING}`)
     if(!client.checkChannel(guild, member)) return client.sendError(channel, `${lang.ERROR_USER_NO_CORRECT_CHANNEL}`)
+    if(client.cooldown(guild.id + filter, 2000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
     if(queue.paused) {
         client.distube.resume(queue)
         client.updateDashboard(guild, queue, lang)

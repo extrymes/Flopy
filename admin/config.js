@@ -2,9 +2,9 @@ module.exports = {
     TOKEN: "OTA5NTM0MTUxMTEwMTg5MTU2.YZFrrw.uI7QkhGOxH_0jKnQyUtOGyx-Jvc",
     DBCONNECTION: "mongodb+srv://Extrymes:'gCGkCy76*J*s`n@flopy.ockfu.mongodb.net/Flopy?retryWrites=true&w=majority",
     GUILD_DEFAULTSETTINGS: {
-        dashboard1: { channel: "", message: "", language: "en" },
-        dashboard2: { channel: "", message: "", language: "en" },
-        dashboard3: { channel: "", message: "", language: "en" },
+        flopy1: { channel: "", message: "", voice: "", language: "en" },
+        flopy2: { channel: "", message: "", voice: "", language: "en" },
+        flopy3: { channel: "", message: "", voice: "", language: "en" },
     },
     USER_DEFAULTSETTINGS: {
         saved: "",
@@ -15,6 +15,7 @@ module.exports = {
     INVITE_FLOPY3: "https://discord.com/api/oauth2/authorize?client_id=909533975809232926&permissions=3172353&scope=bot",
     SONG_MAX_LENGTH: 60,
     QUEUE_MAX_DISPLAY: 25,
+    VOICE_UPDATE_COOLDOWN: 60,
     DISTUBE_EVENTS: [ "playSong", "addSong", "addList", "deleteQueue", "searchNoResult", "noRelated", "disconnect", "empty", "error" ],
     DISTUBE_LEAVE_ON_FINISH: false,
     DISTUBE_LEAVE_ON_STOP: false,
