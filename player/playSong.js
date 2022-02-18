@@ -4,5 +4,5 @@ module.exports = async (client, queue, song) => {
     const lang = require(`../util/lang/${settings.flopy1.language}`)
     
     if(queue.paused) client.distube.resume(queue)
-    client.updateDashboard(guild, queue, lang)
+    client.updateDashboard(guild, lang, queue)
 }

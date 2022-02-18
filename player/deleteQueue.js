@@ -3,5 +3,5 @@ module.exports = async (client, queue) => {
     const settings = await client.getGuild(guild)
     const lang = require(`../util/lang/${settings.flopy1.language}`)
     
-    client.updateDashboard(guild, queue, lang)
+    client.updateDashboard(guild, lang, undefined)
 }

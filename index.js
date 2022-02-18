@@ -1,8 +1,7 @@
 const Discord = require("discord.js")
-const { Client, Intents, Collection } = require("discord.js")
 const fs = require ("fs")
 
-const client = new Discord.Client({ partials: ["MESSAGE", "CHANNEL", "REACTION"], intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_VOICE_STATES] })
+const client = new Discord.Client({ partials: ["MESSAGE", "CHANNEL"], intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] })
 require("./util/crash")(client)
 require("./util/functions")(client)
 
@@ -10,23 +9,18 @@ client.config = require("./admin/config")
 client.element = require("./util/elements")
 client.mongoose = require("./admin/mongoose")
 
-client.mongoose.init()
-client.login(client.config.TOKEN)
-
-const DisTube = require("distube")
-client.distube = new DisTube.default(client, {
+const { DisTube } = require("distube")
+client.distube = new DisTube(client, {
     leaveOnFinish: client.config.DISTUBE_LEAVE_ON_FINISH,
     leaveOnStop: client.config.DISTUBE_LEAVE_ON_STOP,
     stopOnEmpty: client.config.DISTUBE_STOP_ON_EMPTY,
-    emitNewSongOnly: client.config.DISTUBE_EMIT_NEW_SONG_ONLY,
-    searchSongs: client.config.DISTUBE_SEARCH_SONGS,
-    searchCooldown: client.config.DISTUBE_SEARCH_COOLDOWN,
     emptyCooldown: client.config.DISTUBE_EMPTY_COOLDOWN,
     nsfw: client.config.DISTUBE_NSFW,
     customFilters: client.config.DISTUBE_CUSTOM_FILTERS,
     youtubeDL: client.config.DISTUBE_YOUTUBE_DL,
     updateYouTubeDL: client.config.DISTUBE_UPDATE_YOUTUBE_DL,
     youtubeCookie: client.config.DISTUBE_YOUTUBE_COOKIE,
+    youtubeIdentityToken: client.config.DISTUBE_YOUTUBE_IDENTITY_TOKEN,
 })
 
 const { DiscordTogether } = require('discord-together')
@@ -73,3 +67,6 @@ fs.readdir("./player", (error, f) => {
         client.distube.on(event, events.bind(null, client))
     })
 })
+
+client.mongoose.init()
+client.login(client.config.TOKEN)

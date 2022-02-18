@@ -1,15 +1,15 @@
 Flopy
 - Token: OTA5MjA1MTQ2ODYzNTY2ODU4.YZA5Rw._ZYcJYG13HdvlkC2SspssfPM_6I
-- Settings: flopy1
+- Setting: flopy1
 - Banner: https://cdn.discordapp.com/attachments/909213855106891844/939203625090179193/flopy_banner.png
 - Color: #3d81ee
 Flopy 2
 - Token: OTA5NTMzNDExMjQ3NTQ2MzY4.YZFq_w.BgS9oGpwi_Q3HZBdqcZKunS-hF0
-- Settings: flopy2
+- Setting: flopy2
 - Banner: https://cdn.discordapp.com/attachments/909213855106891844/939203633919176734/flopy2_banner.png
 - Color: #9a5ad8
 Flopy 3
 - Token: OTA5NTMzOTc1ODA5MjMyOTI2.YZFrhg.rgCHspQkoio1VVYEVuvvMPWKSUE
-- Settings: flopy3
+- Setting: flopy3
 - Banner: https://cdn.discordapp.com/attachments/909213855106891844/939203640185458778/flopy3_banner.png
 - Color: #20a850

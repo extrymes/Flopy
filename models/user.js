@@ -4,9 +4,9 @@ const { USER_DEFAULTSETTINGS: defaults } = require("../admin/config")
 const userShema = {
     _id: mongoose.Schema.Types.ObjectId,
     userID: String,
-    saved: {
+    query: {
         "type": String,
-        "default": defaults.saved
+        "default": defaults.query
     }
 }
 
