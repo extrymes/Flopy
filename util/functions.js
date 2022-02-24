@@ -1,8 +1,6 @@
 const Discord = require("discord.js")
 const mongoose = require("mongoose")
 const { Guild, User } = require("../models/index")
-const dashboard = {}
-const cooldown = {}
 
 module.exports = client => {
     // Create guild in the database
@@ -62,10 +60,10 @@ module.exports = client => {
 
     // Cooldown
     client.cooldown = (id, time) => {
-    	if(cooldown[id]) return true
+    	if(client.cache["cooldown" + id]) return true
         else {
-            cooldown[id] = true
-            setTimeout(() => cooldown[id] = undefined, time)
+            client.cache["cooldown" + id] = true
+            setTimeout(() => client.cache["cooldown" + id] = undefined, time)
             return false
         }
     }
@@ -97,7 +95,7 @@ module.exports = client => {
 
     // Send update message
     client.sendUpdateMessage = async (guild, lang) => {
-        const channel = dashboard[guild.id]?.channel
+        const channel = client.cache["dashboard" + guild.id]?.channel
         const updateEmbed = new Discord.MessageEmbed().setAuthor({ name: `${lang.UPDATE_TITLE}`, iconURL: client.element.ICON_FLOPY }).setDescription(lang.UPDATE_DESCRIPTION).setImage(client.element.BANNER_FLOPY).setColor(client.element.COLOR_FLOPY)
         const hideButton = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "Hide", style: "SECONDARY", emoji: { id: client.element.EMOJI_UPDATE } })
         channel?.send({ embeds: [updateEmbed], components: [hideButton] }).catch(error => {})
@@ -119,7 +117,7 @@ module.exports = client => {
     client.setupDashboard = async (guild, settings, channel) => {
         const setupEmbed = new Discord.MessageEmbed().setTitle("Language selection").setImage(client.element.BANNER_PRIMARY).setColor(client.element.COLOR_FLOPY)
         const setupButtons = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "LangEn", style: "SECONDARY", emoji: { id: client.element.EMOJI_LANG_EN } }, { type: "BUTTON", customId: "LangFr", style: "SECONDARY", emoji: { id: client.element.EMOJI_LANG_FR } })
-        await dashboard[guild.id]?.delete().catch(error => {})
+        await client.cache["dashboard" + guild.id]?.delete().catch(error => {})
         channel.send({ embeds: [setupEmbed] }).catch(error => {}).then(async message => {
             if(message) {
                 await client.updateGuild(guild, { flopy1: { channel: channel.id, message: message.id, voice: settings.flopy1.voice, language: settings.flopy1.language } })
@@ -131,14 +129,14 @@ module.exports = client => {
 
     // Get dashboard
     client.getDashboard = async (guild, settings, message) => {
-        if(message) dashboard[guild.id] = message
+        if(message) client.cache["dashboard" + guild.id] = message
         else {
             let found = false
             const channel = guild.channels.cache.get(settings.flopy1.channel)
             if(channel) {
                 await channel.messages.fetch(settings.flopy1.message).catch(error => {}).then(message => {
                     if(message) {
-                        dashboard[guild.id] = message
+                        client.cache["dashboard" + guild.id] = message
                         found = true
                     } else client.updateGuild(guild, { flopy1: client.config.GUILD_DEFAULTSETTINGS.flopy1 })
                 })
@@ -154,11 +152,11 @@ module.exports = client => {
             const songs = queue.songs.slice(1, client.config.QUEUE_MAX_DISPLAY + 1).map((item, i) => { return `${i + 1}. ${item.name.length <= client.config.SONG_MAX_LENGTH ? item.name : item.name.substring(0, client.config.SONG_MAX_LENGTH) + "..."}` }).reverse().join("\n")
             const dashboardEmbed = new Discord.MessageEmbed().setTitle(`[${song.formattedDuration}] ${song.name}`).setImage(song.thumbnail || client.element.BANNER_SECONDARY).setFooter({ text: `${lang.DASHBOARD_REPEAT} ${queue.repeatMode === 0 ? lang.DASHBOARD_REPEAT_OFF : queue.repeatMode === 1 ? lang.DASHBOARD_REPEAT_SONG : lang.DASHBOARD_REPEAT_QUEUE} | ${lang.DASHBOARD_VOLUME} ${queue.volume}%`, iconURL: song.member.displayAvatarURL() || song.member.user.displayAvatarURL() }).setColor(client.element.COLOR_WHITE)
             const dashboardButtons = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "Play", style: "SECONDARY", emoji: { id: queue.playing ? client.element.EMOJI_PAUSE : client.element.EMOJI_PLAY } }, { type: "BUTTON", customId: "Stop", style: "SECONDARY", emoji: { id: client.element.EMOJI_STOP } }, { type: "BUTTON", customId: "Skip", style: "SECONDARY", emoji: { id: client.element.EMOJI_SKIP } }, { type: "BUTTON", customId: "Repeat", style: "SECONDARY", emoji: { id: client.element.EMOJI_REPEAT } }, { type: "BUTTON", customId: "Volume", style: "SECONDARY", emoji: { id: client.element.EMOJI_VOLUME } })
-            dashboard[guild.id]?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__**\n${queue.songs.length - 1 <= client.config.QUEUE_MAX_DISPLAY ? `${songs || lang.DASHBOARD_QUEUE_NO_SONG}` : `**+${queue.songs.length - 1 - client.config.QUEUE_MAX_DISPLAY}**\n${songs}`}`, embeds: [dashboardEmbed], components: [dashboardButtons] }).catch(error => {})
+            client.cache["dashboard" + guild.id]?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__**\n${queue.songs.length - 1 <= client.config.QUEUE_MAX_DISPLAY ? `${songs || lang.DASHBOARD_QUEUE_NO_SONG}` : `**+${queue.songs.length - 1 - client.config.QUEUE_MAX_DISPLAY}**\n${songs}`}`, embeds: [dashboardEmbed], components: [dashboardButtons] }).catch(error => {})
         } else {
             const dashboardEmbed = new Discord.MessageEmbed().setTitle(`${lang.DASHBOARD_SONG_NO_PLAYING}`).setDescription(`[Flopy](${client.config.INVITE_FLOPY}) | [Flopy 2](${client.config.INVITE_FLOPY2}) | [Flopy 3](${client.config.INVITE_FLOPY3})`).setImage(client.element.BANNER_PRIMARY).setFooter({ text: `${lang.DASHBOARD_HELP_COMMAND} ${client.config.PREFIX}help` }).setColor(client.element.COLOR_FLOPY)
             const dashboardButtons = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "Play", style: "SECONDARY", emoji: { id: client.element.EMOJI_PLAY }, disabled: true }, { type: "BUTTON", customId: "Stop", style: "SECONDARY", emoji: { id: client.element.EMOJI_STOP }, disabled: true }, { type: "BUTTON", customId: "Skip", style: "SECONDARY", emoji: { id: client.element.EMOJI_SKIP }, disabled: true }, { type: "BUTTON", customId: "Repeat", style: "SECONDARY", emoji: { id: client.element.EMOJI_REPEAT }, disabled: true }, { type: "BUTTON", customId: "Volume", style: "SECONDARY", emoji: { id: client.element.EMOJI_VOLUME }, disabled: true })
-            dashboard[guild.id]?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__**\n${lang.DASHBOARD_QUEUE_NONE}`, embeds: [dashboardEmbed], components: [dashboardButtons] }).catch(error => {})
+            client.cache["dashboard" + guild.id]?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__**\n${lang.DASHBOARD_QUEUE_NONE}`, embeds: [dashboardEmbed], components: [dashboardButtons] }).catch(error => {})
         }
     }
 

@@ -8,6 +8,7 @@ require("./util/functions")(client)
 client.config = require("./admin/config")
 client.element = require("./util/elements")
 client.mongoose = require("./admin/mongoose")
+client.cache = {}
 
 const { DisTube } = require("distube")
 client.distube = new DisTube(client, {
