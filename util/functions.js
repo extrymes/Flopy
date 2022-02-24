@@ -15,7 +15,7 @@ module.exports = client => {
     client.getGuild = async guild => {
         const data = await Guild.findOne({ guildID: guild.id })
         if(data) return data
-        return false
+        else return false
     }
 
     // Update guild in the database
@@ -40,7 +40,7 @@ module.exports = client => {
     client.getUser = async user => {
         const data = await User.findOne({ userID: user.id })
         if(data) return data
-        return false
+        else return false
     }
 
     // Update user in the database
@@ -131,8 +131,8 @@ module.exports = client => {
     client.getDashboard = async (guild, settings, message) => {
         if(message) client.cache["dashboard" + guild.id] = message
         else {
-            let found = false
             const channel = guild.channels.cache.get(settings.flopy1.channel)
+            let found = false
             if(channel) {
                 await channel.messages.fetch(settings.flopy1.message).catch(error => {}).then(message => {
                     if(message) {

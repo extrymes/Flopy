@@ -15,7 +15,6 @@ module.exports = {
     INVITE_FLOPY3: "https://discord.com/api/oauth2/authorize?client_id=909533975809232926&permissions=3172353&scope=bot",
     SONG_MAX_LENGTH: 60,
     QUEUE_MAX_DISPLAY: 25,
-    VOICE_UPDATE_COOLDOWN: 60,
     DISTUBE_LEAVE_ON_FINISH: false,
     DISTUBE_LEAVE_ON_STOP: false,
     DISTUBE_STOP_ON_EMPTY: true,
