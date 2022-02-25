@@ -23,7 +23,6 @@ module.exports.run = async (client, message, args, settings, lang, queue) => {
 }
 module.exports.help = {
     name: "save",
-    type: "command",
     description: "HELP_COMMAND_SAVE",
     usage: " <name|url>",
 }

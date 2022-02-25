@@ -14,7 +14,6 @@ module.exports.run = async (client, message, args, settings, lang, queue) => {
 }
 module.exports.help = {
     name: "jump",
-    type: "command",
     description: "HELP_COMMAND_JUMP",
     usage: " [position]",
 }

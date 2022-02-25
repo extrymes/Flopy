@@ -29,7 +29,6 @@ module.exports.run = async (client, message, args, settings, lang, queue) => {
 }
 module.exports.help = {
     name: "seek",
-    type: "command",
     description: "HELP_COMMAND_SEEK",
     usage: " [time: hhmmss]",
 }

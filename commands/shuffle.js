@@ -12,7 +12,6 @@ module.exports.run = async (client, message, args, settings, lang, queue) => {
 }
 module.exports.help = {
     name: "shuffle",
-    type: "command",
     description: "HELP_COMMAND_SHUFFLE",
     usage: "",
 }

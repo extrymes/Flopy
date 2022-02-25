@@ -35,6 +35,7 @@ fs.readdir("./commands/", (error, f) => {
     console.log(`[-] Commands: ${f.length}`)
     commands.forEach((f) => {
         const command = require(`./commands/${f}`)
+        command.type = "command"
         client.commands.set(command.help.name, command)
     })
 })
@@ -45,6 +46,7 @@ fs.readdir("./filters/", (error, f) => {
     console.log(`[-] Filters: ${f.length}`)
     commands.forEach((f) => {
         const command = require(`./filters/${f}`)
+        command.type = "filter"
         client.commands.set(command.help.name, command)
     })
 })

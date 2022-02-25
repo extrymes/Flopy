@@ -20,7 +20,6 @@ module.exports.run = async (client, message, args, settings, lang, queue) => {
 }
 module.exports.help = {
     name: "search",
-    type: "command",
     description: "HELP_COMMAND_SEARCH",
     usage: " [name]",
 }

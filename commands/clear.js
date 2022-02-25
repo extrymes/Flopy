@@ -11,7 +11,6 @@ module.exports.run = async (client, message, args, settings, lang, queue) => {
 }
 module.exports.help = {
     name: "clear",
-    type: "command",
     description: "HELP_COMMAND_CLEAR",
     usage: "",
 }

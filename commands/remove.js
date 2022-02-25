@@ -15,7 +15,6 @@ module.exports.run = async (client, message, args, settings, lang, queue) => {
 }
 module.exports.help = {
     name: "remove",
-    type: "command",
     description: "HELP_COMMAND_REMOVE",
     usage: " [position]",
 }

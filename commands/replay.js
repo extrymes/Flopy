@@ -17,7 +17,6 @@ module.exports.run = async (client, message, args, settings, lang, queue) => {
 }
 module.exports.help = {
     name: "replay",
-    type: "command",
     description: "HELP_COMMAND_REPLAY",
     usage: "",
 }

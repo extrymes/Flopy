@@ -16,7 +16,6 @@ module.exports.run = async (client, message, args, settings, lang, queue) => {
 }
 module.exports.help = {
     name: "3d",
-    type: "filter",
     description: "HELP_FILTER",
     usage: "",
 }
