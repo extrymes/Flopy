@@ -29,7 +29,7 @@ module.exports = async (client, message) => {
         }
         message.delete().catch(error => {})
     } else if(message.mentions.users.first() === client.user) {
-        if(member.permissions.has("MANAGE_GUILD")) {
+        if(client.checkManager(member)) {
             if(!client.cooldown(guild.id + "setup", 4000)) client.setupDashboard(guild, settings, channel)
             else client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
         } else client.sendError(channel, `${lang.ERROR_USER_NO_PERMISSION}`)

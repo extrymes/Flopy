@@ -75,6 +75,12 @@ module.exports = client => {
         else return false
     }
 
+    // Check manager
+    client.checkManager = member => {
+        if(member.permissions.has("MANAGE_GUILD")) return true
+        else return false
+    }
+
     // Send message
     client.sendMessage = async (channel, content) => {
         const messageEmbed = new Discord.MessageEmbed().setTitle(`${content}`).setColor(client.element.COLOR_FLOPY)
