@@ -1,12 +1,12 @@
-module.exports.run = async (client, message, args, settings, lang, queue) => {
+module.exports.run = async (client, message, args, settings, queue, lang) => {
     const guild = message.guild
     const channel = message.channel
     const command = client.commands.filter(item => item.help.name !== "help").get(args[0])
 
-    if(command) client.help(lang, channel, command)
+    if(command) client.help(channel, lang, command)
     else {
-        if(client.cooldown(guild.id + "help", 10000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
-        client.help(lang, channel)
+        if(client.cooldown("help" + guild.id, 10000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
+        client.help(channel, lang)
     }
 }
 module.exports.help = {

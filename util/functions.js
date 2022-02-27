@@ -82,13 +82,13 @@ module.exports = client => {
     }
 
     // Send message
-    client.sendMessage = async (channel, content) => {
+    client.sendMessage = (channel, content) => {
         const messageEmbed = new Discord.MessageEmbed().setTitle(`${content}`).setColor(client.element.COLOR_FLOPY)
         channel?.send({ embeds: [messageEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 5000))
     }
 
     // Send first message
-    client.sendFirstMessage = async guild => {
+    client.sendFirstMessage = guild => {
         const firstEmbed = new Discord.MessageEmbed().setTitle("Get ready to listen to some music!").setDescription("Thank you for adding me to your server.\nTo start listening to music, mention me in a channel.").setImage(client.element.BANNER_FLOPY).setColor(client.element.COLOR_FLOPY)
         let found = false
         guild.channels.cache.forEach(channel => {
@@ -100,7 +100,7 @@ module.exports = client => {
     }
 
     // Send update message
-    client.sendUpdateMessage = async (guild, lang) => {
+    client.sendUpdateMessage = (guild, lang) => {
         const channel = client.cache["dashboard" + guild.id]?.channel
         const updateEmbed = new Discord.MessageEmbed().setAuthor({ name: `${lang.UPDATE_TITLE}`, iconURL: client.element.ICON_FLOPY }).setDescription(lang.UPDATE_DESCRIPTION).setImage(client.element.BANNER_FLOPY).setColor(client.element.COLOR_FLOPY)
         const hideButton = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "Hide", style: "SECONDARY", emoji: { id: client.element.EMOJI_UPDATE } })
@@ -108,33 +108,33 @@ module.exports = client => {
     }
 
     // Send error
-    client.sendError = async (channel, content) => {
+    client.sendError = (channel, content) => {
         const errorEmbed = new Discord.MessageEmbed().setTitle(`${content}`).setColor(client.element.COLOR_GREY)
         channel?.send({ embeds: [errorEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 5000))
     }
 
     // Reply error
-    client.replyError = async (interaction, content) => {
+    client.replyError = (interaction, content) => {
         const errorEmbed = new Discord.MessageEmbed().setTitle(`${content}`).setColor(client.element.COLOR_GREY)
         interaction.reply({ embeds: [errorEmbed], ephemeral: true }).catch(error => {})
     }
 
     // Setup dashboard
-    client.setupDashboard = async (guild, settings, channel) => {
+    client.setupDashboard = async (guild, channel, settings) => {
         const setupEmbed = new Discord.MessageEmbed().setTitle("Language selection").setImage(client.element.BANNER_PRIMARY).setColor(client.element.COLOR_FLOPY)
         const setupButtons = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "LangEn", style: "SECONDARY", emoji: { id: client.element.EMOJI_LANG_EN } }, { type: "BUTTON", customId: "LangFr", style: "SECONDARY", emoji: { id: client.element.EMOJI_LANG_FR } })
         await client.cache["dashboard" + guild.id]?.delete().catch(error => {})
         channel.send({ embeds: [setupEmbed] }).catch(error => {}).then(async message => {
             if(message) {
                 await client.updateGuild(guild, { flopy1: { channel: channel.id, message: message.id, voice: settings.flopy1.voice, language: settings.flopy1.language } })
-                await client.getDashboard(guild, settings, message)
+                await client.getDashboard(guild, message, settings)
                 message.edit({ components: [setupButtons] }).catch(error => {})
             }
         })
     }
 
     // Get dashboard
-    client.getDashboard = async (guild, settings, message) => {
+    client.getDashboard = async (guild, message, settings) => {
         if(message) client.cache["dashboard" + guild.id] = message
         else {
             const channel = guild.channels.cache.get(settings.flopy1.channel)
@@ -152,7 +152,7 @@ module.exports = client => {
     }
 
     // Update dashboard
-    client.updateDashboard = async (guild, lang, queue) => {
+    client.updateDashboard = (guild, queue, lang) => {
         if(queue) {
             const song = queue.songs[0]
             const songs = queue.songs.slice(1, client.config.QUEUE_MAX_DISPLAY + 1).map((item, i) => { return `${i + 1}. ${item.name.length <= client.config.SONG_MAX_LENGTH ? item.name : item.name.substring(0, client.config.SONG_MAX_LENGTH) + "..."}` }).reverse().join("\n")
@@ -167,7 +167,7 @@ module.exports = client => {
     }
 
     // Create bar
-    client.createBar = async queue => {
+    client.createBar = queue => {
         const song = queue.songs[0]
         let percentage = ((queue.currentTime / song.duration) * 100).toFixed(0)
         let bar = ""
@@ -184,7 +184,7 @@ module.exports = client => {
     }
 
     // Help
-    client.help = async (lang, channel, command) => {
+    client.help = (channel, lang, command) => {
         if(!command) {
             const commands = client.commands.filter(item => item.help.type === "command" && item.help.name !== "help").map((item, i) => { return `\`${item.help.name}\`` }).join(", ")
             const filters = client.commands.filter(item => item.help.type === "filter").map((item, i) => { return `\`${item.help.name}\`` }).join(", ")

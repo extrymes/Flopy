@@ -1,6 +1,6 @@
 const Discord = require("discord.js")
 
-module.exports.run = async (client, message, args, settings, lang, queue) => {
+module.exports.run = async (client, message, args, settings, queue, lang) => {
     const guild = message.guild
     const channel = message.channel
     const member = message.member
@@ -8,8 +8,8 @@ module.exports.run = async (client, message, args, settings, lang, queue) => {
 
     if(!member.voice.channel) return client.sendError(channel, `${lang.ERROR_USER_NO_VOICE}`)
     if(!client.checkVoice(guild, member) && queue) return client.sendError(channel, `${lang.ERROR_USER_NO_VOICE_2}`)
-    if(!query) return client.help(lang, channel, client.commands.get("search"))
-    if(client.cooldown(guild.id + "search", 10000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
+    if(!query) return client.help(channel, lang, client.commands.get("search"))
+    if(client.cooldown("search" + guild.id, 10000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
     channel.sendTyping().catch(error => {})
     const songs = await client.distube.search(query).catch(error => client.distube.emit("error", channel, error))
     if(!songs[0]) return

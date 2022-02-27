@@ -6,7 +6,7 @@ module.exports = async (client, queue, playlist) => {
 
     if(queue.songs[0] === playlist.songs[0]) client.sendMessage(channel, `${lang.MESSAGE_PLAYLIST_PLAYING}`)
     else {
-        client.updateDashboard(guild, lang, queue)
+        client.updateDashboard(guild, queue, lang)
         client.sendMessage(channel, `${lang.MESSAGE_QUEUE_PLAYLIST_ADDED}`)
     }
 }
