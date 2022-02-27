@@ -75,6 +75,12 @@ module.exports = client => {
         else return false
     }
 
+    // Leave voice
+    client.leaveVoice = guild => {
+        client.cooldown("join" + guild.id, 2000)
+        client.distube.voices.leave(guild)
+    }
+
     // Check manager
     client.checkManager = member => {
         if(member.permissions.has("MANAGE_GUILD")) return true
