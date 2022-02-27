@@ -24,7 +24,7 @@ module.exports = async (client, message) => {
                             try { client.distube.play(member.voice.channel, message.content, { textChannel: channel, member: member }) } catch(error) { client.distube.emit("error", channel, error) }
                         } else client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
                     } else client.sendError(channel, `${lang.ERROR_SONG_NO_FOUND}`)
-                } else client.sendError(channel, `${lang.ERROR_USER_NO_CORRECT_VOICE}`)
+                } else client.sendError(channel, `${lang.ERROR_USER_NO_VOICE_2}`)
             } else client.sendError(channel, `${lang.ERROR_USER_NO_VOICE}`)
         }
         message.delete().catch(error => {})
@@ -32,7 +32,7 @@ module.exports = async (client, message) => {
         if(client.checkManager(member)) {
             if(!client.cooldown(guild.id + "setup", 4000)) client.setupDashboard(guild, settings, channel)
             else client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
-        } else client.sendError(channel, `${lang.ERROR_USER_NO_PERMISSION}`)
+        } else client.sendError(channel, `${lang.ERROR_USER_NO_MANAGER}`)
         message.delete().catch(error => {})
     }
 }

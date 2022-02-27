@@ -15,14 +15,14 @@ module.exports = async (client, interaction) => {
             else client.distube.resume(queue)
             client.updateDashboard(guild, lang, queue)
             interaction.deferUpdate().catch(error => {})
-        } else client.replyError(interaction, `${lang.ERROR_USER_NO_CORRECT_VOICE}`)
+        } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
     }
 
     async function Stop() {
         if(client.checkVoice(guild, member)) {
             client.distube.stop(queue)
             interaction.deferUpdate().catch(error => {})
-        } else client.replyError(interaction, `${lang.ERROR_USER_NO_CORRECT_VOICE}`)
+        } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
     }
 
     async function Skip() {
@@ -30,7 +30,7 @@ module.exports = async (client, interaction) => {
             client.distube.skip(queue).catch(error => {})
             if(queue.paused && queue.songs[1]) client.distube.resume(queue)
             interaction.deferUpdate().catch(error => {})
-        } else client.replyError(interaction, `${lang.ERROR_USER_NO_CORRECT_VOICE}`)
+        } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
     }
 
     async function Repeat() {
@@ -38,7 +38,7 @@ module.exports = async (client, interaction) => {
             client.distube.setRepeatMode(queue, queue.repeatMode === 0 ? 1 : queue.repeatMode === 1 ? 2 : 0)
             client.updateDashboard(guild, lang, queue)
             interaction.deferUpdate().catch(error => {})
-        } else client.replyError(interaction, `${lang.ERROR_USER_NO_CORRECT_VOICE}`)
+        } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
     }
 
     async function Volume() {
@@ -46,7 +46,7 @@ module.exports = async (client, interaction) => {
             client.distube.setVolume(queue, queue.volume === 50 ? 25 : queue.volume === 25 ? 75 : queue.volume === 75 ? 100 : 50)
             client.updateDashboard(guild, lang, queue)
             interaction.deferUpdate().catch(error => {})
-        } else client.replyError(interaction, `${lang.ERROR_USER_NO_CORRECT_VOICE}`)
+        } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
     }
 
     async function PlaySong() {
@@ -57,7 +57,7 @@ module.exports = async (client, interaction) => {
                 channel.sendTyping().catch(error => {})
                 if(!client.checkVoice(guild, member)) client.distube.voices.leave(guild)
                 try { client.distube.play(member.voice.channel, url, { textChannel: channel, member: member }) } catch(error) { client.distube.emit("error", channel, error) }
-            } else client.replyError(interaction, `${lang.ERROR_USER_NO_CORRECT_VOICE}`)
+            } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE}`)
     }
 

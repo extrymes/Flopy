@@ -7,7 +7,7 @@ module.exports.run = async (client, message, args, settings, lang, queue) => {
     const query = args.slice(0).join(" ")
 
     if(!member.voice.channel) return client.sendError(channel, `${lang.ERROR_USER_NO_VOICE}`)
-    if(!client.checkVoice(guild, member) && queue) return client.sendError(channel, `${lang.ERROR_USER_NO_CORRECT_VOICE}`)
+    if(!client.checkVoice(guild, member) && queue) return client.sendError(channel, `${lang.ERROR_USER_NO_VOICE_2}`)
     if(!query) return client.help(lang, channel, client.commands.get("search"))
     if(client.cooldown(guild.id + "search", 10000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
     channel.sendTyping().catch(error => {})
