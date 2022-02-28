@@ -95,14 +95,9 @@ module.exports = client => {
 
     // Send first message
     client.sendFirstMessage = guild => {
-        const firstEmbed = new Discord.MessageEmbed().setTitle("Get ready to listen to some music!").setDescription("Thank you for adding me to your server.\nTo start listening to music, mention me in a channel.").setImage(client.element.BANNER_FLOPY).setColor(client.element.COLOR_FLOPY)
-        let found = false
-        guild.channels.cache.forEach(channel => {
-            if(!found && channel.type === "GUILD_TEXT" && channel.viewable && channel.permissionsFor(guild.me).has("SEND_MESSAGES")) {
-                found = true
-                channel.send({ embeds: [firstEmbed] }).catch(error => {})
-            }
-        })
+        const channel = guild.channels.cache.filter(item => item.type === "GUILD_TEXT" && item.viewable && item.permissionsFor(guild.me).has("SEND_MESSAGES")).first()
+        const firstEmbed = new Discord.MessageEmbed().setTitle("Get ready to listen to music with style!").setDescription("Thank you for inviting me to your server.\nTo start listening to music, mention me in a channel.").setImage(client.element.BANNER_FLOPY).setColor(client.element.COLOR_FLOPY)
+        if(channel) channel.send({ embeds: [firstEmbed] }).catch(error => {})
     }
 
     // Send update message
