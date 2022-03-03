@@ -1,7 +1,7 @@
 const Discord = require("discord.js")
 const fs = require ("fs")
 
-const client = new Discord.Client({ partials: ["MESSAGE", "CHANNEL"], intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] })
+const client = new Discord.Client({ partials: ["CHANNEL", "MESSAGE"], intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] })
 require("./util/crash")(client)
 require("./util/functions")(client)
 
