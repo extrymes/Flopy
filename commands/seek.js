@@ -8,15 +8,7 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
     if(!client.checkVoice(guild, message.member)) return client.sendError(channel, `${lang.ERROR_USER_NO_VOICE_2}`)
     if(song.isLive) return client.sendError(channel, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
     if(isNaN(time) || time < 0) return client.help(channel, lang, client.commands.get("seek"))
-
-    let sec = 0
-    sec = sec + Number(time[time.length - 1] || 0)
-    sec = sec + Number(time[time.length - 2] || 0) * 10
-    sec = sec + Number(time[time.length - 3] || 0) * 60
-    sec = sec + Number(time[time.length - 4] || 0) * 60 * 10
-    sec = sec + Number(time[time.length - 5] || 0) * 60 * 60
-    sec = sec + Number(time[time.length - 6] || 0) * 60 * 60 * 10
-
+    const sec = await client.convertTime(time)
     if(sec > song.duration) return client.sendError(channel, `${lang.ERROR_SONG_TIME_LONGER}`)
     if(client.cooldown("seek" + guild.id, 4000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
     if(queue.paused) {

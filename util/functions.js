@@ -184,6 +184,18 @@ module.exports = client => {
         return `\`${queue.formattedCurrentTime} ${bar} ${song.formattedDuration}\``
     }
 
+    // Convert time
+    client.convertTime = time => {
+        let sec = 0
+        sec = sec + Number(time[time.length - 1] || 0)
+        sec = sec + Number(time[time.length - 2] || 0) * 10
+        sec = sec + Number(time[time.length - 3] || 0) * 60
+        sec = sec + Number(time[time.length - 4] || 0) * 60 * 10
+        sec = sec + Number(time[time.length - 5] || 0) * 60 * 60
+        sec = sec + Number(time[time.length - 6] || 0) * 60 * 60 * 10
+        return sec
+    }
+
     // Help
     client.help = (channel, lang, command) => {
         if(!command) {
