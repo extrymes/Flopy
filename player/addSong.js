@@ -7,6 +7,6 @@ module.exports = async (client, queue, song) => {
     if(queue.songs[0] === song) client.sendMessage(channel, `${lang.MESSAGE_SONG_PLAYING}`)
     else {
         client.updateDashboard(guild, queue, lang)
-        client.sendMessage(channel, `${lang.MESSAGE_QUEUE_SONG_ADDED}`)
+        client.sendMessage(channel, `${lang.MESSAGE_QUEUE_SONG_ADDED} (#${queue.songs.length - 1})`)
     }
 }
