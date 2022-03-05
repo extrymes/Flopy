@@ -9,7 +9,7 @@ module.exports = async (client, channel, error) => {
     else if(message.includes("Video unavailable") || message.includes("This video is unavailable")) client.sendError(channel, `${lang.ERROR_VIDEO_UNAVAILABLE}`)
     else if(message.includes("Unsupported URL") || message.includes("This url is not supported")) client.sendError(channel, `${lang.ERROR_URL_UNSUPPORTED}`)
     else if(message.includes("Unknown Playlist")) client.sendError(channel, `${lang.ERROR_PLAYLIST_UNKNOWN}`)
-    else if(message.includes("Sign in to confirm your age")) client.sendError(channel, `${lang.ERROR_AGE_RESTRICTED}`)
+    else if(message.includes("Sign in to confirm your age") || message.includes("Sorry, this content is age-restricted")) client.sendError(channel, `${lang.ERROR_AGE_RESTRICTED}`)
     else {
         client.sendError(channel, `${lang.ERROR_OCCURED}`)
         console.log(message)
