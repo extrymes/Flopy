@@ -67,8 +67,8 @@ module.exports = {
     ERROR_ACTION_TOO_FAST: "Action too fast",
     ERROR_ACTION_NOT_POSSIBLE: "Action not possible",
     ERROR_VIDEO_UNAVAILABLE: "Video not available",
+    ERROR_VIDEO_RESTRICTED: "Video restricted",
     ERROR_URL_UNSUPPORTED: "URL not supported",
-    ERROR_AGE_RESTRICTED: "Age restricted",
     ERROR_COMMAND_NO_FOUND: "No command found",
     ERROR_OCCURED: "An error has occurred",
     // UPDATE

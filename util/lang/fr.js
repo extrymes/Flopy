@@ -67,8 +67,8 @@ module.exports = {
     ERROR_ACTION_TOO_FAST: "Action trop rapide",
     ERROR_ACTION_NOT_POSSIBLE: "Action impossible",
     ERROR_VIDEO_UNAVAILABLE: "Vidéo non disponible",
+    ERROR_VIDEO_RESTRICTED: "Vidéo restreinte",
     ERROR_URL_UNSUPPORTED: "URL non supportée",
-    ERROR_AGE_RESTRICTED: "Åge restreint",
     ERROR_COMMAND_NO_FOUND: "Aucune commande trouvée",
     ERROR_OCCURED: "Une erreur est survenue",
     // UPDATE
