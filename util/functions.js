@@ -15,7 +15,10 @@ module.exports = client => {
     client.getGuild = async guild => {
         const data = await Guild.findOne({ guildID: guild.id })
         if(data) return data
-        else return false
+        else {
+            const defaults = Object.assign(client.config.GUILD_DEFAULTSETTINGS, { "null": true })
+            return defaults
+        }
     }
 
     // Update guild in the database
@@ -40,7 +43,10 @@ module.exports = client => {
     client.getUser = async user => {
         const data = await User.findOne({ userID: user.id })
         if(data) return data
-        else return false
+        else {
+            const defaults = Object.assign(client.config.USER_DEFAULTSETTINGS, { "null": true })
+            return defaults
+        }
     }
 
     // Update user in the database

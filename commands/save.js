@@ -9,11 +9,11 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
     if(query) {
         if(query.length > 90) return client.sendError(channel, `${lang.ERROR_QUERY_TOO_LONG}`)
         if(client.cooldown("save" + user.id, 4000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
-        if(!data) await client.createUser(user)
+        if(data.null) await client.createUser(user)
         setTimeout(() => client.updateUser(user, { query: query }), 1000)
         client.sendMessage(channel, `${lang.MESSAGE_QUERY_SAVED}`)
     } else {
-        if(!data) return client.sendError(channel, `${lang.ERROR_QUERY_NO_SAVED}`)
+        if(data.null) return client.sendError(channel, `${lang.ERROR_QUERY_NO_SAVED}`)
         if(!member.voice.channel) return client.sendError(channel, `${lang.ERROR_USER_NO_VOICE}`)
         if(!client.checkVoice(guild, member) && queue) return client.sendError(channel, `${lang.ERROR_USER_NO_VOICE_2}`)
         if(client.cooldown("play" + user.id, 2000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)

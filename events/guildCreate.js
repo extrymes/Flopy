@@ -1,7 +1,7 @@
 module.exports = async (client, guild) => {
     const settings = await client.getGuild(guild)
 
-    if(!settings) {
+    if(settings.null) {
         await client.createGuild(guild)
         client.sendFirstMessage(guild)
     } else {
