@@ -59,11 +59,6 @@ module.exports = client => {
         return data.updateOne(settings)
     }
 
-    // Delete user in the database
-    client.deleteUser = async user => {
-        await User.deleteOne({ userID: user.id }).then(console.log("[~] Old user".blue))
-    }
-
     // Cooldown
     client.cooldown = (id, time) => {
     	if(client.cache["cooldown" + id]) return true
