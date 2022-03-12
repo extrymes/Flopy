@@ -1,6 +1,5 @@
 module.exports.run = async (client, message, args, settings, queue, lang) => {
-    const guild = message.guild
-    const channel = message.channel
+    const { guild, channel } = message
     const command = client.commands.filter(item => item.help.name !== "help").get(args[0])
 
     if(command) client.help(channel, lang, command)

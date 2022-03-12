@@ -1,7 +1,5 @@
 module.exports.run = async (client, message, args, settings, queue, lang) => {
-    const guild = message.guild
-    const channel = message.channel
-    const member = message.member
+    const { guild, channel, member } = message
     const position = Number(args[0])
 
     if(!queue?.songs[1]) return client.sendError(channel, `${lang.ERROR_QUEUE_NO_SONG}`)

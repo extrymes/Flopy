@@ -1,8 +1,7 @@
 const Discord = require("discord.js")
 
 module.exports.run = async (client, message, args, settings, queue, lang) => {
-    const guild = message.guild
-    const channel = message.channel
+    const { guild, channel } = message
     const song = queue?.songs[0]
 
     if(!queue) return client.sendError(channel, `${lang.ERROR_SONG_NO_PLAYING}`)

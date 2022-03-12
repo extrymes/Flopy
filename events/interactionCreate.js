@@ -1,8 +1,5 @@
 module.exports = async (client, interaction) => {
-    const guild = interaction.guild
-    const channel = interaction.channel
-    const message = interaction.message
-    const member = interaction.member
+    const { guild, channel, message, member } = interaction
     const settings = await client.getGuild(guild)
     const queue = client.distube.getQueue(guild)
     const lang = require(`../util/lang/${settings.flopy1.language}`)

@@ -1,9 +1,7 @@
 const Discord = require("discord.js")
 
 module.exports.run = async (client, message, args, settings, queue, lang) => {
-    const guild = message.guild
-    const channel = message.channel
-    const member = message.member
+    const { guild, channel, member } = message
 
     if(!member.voice.channel) return client.sendError(channel, `${lang.ERROR_USER_NO_VOICE}`)
     if(!member.voice.channel.permissionsFor(guild.me).has("CREATE_INSTANT_INVITE")) return client.sendError(channel, `${lang.ERROR_INVITE_UNABLE_CREATE}`)

@@ -1,13 +1,10 @@
 module.exports = async (client, message) => {
-    const guild = message.guild
-    const channel = message.channel
-    const member = message.member
-    const user = message.author
+    const { guild, channel, member, author } = message
     const settings = await client.getGuild(guild)
     const queue = client.distube.getQueue(guild)
     const lang = require(`../util/lang/${settings.flopy1.language}`)
 
-    if(user.bot) return
+    if(author.bot) return
 
     if(channel.id === settings.flopy1.channel) {
         if(message.content.startsWith(client.config.PREFIX)) {
@@ -20,7 +17,7 @@ module.exports = async (client, message) => {
             if(member.voice.channel) {
                 if(client.checkVoice(guild, member) || !queue) {
                     if(message.content) {
-                        if(!client.cooldown("play" + user.id, 2000)) {
+                        if(!client.cooldown("play" + author.id, 2000)) {
                             channel.sendTyping().catch(error => {})
                             if(!client.checkVoice(guild, member)) client.leaveVoice(guild)
                             try { client.distube.play(member.voice.channel, message.content, { textChannel: channel, member: member }) } catch(error) { client.distube.emit("error", channel, error) }

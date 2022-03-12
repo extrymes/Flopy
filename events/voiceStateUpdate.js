@@ -1,8 +1,6 @@
 module.exports = async (client, oldState, newState) => {
-    const guild = newState.guild
+    const { guild, channel: newVoice, member } = newState
     const oldVoice = oldState.channel
-    const newVoice = newState.channel
-    const member = newState.member
 
     if(member === guild.me) {
         if(!newVoice && !client.cooldown("join" + guild.id, 5000)) try { client.distube.voices.join(oldVoice) } catch {}
