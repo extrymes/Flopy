@@ -8,7 +8,7 @@ module.exports = async (client, oldState, newState) => {
             setTimeout(async () => {
                 const settings = await client.getGuild(guild)
                 const voiceId = guild.me.voice.channel?.id || ""
-                if(settings.flopy1.channel !== client.config.GUILD_DEFAULTSETTINGS.flopy1.channel && voiceId !== settings.flopy1.voice) client.updateGuild(guild, { flopy1: { channel: settings.flopy1.channel, message: settings.flopy1.message, voice: voiceId, language: settings.flopy1.language } })
+                if(settings.flopy1.channel !== client.config.GUILD_DEFAULTSETTINGS.flopy1.channel && voiceId !== settings.flopy1.voice) client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "voice": voiceId }) })
             }, 30000)
         }
     }

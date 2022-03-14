@@ -122,7 +122,7 @@ module.exports = client => {
         await client.cache["dashboard" + guild.id]?.delete().catch(error => {})
         channel.send({ embeds: [setupEmbed] }).catch(error => {}).then(async message => {
             if(message) {
-                await client.updateGuild(guild, { flopy1: { channel: channel.id, message: message.id, voice: settings.flopy1.voice, language: settings.flopy1.language } })
+                await client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "channel": channel.id, "message": message.id }) })
                 await client.getDashboard(guild, message, settings)
                 message.edit({ components: [setupButtons] }).catch(error => {})
             }

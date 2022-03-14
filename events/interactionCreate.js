@@ -60,14 +60,14 @@ module.exports = async (client, interaction) => {
 
     function LangEn() {
         const newLang = require("../util/lang/en")
-        client.updateGuild(guild, { flopy1: { channel: settings.flopy1.channel, message: settings.flopy1.message, voice: settings.flopy1.voice, language: "en" } })
+        client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "language": "en" }) })
         client.updateDashboard(guild, queue, newLang)
         interaction.deferUpdate().catch(error => {})
     }
 
     function LangFr() {
         const newLang = require("../util/lang/fr")
-        client.updateGuild(guild, { flopy1: { channel: settings.flopy1.channel, message: settings.flopy1.message, voice: settings.flopy1.voice, language: "fr" } })
+        client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "language": "fr" }) })
         client.updateDashboard(guild, queue, newLang)
         interaction.deferUpdate().catch(error => {})
     }
