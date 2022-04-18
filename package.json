@@ -2,7 +2,7 @@
   "dependencies": {
     "@discordjs/opus": "^0.7.0",
     "colors": "^1.4.0",
-    "discord-together": "^1.3.25",
+    "discord-together": "^1.3.3",
     "discord.js": "^13.6.0",
     "distube": "^3.3.4",
     "libsodium-wrappers": "^0.7.9",
