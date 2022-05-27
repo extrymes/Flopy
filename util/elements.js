@@ -15,6 +15,7 @@ module.exports = {
     EMOJI_VOLUME: "936607696248012850",
     EMOJI_LANG_EN: "909503548339933195",
     EMOJI_LANG_FR: "909503548558041129",
+    EMOJI_LIKE: "❤️",
     EMOJI_UPDATE: "🎉",
     // SYMBOL
     SYMBOL_LINE: "▬",
@@ -23,4 +24,5 @@ module.exports = {
     COLOR_FLOPY: "#3d81ee",
     COLOR_WHITE: "#ffffff",
     COLOR_GREY: "#6d6a6a",
+    COLOR_PINK: "#f34e6d",
 }
