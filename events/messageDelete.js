@@ -4,6 +4,6 @@ module.exports = async (client, message) => {
     
     if(message.id === settings.flopy1.message) {
         await client.updateGuild(guild, { flopy1: client.config.GUILD_DEFAULTSETTINGS.flopy1 })
-        client.leaveVoice(guild)
+        if(!client.cooldown("leave" + guild.id, 0)) client.leaveVoice(guild)
     }
 }

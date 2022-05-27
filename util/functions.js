@@ -162,6 +162,21 @@ module.exports = client => {
         }
     }
 
+    // Refresh dashboard
+    client.refreshDashboard = async (guild, settings, queue, lang) => {
+        const channel = client.cache["dashboard" + guild.id].channel
+        const newEmbed = new Discord.MessageEmbed().setTitle("ㅤ").setColor(client.element.COLOR_FLOPY)
+        client.cooldown("leave" + guild.id, 2000)
+        await client.cache["dashboard" + guild.id].delete().catch(error => {})
+        channel.send({ embeds: [newEmbed] }).catch(error => {}).then(async message => {
+            if(message) {
+                await client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "channel": channel.id, "message": message.id }) })
+                await client.getDashboard(guild, message, settings)
+                client.updateDashboard(guild, queue, lang)
+            } else client.leaveVoice(guild)
+        })
+    }
+
     // Create bar
     client.createBar = queue => {
         const song = queue.songs[0]

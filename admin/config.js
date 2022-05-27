@@ -9,10 +9,11 @@ module.exports = {
     USER_DEFAULTSETTINGS: {
         query: "",
     },
-    PREFIX: ".",
     INVITE_FLOPY: "https://discord.com/api/oauth2/authorize?client_id=909205146863566858&permissions=3172353&scope=bot",
     INVITE_FLOPY2: "https://discord.com/api/oauth2/authorize?client_id=909533411247546368&permissions=3172353&scope=bot",
     INVITE_FLOPY3: "https://discord.com/api/oauth2/authorize?client_id=909533975809232926&permissions=3172353&scope=bot",
+    PREFIX: ".",
+    DASHBOARD_MAX_LIFE: 3600,
     SONG_MAX_LENGTH: 60,
     QUEUE_MAX_DISPLAY: 25,
     DISTUBE_LEAVE_ON_FINISH: false,
