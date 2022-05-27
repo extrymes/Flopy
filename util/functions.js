@@ -99,7 +99,7 @@ module.exports = client => {
     client.sendUpdateMessage = (guild, lang) => {
         const channel = client.cache["dashboard" + guild.id].channel
         const updateEmbed = new Discord.MessageEmbed().setAuthor({ name: `${lang.UPDATE_TITLE}`, iconURL: client.element.ICON_FLOPY }).setDescription(lang.UPDATE_DESCRIPTION).setImage(client.element.BANNER_FLOPY).setColor(client.element.COLOR_FLOPY)
-        const hideButton = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "Hide", style: "SECONDARY", emoji: { id: client.element.EMOJI_UPDATE } })
+        const hideButton = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "Hide", style: "SECONDARY", emoji: client.element.EMOJI_UPDATE })
         channel.send({ embeds: [updateEmbed], components: [hideButton] }).catch(error => {})
     }
 
