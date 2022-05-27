@@ -6,7 +6,6 @@
     "discord.js": "^13.7.0",
     "distube": "^3.3.4",
     "libsodium-wrappers": "^0.7.9",
-    "moment": "^2.29.1",
     "mongodb": "^4.1.0",
     "mongoose": "^5.13.7",
     "package.json": "^2.0.1"
