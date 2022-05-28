@@ -3,13 +3,15 @@ module.exports = async (client, oldState, newState) => {
     const oldVoice = oldState.channel
 
     if(member === guild.me) {
-        if(!newVoice && !client.cooldown("join" + guild.id, 5000)) try { client.distube.voices.join(oldVoice) } catch {}
-        if(!client.cooldown("voiceUpdate" + guild.id, 30000)) {
+        if(!newVoice && !client.cooldown("joinVoice" + guild.id, 5000)) try { client.distube.voices.join(oldVoice) } catch {}
+        if(!client.cooldown("voiceUpdate" + guild.id, client.config.VOICE_UPDATE_COOLDOWN * 1000)) {
             setTimeout(async () => {
-                const settings = await client.getGuild(guild)
-                const voiceId = guild.me.voice.channel?.id || ""
-                if(settings.flopy1.channel !== client.config.GUILD_DEFAULTSETTINGS.flopy1.channel && voiceId !== settings.flopy1.voice) client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "voice": voiceId }) })
-            }, 30000)
+                if(client.cache["dashboard" + guild.id]) {
+                    const voiceId = guild.me.voice.channel?.id || ""
+                    const settings = await client.getGuild(guild)
+                    if(voiceId !== settings.flopy1.voice) client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "voice": voiceId }) })
+                } else client.leaveVoice(guild)
+            }, client.config.VOICE_UPDATE_COOLDOWN * 1000)
         }
     }
 }

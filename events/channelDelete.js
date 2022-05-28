@@ -4,6 +4,7 @@ module.exports = async (client, channel) => {
     
     if(channel.id === settings.flopy1.channel) {
         await client.updateGuild(guild, { flopy1: client.config.GUILD_DEFAULTSETTINGS.flopy1 })
+        client.cache["dashboard" + guild.id] = undefined
         client.leaveVoice(guild)
     }
 }

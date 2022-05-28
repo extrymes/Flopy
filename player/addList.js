@@ -4,7 +4,7 @@ module.exports = async (client, queue, playlist) => {
     const settings = await client.getGuild(guild)
     const lang = require(`../util/lang/${settings.flopy1.language}`)
 
-    if(queue.songs[0] === playlist.songs[0]) client.sendMessage(channel, `${lang.MESSAGE_PLAYLIST_PLAYING}`)
+    if(queue.songs[0] === playlist.songs[0]) setTimeout(() => client.sendMessage(channel, `${lang.MESSAGE_PLAYLIST_PLAYING}`), 1000)
     else {
         client.updateDashboard(guild, queue, lang)
         client.sendMessage(channel, `${lang.MESSAGE_QUEUE_PLAYLIST_ADDED} (#${queue.songs.length - playlist.songs.length})`)
