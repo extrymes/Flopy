@@ -1,3 +1,3 @@
 module.exports = async (client, queue) => {
-    client.distube.stop(queue)
+    if(queue.playing) client.distube.stop(queue)
 }
