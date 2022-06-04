@@ -14,7 +14,7 @@ module.exports = async (client, guild) => {
             try { client.distube.voices.join(voice) } catch {}
         } else {
             client.updateGuild(guild, { flopy1: client.config.GUILD_DEFAULTSETTINGS.flopy1 })
-            client.cache["dashboard" + guild.id] = undefined
+            delete client.cache["dashboard" + guild.id]
         }
     }
 }

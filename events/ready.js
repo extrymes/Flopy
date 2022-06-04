@@ -1,5 +1,3 @@
-const colors = require("colors")
-
 module.exports = client => {
     console.log(`[-] ${client.user.username} is online`.green)
     client.user.setPresence({ activities: [{ name: `@${client.user.username}`, type: "LISTENING" }], status: "online" })

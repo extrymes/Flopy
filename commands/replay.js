@@ -13,7 +13,7 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
     client.distube.seek(queue, 0)
     client.sendMessage(channel, `${lang.MESSAGE_SONG_REPLAYED}`)
 }
-module.exports.help = {
+module.exports.data = {
     name: "replay",
     description: "HELP_COMMAND_REPLAY",
     usage: "",

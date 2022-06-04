@@ -10,7 +10,7 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
     client.distube.jump(queue, position)
     client.sendMessage(channel, `${position === 1 ? lang.MESSAGE_SONG_JUMPED : lang.MESSAGE_SONG_JUMPED_2}`)
 }
-module.exports.help = {
+module.exports.data = {
     name: "jump",
     description: "HELP_COMMAND_JUMP",
     usage: " [position]",

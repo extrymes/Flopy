@@ -11,7 +11,7 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
     client.updateDashboard(guild, queue, lang)
     client.sendMessage(channel, `${lang.MESSAGE_QUEUE_SONG_REMOVED}`)
 }
-module.exports.help = {
+module.exports.data = {
     name: "remove",
     description: "HELP_COMMAND_REMOVE",
     usage: " [position]",

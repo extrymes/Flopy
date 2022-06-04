@@ -18,7 +18,7 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
     const bar = await client.createBar(queue)
     client.sendMessage(channel, `${bar}`)
 }
-module.exports.help = {
+module.exports.data = {
     name: "seek",
     description: "HELP_COMMAND_SEEK",
     usage: " [time: hhmmss]",

@@ -8,7 +8,7 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
     client.updateDashboard(guild, queue, lang)
     client.sendMessage(channel, `${lang.MESSAGE_QUEUE_SHUFFLED}`)
 }
-module.exports.help = {
+module.exports.data = {
     name: "shuffle",
     description: "HELP_COMMAND_SHUFFLE",
     usage: "",

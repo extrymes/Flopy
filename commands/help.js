@@ -1,6 +1,6 @@
 module.exports.run = async (client, message, args, settings, queue, lang) => {
     const { guild, channel } = message
-    const command = client.commands.filter(item => item.help.name !== "help").get(args[0])
+    const command = client.commands.filter(item => item.data.name !== "help").get(args[0])
 
     if(command) client.help(channel, lang, command)
     else {
@@ -8,6 +8,6 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
         client.help(channel, lang)
     }
 }
-module.exports.help = {
+module.exports.data = {
     name: "help",
 }

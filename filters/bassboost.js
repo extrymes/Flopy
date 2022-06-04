@@ -12,7 +12,7 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
     const filters = client.distube.setFilter(queue, filter).map((item, i) => { return `\`${item}\`` }).join(", ")
     client.sendMessage(channel, `${lang.MESSAGE_SONG_FILTERS} ${queue.filters.length > 0 ? filters : lang.MESSAGE_SONG_FILTERS_NONE}`)
 }
-module.exports.help = {
+module.exports.data = {
     name: "bassboost",
     description: "HELP_FILTER",
     usage: "",

@@ -1,12 +1,13 @@
 const Discord = require("discord.js")
 const fs = require ("fs")
+const colors = require("colors")
 
 const client = new Discord.Client({ partials: ["CHANNEL", "MESSAGE"], intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] })
 require("./util/crash")(client)
 require("./util/functions")(client)
 
 client.config = require("./admin/config")
-client.element = require("./util/elements")
+client.elements = require("./util/elements")
 client.mongoose = require("./admin/mongoose")
 client.cache = {}
 
@@ -35,8 +36,8 @@ fs.readdir("./commands/", (error, f) => {
     console.log(`[-] Commands: ${f.length}`)
     commands.forEach((f) => {
         const command = require(`./commands/${f}`)
-        command.help.type = "command"
-        client.commands.set(command.help.name, command)
+        command.data.type = "command"
+        client.commands.set(command.data.name, command)
     })
 })
 
@@ -46,8 +47,8 @@ fs.readdir("./filters/", (error, f) => {
     console.log(`[-] Filters: ${f.length}`)
     commands.forEach((f) => {
         const command = require(`./filters/${f}`)
-        command.help.type = "filter"
-        client.commands.set(command.help.name, command)
+        command.data.type = "filter"
+        client.commands.set(command.data.name, command)
     })
 })
 

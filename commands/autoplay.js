@@ -7,7 +7,7 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
     const autoplay = client.distube.toggleAutoplay(queue)
     client.sendMessage(channel, `${autoplay ? lang.MESSAGE_QUEUE_AUTOPLAY_ENABLED : lang.MESSAGE_QUEUE_AUTOPLAY_DISABLED}`)
 }
-module.exports.help = {
+module.exports.data = {
     name: "autoplay",
     description: "HELP_COMMAND_AUTOPLAY",
     usage: "",

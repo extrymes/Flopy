@@ -19,7 +19,7 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
         try { client.distube.play(member.voice.channel, data.query, { textChannel: channel, member: member }) } catch(error) { client.distube.emit("error", channel, error) }
     }
 }
-module.exports.help = {
+module.exports.data = {
     name: "save",
     description: "HELP_COMMAND_SAVE",
     usage: " <name|url>",
