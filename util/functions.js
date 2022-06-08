@@ -123,28 +123,25 @@ module.exports = client => {
         channel.send({ embeds: [setupEmbed] }).catch(error => {}).then(async message => {
             if(message) {
                 await client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "channel": channel.id, "message": message.id }) })
-                await client.getDashboard(guild, message, settings)
+                client.cache["dashboard" + guild.id] = message
                 message.edit({ components: [setupButtons] }).catch(error => {})
             }
         })
     }
 
     // Get dashboard
-    client.getDashboard = async (guild, message, settings) => {
-        if(message) client.cache["dashboard" + guild.id] = message
-        else {
-            const channel = guild.channels.cache.get(settings.flopy1.channel)
-            let found = false
-            if(channel) {
-                await channel.messages.fetch(settings.flopy1.message).catch(error => {}).then(message => {
-                    if(message) {
-                        client.cache["dashboard" + guild.id] = message
-                        found = true
-                    }
-                })
-            }
-            return found
+    client.getDashboard = async (guild, settings) => {
+        const channel = guild.channels.cache.get(settings.flopy1.channel)
+        let found = false
+        if(channel) {
+            await channel.messages.fetch(settings.flopy1.message).catch(error => {}).then(message => {
+                if(message) {
+                    client.cache["dashboard" + guild.id] = message
+                    found = true
+                }
+            })
         }
+        return found
     }
 
     // Update dashboard
@@ -171,7 +168,7 @@ module.exports = client => {
         channel.send({ embeds: [newEmbed] }).catch(error => {}).then(async message => {
             if(message) {
                 await client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "channel": channel.id, "message": message.id }) })
-                await client.getDashboard(guild, message, settings)
+                client.cache["dashboard" + guild.id] = message
                 client.updateDashboard(guild, queue, lang)
             } else client.leaveVoice(guild)
         })
