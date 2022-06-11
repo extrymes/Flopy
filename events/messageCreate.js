@@ -6,7 +6,7 @@ module.exports = async (client, message) => {
 
     if(author.bot) return
 
-    if(channel.id === settings.flopy1.channel) {
+    if(channel === client.cache["dashboard" + guild.id]?.channel) {
         if(message.content.startsWith(client.config.PREFIX)) {
             const args = message.content.slice(client.config.PREFIX.length).trim().split(/ +/g)
             const cmd = args.shift()
