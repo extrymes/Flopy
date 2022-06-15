@@ -119,13 +119,14 @@ module.exports = client => {
     client.setupDashboard = async (guild, channel, settings) => {
         const setupEmbed = new Discord.MessageEmbed().setTitle("Language selection").setImage(client.elements.BANNER_PRIMARY).setColor(client.elements.COLOR_FLOPY)
         const setupButtons = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "LangEn", style: "SECONDARY", emoji: { id: client.elements.EMOJI_LANG_EN } }, { type: "BUTTON", customId: "LangFr", style: "SECONDARY", emoji: { id: client.elements.EMOJI_LANG_FR } })
+        client.cooldown("leaveVoice" + guild.id, 2000)
         await client.cache["dashboard" + guild.id]?.delete().catch(error => {})
         channel.send({ embeds: [setupEmbed] }).catch(error => {}).then(async message => {
             if(message) {
                 await client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "channel": channel.id, "message": message.id }) })
                 client.cache["dashboard" + guild.id] = message
                 message.edit({ components: [setupButtons] }).catch(error => {})
-            }
+            } else client.leaveVoice(guild)
         })
     }
 
