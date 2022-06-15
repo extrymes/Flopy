@@ -112,7 +112,7 @@ module.exports = client => {
     // Reply error
     client.replyError = (interaction, content) => {
         const errorEmbed = new Discord.MessageEmbed().setTitle(`${content}`).setColor(client.elements.COLOR_GREY)
-        interaction.reply({ embeds: [errorEmbed], ephemeral: true }).catch(error => {})
+        interaction.reply({ embeds: [errorEmbed], ephemeral: true })
     }
 
     // Setup dashboard

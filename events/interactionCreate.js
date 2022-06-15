@@ -11,14 +11,14 @@ module.exports = async (client, interaction) => {
             if(queue.playing) client.distube.pause(queue)
             else client.distube.resume(queue)
             client.updateDashboard(guild, queue, lang)
-            interaction.deferUpdate().catch(error => {})
+            interaction.deferUpdate()
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
     }
 
     function Stop() {
         if(client.checkVoice(guild, member)) {
             client.distube.stop(queue)
-            interaction.deferUpdate().catch(error => {})
+            interaction.deferUpdate()
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
     }
 
@@ -26,7 +26,7 @@ module.exports = async (client, interaction) => {
         if(client.checkVoice(guild, member)) {
             client.distube.skip(queue).catch(error => {})
             if(queue.paused && queue.songs[1]) client.distube.resume(queue)
-            interaction.deferUpdate().catch(error => {})
+            interaction.deferUpdate()
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
     }
 
@@ -34,7 +34,7 @@ module.exports = async (client, interaction) => {
         if(client.checkVoice(guild, member)) {
             client.distube.setRepeatMode(queue, queue.repeatMode === 0 ? 1 : queue.repeatMode === 1 ? 2 : 0)
             client.updateDashboard(guild, queue, lang)
-            interaction.deferUpdate().catch(error => {})
+            interaction.deferUpdate()
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
     }
 
@@ -42,7 +42,7 @@ module.exports = async (client, interaction) => {
         if(client.checkVoice(guild, member)) {
             client.distube.setVolume(queue, queue.volume === 50 ? 25 : queue.volume === 25 ? 75 : queue.volume === 75 ? 100 : 50)
             client.updateDashboard(guild, queue, lang)
-            interaction.deferUpdate().catch(error => {})
+            interaction.deferUpdate()
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
     }
 
@@ -62,14 +62,14 @@ module.exports = async (client, interaction) => {
         const newLang = require("../util/lang/en")
         client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "language": "en" }) })
         client.updateDashboard(guild, queue, newLang)
-        interaction.deferUpdate().catch(error => {})
+        interaction.deferUpdate()
     }
 
     function LangFr() {
         const newLang = require("../util/lang/fr")
         client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "language": "fr" }) })
         client.updateDashboard(guild, queue, newLang)
-        interaction.deferUpdate().catch(error => {})
+        interaction.deferUpdate()
     }
 
     function Hide() {
