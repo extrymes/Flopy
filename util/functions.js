@@ -72,7 +72,7 @@ module.exports = client => {
 
     // Leave voice
     client.leaveVoice = guild => {
-        client.cooldown("joinVoice" + guild.id, 2000)
+        client.cooldown("joinVoice" + guild.id, 1000)
         client.distube.voices.leave(guild)
     }
 
@@ -119,7 +119,7 @@ module.exports = client => {
     client.setupDashboard = async (guild, channel, settings) => {
         const setupEmbed = new Discord.MessageEmbed().setTitle("Language selection").setImage(client.elements.BANNER_PRIMARY).setColor(client.elements.COLOR_FLOPY)
         const setupButtons = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "LangEn", style: "SECONDARY", emoji: { id: client.elements.EMOJI_LANG_EN } }, { type: "BUTTON", customId: "LangFr", style: "SECONDARY", emoji: { id: client.elements.EMOJI_LANG_FR } })
-        client.cooldown("leaveVoice" + guild.id, 2000)
+        client.cooldown("leaveVoice" + guild.id, 1000)
         await client.cache["dashboard" + guild.id]?.delete().catch(error => {})
         channel.send({ embeds: [setupEmbed] }).catch(error => {}).then(async message => {
             if(message) {
@@ -159,7 +159,7 @@ module.exports = client => {
     client.refreshDashboard = async (guild, settings, queue, lang) => {
         const channel = client.cache["dashboard" + guild.id]?.channel
         const newEmbed = new Discord.MessageEmbed().setTitle("ㅤ").setColor(client.elements.COLOR_FLOPY)
-        client.cooldown("leaveVoice" + guild.id, 2000)
+        client.cooldown("leaveVoice" + guild.id, 1000)
         await client.cache["dashboard" + guild.id]?.delete().catch(error => {})
         channel.send({ embeds: [newEmbed] }).catch(error => {}).then(async message => {
             if(message) {
