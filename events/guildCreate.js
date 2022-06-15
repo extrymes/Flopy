@@ -5,8 +5,8 @@ module.exports = async (client, guild) => {
         await client.createGuild(guild)
         client.sendFirstMessage(guild)
     } else {
-        const found = await client.getDashboard(guild, settings)
-        if(found) {
+        await client.getDashboard(guild, settings)
+        if(client.cache["dashboard" + guild.id]) {
             const voice = guild.channels.cache.get(settings.flopy1.voice)
             const queue = client.distube.getQueue(guild)
             const lang = require(`../util/lang/${settings.flopy1.language}`)
