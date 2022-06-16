@@ -13,6 +13,7 @@ module.exports = {
     INVITE_FLOPY2: "https://discord.com/api/oauth2/authorize?client_id=909533411247546368&permissions=3172353&scope=bot",
     INVITE_FLOPY3: "https://discord.com/api/oauth2/authorize?client_id=909533975809232926&permissions=3172353&scope=bot",
     PREFIX: ".",
+    STATUS_UPDATE_INTERVAL: 600,
     DASHBOARD_MAX_LIFE: 3600,
     VOICE_UPDATE_COOLDOWN: 30,
     SONG_MAX_LENGTH: 60,
