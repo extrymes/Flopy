@@ -158,7 +158,7 @@ module.exports = client => {
     // Refresh dashboard
     client.refreshDashboard = async (guild, settings, queue, lang) => {
         const channel = client.cache["dashboard" + guild.id]?.channel
-        const newEmbed = new Discord.MessageEmbed().setTitle("ㅤ").setColor(client.elements.COLOR_FLOPY)
+        const newEmbed = new Discord.MessageEmbed().setTitle("ㅤ").setColor(guild.me.displayHexColor.replace("#000000", client.elements.COLOR_WHITE))
         client.cooldown("leaveVoice" + guild.id, 1000)
         await client.cache["dashboard" + guild.id]?.delete().catch(error => {})
         channel.send({ embeds: [newEmbed] }).catch(error => {}).then(async message => {
