@@ -142,8 +142,8 @@ module.exports = client => {
 
     // Update dashboard
     client.updateDashboard = (guild, queue, lang) => {
-        if(queue) {
-            const song = queue.songs[0]
+        const song = queue?.songs[0]
+        if(song) {
             const songs = queue.songs.slice(1, client.config.QUEUE_MAX_DISPLAY + 1).map((item, i) => { return `${i + 1}. ${item.name.length <= client.config.SONG_MAX_LENGTH ? item.name : item.name.substring(0, client.config.SONG_MAX_LENGTH) + "..."}` }).reverse().join("\n")
             const dashboardEmbed = new Discord.MessageEmbed().setTitle(`[${song.formattedDuration}] ${song.name}`).setImage(song.thumbnail || client.elements.BANNER_SECONDARY).setFooter({ text: `${lang.DASHBOARD_REPEAT} ${queue.repeatMode === 0 ? lang.DASHBOARD_REPEAT_OFF : queue.repeatMode === 1 ? lang.DASHBOARD_REPEAT_SONG : lang.DASHBOARD_REPEAT_QUEUE} | ${lang.DASHBOARD_VOLUME} ${queue.volume}%`, iconURL: song.member.displayAvatarURL() }).setColor(guild.me.displayHexColor.replace("#000000", client.elements.COLOR_WHITE))
             const dashboardButtons = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "Play", style: "SECONDARY", emoji: { id: queue.playing ? client.elements.EMOJI_PAUSE : client.elements.EMOJI_PLAY } }, { type: "BUTTON", customId: "Stop", style: "SECONDARY", emoji: { id: client.elements.EMOJI_STOP } }, { type: "BUTTON", customId: "Skip", style: "SECONDARY", emoji: { id: client.elements.EMOJI_SKIP } }, { type: "BUTTON", customId: "Repeat", style: "SECONDARY", emoji: { id: client.elements.EMOJI_REPEAT } }, { type: "BUTTON", customId: "Volume", style: "SECONDARY", emoji: { id: client.elements.EMOJI_VOLUME } })
