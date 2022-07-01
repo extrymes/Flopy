@@ -6,10 +6,17 @@ module.exports = async (client, interaction) => {
 
     eval(interaction.customId + "()")
 
-    function Play() {
+    function Resume() {
         if(client.checkVoice(guild, member)) {
-            if(queue.playing) client.distube.pause(queue)
-            else client.distube.resume(queue)
+            client.distube.resume(queue)
+            client.updateDashboard(guild, queue, lang)
+            interaction.deferUpdate()
+        } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
+    }
+
+    function Pause() {
+        if(client.checkVoice(guild, member)) {
+            client.distube.pause(queue)
             client.updateDashboard(guild, queue, lang)
             interaction.deferUpdate()
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
