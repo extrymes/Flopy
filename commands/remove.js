@@ -9,7 +9,7 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
     if(client.cooldown("remove" + guild.id, 2000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
     queue.songs.splice(position, 1)
     client.updateDashboard(guild, queue, lang)
-    client.sendMessage(channel, `${lang.MESSAGE_QUEUE_SONG_REMOVED}`)
+    client.sendMessage(channel, `${lang.MESSAGE_QUEUE_SONG_REMOVED} (#${position})`)
 }
 module.exports.data = {
     name: "remove",
