@@ -32,8 +32,8 @@ module.exports = {
     // MESSAGE
     MESSAGE_SONG_PLAYING: "Song playing",
     MESSAGE_SONG_REPLAYED: "Song replayed",
-    MESSAGE_SONG_JUMPED: "Song jumped",
-    MESSAGE_SONG_JUMPED_2: "Songs jumped",
+    MESSAGE_SONG_SKIPPED: "Song skipped",
+    MESSAGE_SONG_SKIPPED_2: "Songs skipped to $position",
     MESSAGE_SONG_AUTHOR: "Author",
     MESSAGE_SONG_VIEWS: "Views",
     MESSAGE_SONG_LIKES: "Likes",

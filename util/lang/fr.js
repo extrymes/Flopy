@@ -32,8 +32,8 @@ module.exports = {
     // MESSAGE
     MESSAGE_SONG_PLAYING: "Musique en cours de lecture",
     MESSAGE_SONG_REPLAYED: "Musique rejouée",
-    MESSAGE_SONG_JUMPED: "Musique passée",
-    MESSAGE_SONG_JUMPED_2: "Musiques passées",
+    MESSAGE_SONG_SKIPPED: "Musique passée",
+    MESSAGE_SONG_SKIPPED_2: "Musiques passées jusqu'à $position",
     MESSAGE_SONG_AUTHOR: "Auteur",
     MESSAGE_SONG_VIEWS: "Vues",
     MESSAGE_SONG_LIKES: "Likes",

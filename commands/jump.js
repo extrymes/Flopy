@@ -9,7 +9,7 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
     if(client.cooldown("jump" + guild.id, 2000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
     client.distube.jump(queue, position)
     if(queue.paused) client.distube.resume(queue)
-    client.sendMessage(channel, `${position === 1 ? lang.MESSAGE_SONG_JUMPED : lang.MESSAGE_SONG_JUMPED_2}`)
+    client.sendMessage(channel, `${position === 1 ? lang.MESSAGE_SONG_SKIPPED : lang.MESSAGE_SONG_SKIPPED_2.replace("$position", `#${position}`)}`)
 }
 module.exports.data = {
     name: "jump",
