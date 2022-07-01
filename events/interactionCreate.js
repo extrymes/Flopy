@@ -32,7 +32,7 @@ module.exports = async (client, interaction) => {
     function Skip() {
         if(client.checkVoice(guild, member)) {
             client.distube.skip(queue).catch(error => {})
-            if(queue.paused && queue.songs[1]) client.distube.resume(queue)
+            if(queue.paused && (queue.songs[1] || queue.autoplay)) client.distube.resume(queue)
             interaction.deferUpdate()
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
     }
