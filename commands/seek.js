@@ -10,11 +10,11 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
     const sec = await client.convertTime(time)
     if(sec > song.duration) return client.sendError(channel, `${lang.ERROR_SONG_TIME_LONGER}`)
     if(client.cooldown("seek" + guild.id, 4000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
+    client.distube.seek(queue, sec)
     if(queue.paused) {
         client.distube.resume(queue)
         client.updateDashboard(guild, queue, lang)
     }
-    client.distube.seek(queue, sec)
     const bar = await client.createBar(queue)
     client.sendMessage(channel, `${bar}`)
 }

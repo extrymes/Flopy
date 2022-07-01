@@ -53,7 +53,7 @@ module.exports = async (client, interaction) => {
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
     }
 
-    function PlaySong() {
+    function Play() {
         const url = interaction.values[0]
         if(member.voice.channel) {
             if(client.checkVoice(guild, member) || !queue) {
