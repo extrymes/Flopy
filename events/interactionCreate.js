@@ -8,47 +8,57 @@ module.exports = async (client, interaction) => {
 
     function Resume() {
         if(client.checkVoice(guild, member)) {
-            client.distube.resume(queue)
-            client.updateDashboard(guild, queue, lang)
+            try {
+                client.distube.resume(queue)
+                client.updateDashboard(guild, queue, lang)
+            } catch {}
             interaction.deferUpdate()
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
     }
 
     function Pause() {
         if(client.checkVoice(guild, member)) {
-            client.distube.pause(queue)
-            client.updateDashboard(guild, queue, lang)
+            try {
+                client.distube.pause(queue)
+                client.updateDashboard(guild, queue, lang)
+            } catch {}
             interaction.deferUpdate()
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
     }
 
     function Stop() {
         if(client.checkVoice(guild, member)) {
-            client.distube.stop(queue)
+            try { client.distube.stop(queue) } catch {}
             interaction.deferUpdate()
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
     }
 
     function Skip() {
         if(client.checkVoice(guild, member)) {
-            client.distube.skip(queue).catch(error => {})
-            if(queue.paused && (queue.songs[1] || queue.autoplay)) client.distube.resume(queue)
+            try {
+                client.distube.skip(queue).catch(error => {})
+                if(queue.paused && (queue.songs[1] || queue.autoplay)) client.distube.resume(queue)
+            } catch {}
             interaction.deferUpdate()
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
     }
 
     function Repeat() {
         if(client.checkVoice(guild, member)) {
-            client.distube.setRepeatMode(queue, queue.repeatMode === 0 ? 1 : queue.repeatMode === 1 ? 2 : 0)
-            client.updateDashboard(guild, queue, lang)
+            try {
+                client.distube.setRepeatMode(queue, queue.repeatMode === 0 ? 1 : queue.repeatMode === 1 ? 2 : 0)
+                client.updateDashboard(guild, queue, lang)
+            } catch {}
             interaction.deferUpdate()
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
     }
 
     function Volume() {
         if(client.checkVoice(guild, member)) {
-            client.distube.setVolume(queue, queue.volume === 50 ? 25 : queue.volume === 25 ? 75 : queue.volume === 75 ? 100 : 50)
-            client.updateDashboard(guild, queue, lang)
+            try {
+                client.distube.setVolume(queue, queue.volume === 50 ? 25 : queue.volume === 25 ? 75 : queue.volume === 75 ? 100 : 50)
+                client.updateDashboard(guild, queue, lang)
+            } catch {}
             interaction.deferUpdate()
         } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
     }
