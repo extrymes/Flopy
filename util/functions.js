@@ -88,6 +88,19 @@ module.exports = client => {
         channel.send({ embeds: [messageEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 5000))
     }
 
+    // Send help message
+    client.sendHelpMessage = (channel, lang, command) => {
+        if(!command) {
+            const commands = client.commands.filter(item => item.data.type === "command" && item.data.name !== "help").map((item, i) => { return `\`${item.data.name}\`` }).join(", ")
+            const filters = client.commands.filter(item => item.data.type === "filter").map((item, i) => { return `\`${item.data.name}\`` }).join(", ")
+            const helpEmbed = new Discord.MessageEmbed().setAuthor({ name: "Help", iconURL: client.elements.ICON_FLOPY }).addFields({ name: `**${lang.HELP_COMMANDS}**`, value: `${commands}` }, { name: `**${lang.HELP_FILTERS}**`, value: `${filters}` }).setFooter({ text: `${lang.HELP_DETAILS} ${client.config.PREFIX}help <command>` }).setColor(client.elements.COLOR_FLOPY)
+            channel.send({ embeds: [helpEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 10000))
+        } else {
+            const commandEmbed = new Discord.MessageEmbed().setAuthor({ name: `Help: ${command.data.name}`, iconURL: client.elements.ICON_FLOPY }).addFields({ name: `**${lang.HELP_DESCRIPTION}**`, value: `${eval("lang." + command.data.description)}` }, { name: `**${lang.HELP_USAGE}**`, value: `\`${client.config.PREFIX}${command.data.name}${command.data.usage}\`` }).setColor(client.elements.COLOR_FLOPY)
+            channel.send({ embeds: [commandEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 8000))
+        }
+    }
+
     // Send first message
     client.sendFirstMessage = guild => {
         const channel = guild.channels.cache.filter(item => item.type === "GUILD_TEXT" && item.viewable && item.permissionsFor(guild.me).has("SEND_MESSAGES")).first()
@@ -100,7 +113,7 @@ module.exports = client => {
         const channel = client.cache["dashboard" + guild.id]?.channel
         const updateEmbed = new Discord.MessageEmbed().setAuthor({ name: `${lang.UPDATE_TITLE}`, iconURL: client.elements.ICON_FLOPY }).setDescription(lang.UPDATE_DESCRIPTION).setImage(client.elements.BANNER_FLOPY).setColor(client.elements.COLOR_FLOPY)
         const hideButton = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "Hide", style: "SECONDARY", emoji: client.elements.EMOJI_UPDATE })
-        channel.send({ embeds: [updateEmbed], components: [hideButton] }).catch(error => {})
+        channel?.send({ embeds: [updateEmbed], components: [hideButton] }).catch(error => {})
     }
 
     // Send error
@@ -118,14 +131,14 @@ module.exports = client => {
     // Setup dashboard
     client.setupDashboard = async (guild, channel, settings) => {
         const setupEmbed = new Discord.MessageEmbed().setTitle("Language selection").setImage(client.elements.BANNER_PRIMARY).setColor(client.elements.COLOR_FLOPY)
-        const setupButtons = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "LangEn", style: "SECONDARY", emoji: { id: client.elements.EMOJI_LANG_EN } }, { type: "BUTTON", customId: "LangFr", style: "SECONDARY", emoji: { id: client.elements.EMOJI_LANG_FR } })
+        const langButtons = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "LangEn", style: "SECONDARY", emoji: { id: client.elements.EMOJI_LANG_EN } }, { type: "BUTTON", customId: "LangFr", style: "SECONDARY", emoji: { id: client.elements.EMOJI_LANG_FR } })
         client.cooldown("leaveVoice" + guild.id, 1000)
         await client.cache["dashboard" + guild.id]?.delete().catch(error => {})
         channel.send({ embeds: [setupEmbed] }).catch(error => {}).then(async message => {
             if(message) {
                 await client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "channel": channel.id, "message": message.id }) })
                 client.cache["dashboard" + guild.id] = message
-                message.edit({ components: [setupButtons] }).catch(error => {})
+                message.edit({ components: [langButtons] }).catch(error => {})
             } else client.leaveVoice(guild)
         })
     }
@@ -161,9 +174,9 @@ module.exports = client => {
         const newEmbed = new Discord.MessageEmbed().setTitle("ㅤ").setColor(guild.me.displayHexColor.replace("#000000", client.elements.COLOR_WHITE))
         client.cooldown("leaveVoice" + guild.id, 1000)
         await client.cache["dashboard" + guild.id]?.delete().catch(error => {})
-        channel.send({ embeds: [newEmbed] }).catch(error => {}).then(async message => {
+        channel?.send({ embeds: [newEmbed] }).catch(error => {}).then(async message => {
             if(message) {
-                await client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "channel": channel.id, "message": message.id }) })
+                await client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "message": message.id }) })
                 client.cache["dashboard" + guild.id] = message
                 client.updateDashboard(guild, queue, lang)
             } else client.leaveVoice(guild)
@@ -197,18 +210,5 @@ module.exports = client => {
         sec = sec + Number(time[time.length - 5] || 0) * 60 * 60
         sec = sec + Number(time[time.length - 6] || 0) * 60 * 60 * 10
         return sec
-    }
-
-    // Help
-    client.help = (channel, lang, command) => {
-        if(!command) {
-            const commands = client.commands.filter(item => item.data.type === "command" && item.data.name !== "help").map((item, i) => { return `\`${item.data.name}\`` }).join(", ")
-            const filters = client.commands.filter(item => item.data.type === "filter").map((item, i) => { return `\`${item.data.name}\`` }).join(", ")
-            const helpEmbed = new Discord.MessageEmbed().setAuthor({ name: "Help", iconURL: client.elements.ICON_FLOPY }).addFields({ name: `**${lang.HELP_COMMANDS}**`, value: `${commands}` }, { name: `**${lang.HELP_FILTERS}**`, value: `${filters}` }).setFooter({ text: `${lang.HELP_DETAILS} ${client.config.PREFIX}help <command>` }).setColor(client.elements.COLOR_FLOPY)
-            channel.send({ embeds: [helpEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 10000))
-        } else {
-            const commandEmbed = new Discord.MessageEmbed().setAuthor({ name: `Help: ${command.data.name}`, iconURL: client.elements.ICON_FLOPY }).addFields({ name: `**${lang.HELP_DESCRIPTION}**`, value: `${eval("lang." + command.data.description)}` }, { name: `**${lang.HELP_USAGE}**`, value: `\`${client.config.PREFIX}${command.data.name}${command.data.usage}\`` }).setColor(client.elements.COLOR_FLOPY)
-            channel.send({ embeds: [commandEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 8000))
-        }
     }
 }
