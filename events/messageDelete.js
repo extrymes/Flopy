@@ -1,6 +1,5 @@
 module.exports = async (client, message) => {
     const guild = message.guild
-    const settings = await client.getGuild(guild)
     
     if(message === client.cache["dashboard" + guild.id]) {
         delete client.cache["dashboard" + guild.id]

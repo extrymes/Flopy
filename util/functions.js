@@ -129,16 +129,15 @@ module.exports = client => {
     }
 
     // Setup dashboard
-    client.setupDashboard = async (guild, channel, settings) => {
+    client.setupDashboard = (guild, channel, settings) => {
         const setupEmbed = new Discord.MessageEmbed().setTitle("Language selection").setImage(client.elements.BANNER_PRIMARY).setColor(client.elements.COLOR_FLOPY)
         const langButtons = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "LangEn", style: "SECONDARY", emoji: { id: client.elements.EMOJI_LANG_EN } }, { type: "BUTTON", customId: "LangFr", style: "SECONDARY", emoji: { id: client.elements.EMOJI_LANG_FR } })
         client.cooldown("leaveVoice" + guild.id, 1000)
-        await client.cache["dashboard" + guild.id]?.delete().catch(error => {})
-        channel.send({ embeds: [setupEmbed] }).catch(error => {}).then(async message => {
+        client.cache["dashboard" + guild.id]?.delete().catch(error => {})
+        channel.send({ embeds: [setupEmbed], components: [langButtons] }).catch(error => {}).then(message => {
             if(message) {
-                await client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "channel": channel.id, "message": message.id }) })
                 client.cache["dashboard" + guild.id] = message
-                message.edit({ components: [langButtons] }).catch(error => {})
+                client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "channel": channel.id, "message": message.id }) })
             } else client.leaveVoice(guild)
         })
     }
@@ -146,11 +145,9 @@ module.exports = client => {
     // Get dashboard
     client.getDashboard = async (guild, settings) => {
         const channel = guild.channels.cache.get(settings.flopy1.channel)
-        if(channel) {
-            await channel.messages.fetch(settings.flopy1.message).catch(error => {}).then(message => {
-                if(message) client.cache["dashboard" + guild.id] = message
-            })
-        }
+        if(channel) await channel.messages.fetch(settings.flopy1.message).catch(error => {}).then(message => {
+            if(message) client.cache["dashboard" + guild.id] = message
+        })
     }
 
     // Update dashboard
@@ -169,14 +166,14 @@ module.exports = client => {
     }
 
     // Refresh dashboard
-    client.refreshDashboard = async (guild, settings, queue, lang) => {
+    client.refreshDashboard = (guild, settings, queue, lang) => {
         const channel = client.cache["dashboard" + guild.id]?.channel
         client.cooldown("leaveVoice" + guild.id, 1000)
-        await client.cache["dashboard" + guild.id]?.delete().catch(error => {})
-        channel?.send({ content: "ㅤ" }).catch(error => {}).then(async message => {
+        client.cache["dashboard" + guild.id]?.delete().catch(error => {})
+        channel?.send({ content: "ㅤ" }).catch(error => {}).then(message => {
             if(message) {
-                await client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "message": message.id }) })
                 client.cache["dashboard" + guild.id] = message
+                client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "message": message.id }) })
                 client.updateDashboard(guild, queue, lang)
             } else client.leaveVoice(guild)
         })
