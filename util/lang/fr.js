@@ -61,6 +61,7 @@ module.exports = {
     ERROR_QUEUE_NO_SONG: "Aucune musique dans la file d'attente",
     ERROR_QUERY_NO_FOUND: "Aucune requête trouvée",
     ERROR_QUERY_NO_SAVED: "Aucune requête sauvegardée",
+    ERROR_QUERY_ALREADY_SAVED: "Requête déjà sauvegardée",
     ERROR_QUERY_TOO_LONG: "Requête trop longue",
     ERROR_VOICE_UNABLE_JOIN: "Impossible de rejoindre le salon vocal",
     ERROR_VOICE_DISCONNECTED: "Salon vocal déconnecté",

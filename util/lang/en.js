@@ -61,6 +61,7 @@ module.exports = {
     ERROR_QUEUE_NO_SONG: "No song in the queue",
     ERROR_QUERY_NO_FOUND: "No query found",
     ERROR_QUERY_NO_SAVED: "No query saved",
+    ERROR_QUERY_ALREADY_SAVED: "Query already saved",
     ERROR_QUERY_TOO_LONG: "Query too long",
     ERROR_VOICE_UNABLE_JOIN: "Unable to join the voice channel",
     ERROR_VOICE_DISCONNECTED: "Voice channel disconnected",

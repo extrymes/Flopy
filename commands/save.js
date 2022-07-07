@@ -5,6 +5,7 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
 
     if(query) {
         if(query.length > 90) return client.sendError(channel, `${lang.ERROR_QUERY_TOO_LONG}`)
+        if(query === data.query) return client.sendError(channel, `${lang.ERROR_QUERY_ALREADY_SAVED}`)
         if(client.cooldown("save" + member.id, 4000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
         if(data.null) await client.createUser(member)
         setTimeout(() => client.updateUser(member, { query: query }), 1000)
