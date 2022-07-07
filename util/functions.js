@@ -85,7 +85,7 @@ module.exports = client => {
     // Send message
     client.sendMessage = (channel, content) => {
         const messageEmbed = new Discord.MessageEmbed().setTitle(`${content}`).setColor(client.elements.COLOR_FLOPY)
-        channel.send({ embeds: [messageEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 5000))
+        channel?.send({ embeds: [messageEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 5000))
     }
 
     // Send help message
@@ -119,7 +119,7 @@ module.exports = client => {
     // Send error
     client.sendError = (channel, content) => {
         const errorEmbed = new Discord.MessageEmbed().setTitle(`${content}`).setColor(client.elements.COLOR_GREY)
-        channel.send({ embeds: [errorEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 5000))
+        channel?.send({ embeds: [errorEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 5000))
     }
 
     // Reply error

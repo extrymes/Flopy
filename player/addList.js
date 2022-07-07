@@ -1,6 +1,6 @@
 module.exports = async (client, queue, playlist) => {
     const guild = queue.textChannel.guild
-    const channel = queue.textChannel
+    const channel = client.cache["dashboard" + guild.id]?.channel
     const settings = await client.getGuild(guild)
     const lang = require(`../util/lang/${settings.flopy1.language}`)
 
