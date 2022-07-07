@@ -4,6 +4,7 @@ module.exports = async (client, queue, song) => {
     const settings = await client.getGuild(guild)
     const lang = require(`../util/lang/${settings.flopy1.language}`)
     
+    client.cache["query" + song.member.id] = song.url
     if(queue.songs[0] === song) setTimeout(() => client.sendMessage(channel, `${lang.MESSAGE_SONG_PLAYING}`), 1000)
     else {
         client.updateDashboard(guild, queue, lang)
