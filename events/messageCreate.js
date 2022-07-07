@@ -17,7 +17,7 @@ module.exports = async (client, message) => {
             if(member.voice.channel) {
                 if(client.checkVoice(guild, member) || !queue) {
                     if(message.content) {
-                        if(!client.cooldown("play" + author.id, 2000)) {
+                        if(!client.cooldown("play" + member.id, 2000)) {
                             channel.sendTyping().catch(error => {})
                             if(!client.checkVoice(guild, member)) client.leaveVoice(guild)
                             try { client.distube.play(member.voice.channel, message.content, { textChannel: channel, member: member }) } catch(error) { client.distube.emit("error", channel, error) }
