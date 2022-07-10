@@ -8,6 +8,6 @@ module.exports = async (client, queue, playlist) => {
     if(queue.songs[0] === playlist.songs[0]) setTimeout(() => client.sendMessage(channel, `${lang.MESSAGE_PLAYLIST_PLAYING}`), 1000)
     else {
         client.updateDashboard(guild, queue, lang)
-        client.sendMessage(channel, `${lang.MESSAGE_QUEUE_PLAYLIST_ADDED} (#${queue.songs.length - playlist.songs.length})`)
+        client.sendMessage(channel, `${lang.MESSAGE_QUEUE_PLAYLIST_ADDED} (#${queue.songs.indexOf(playlist.songs[0])})`)
     }
 }
