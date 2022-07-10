@@ -12,11 +12,10 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
         client.sendMessage(channel, `${lang.MESSAGE_QUERY_SAVED}`)
     } else {
         if(!member.voice.channel) return client.sendError(channel, `${lang.ERROR_USER_NO_VOICE}`)
-        if(!client.checkVoice(guild, member) && queue) return client.sendError(channel, `${lang.ERROR_USER_NO_VOICE_2}`)
+        if(!client.checkVoice(guild, member) && guild.me.voice.channel) return client.sendError(channel, `${lang.ERROR_USER_NO_VOICE_2}`)
         if(data.null) return client.sendError(channel, `${lang.ERROR_QUERY_NO_SAVED}`)
         if(client.cooldown("play" + member.id, 2000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
         channel.sendTyping().catch(error => {})
-        if(!client.checkVoice(guild, member)) client.leaveVoice(guild)
         try { client.distube.play(member.voice.channel, data.query, { textChannel: channel, member: member }) } catch(error) { client.distube.emit("error", channel, error) }
     }
 }

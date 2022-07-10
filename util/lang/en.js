@@ -59,7 +59,6 @@ module.exports = {
     ERROR_SONG_TIME_LONGER: "Time longer than the song's duration",
     ERROR_PLAYLIST_UNKNOWN: "Unknown playlist",
     ERROR_QUEUE_NO_SONG: "No song in the queue",
-    ERROR_QUERY_NO_FOUND: "No query found",
     ERROR_QUERY_NO_SAVED: "No query saved",
     ERROR_QUERY_ALREADY_SAVED: "Query already saved",
     ERROR_QUERY_TOO_LONG: "Query too long",

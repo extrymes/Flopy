@@ -105,14 +105,14 @@ module.exports = client => {
     client.sendFirstMessage = guild => {
         const channel = guild.channels.cache.filter(item => item.type === "GUILD_TEXT" && item.viewable && item.permissionsFor(guild.me).has("SEND_MESSAGES")).first()
         const firstEmbed = new Discord.MessageEmbed().setTitle("Get ready to listen to music with style!").setDescription("Thank you for inviting me to your server.\nTo start listening to music, mention me in a channel.").setImage(client.elements.BANNER_FLOPY).setColor(client.elements.COLOR_FLOPY)
-        if(channel) channel.send({ embeds: [firstEmbed] }).catch(error => {})
+        channel?.send({ embeds: [firstEmbed] }).catch(error => {})
     }
 
     // Send update message
     client.sendUpdateMessage = (guild, lang) => {
         const channel = client.cache["dashboard" + guild.id]?.channel
         const updateEmbed = new Discord.MessageEmbed().setAuthor({ name: `${lang.UPDATE_TITLE}`, iconURL: client.elements.ICON_FLOPY }).setDescription(lang.UPDATE_DESCRIPTION).setImage(client.elements.BANNER_FLOPY).setColor(client.elements.COLOR_FLOPY)
-        const hideButton = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "Hide", style: "SECONDARY", emoji: client.elements.EMOJI_UPDATE })
+        const hideButton = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "hide", style: "SECONDARY", emoji: client.elements.EMOJI_UPDATE })
         channel?.send({ embeds: [updateEmbed], components: [hideButton] }).catch(error => {})
     }
 
@@ -131,7 +131,7 @@ module.exports = client => {
     // Setup dashboard
     client.setupDashboard = (guild, channel, settings) => {
         const setupEmbed = new Discord.MessageEmbed().setTitle("Language selection").setImage(client.elements.BANNER_PRIMARY).setColor(client.elements.COLOR_FLOPY)
-        const langButtons = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "LangEn", style: "SECONDARY", emoji: { id: client.elements.EMOJI_LANG_EN } }, { type: "BUTTON", customId: "LangFr", style: "SECONDARY", emoji: { id: client.elements.EMOJI_LANG_FR } })
+        const langButtons = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "lang_en", style: "SECONDARY", emoji: { id: client.elements.EMOJI_LANG_EN } }, { type: "BUTTON", customId: "lang_fr", style: "SECONDARY", emoji: { id: client.elements.EMOJI_LANG_FR } })
         client.cooldown("leaveVoice" + guild.id, 1000)
         client.cache["dashboard" + guild.id]?.delete().catch(error => {})
         channel.send({ embeds: [setupEmbed], components: [langButtons] }).catch(error => {}).then(message => {
@@ -145,7 +145,7 @@ module.exports = client => {
     // Get dashboard
     client.getDashboard = async (guild, settings) => {
         const channel = guild.channels.cache.get(settings.flopy1.channel)
-        if(channel) await channel.messages.fetch(settings.flopy1.message).catch(error => {}).then(message => {
+        await channel?.messages?.fetch(settings.flopy1.message).catch(error => {}).then(message => {
             if(message) client.cache["dashboard" + guild.id] = message
         })
     }
@@ -156,11 +156,11 @@ module.exports = client => {
         if(song) {
             const songs = queue.songs.slice(1, client.config.QUEUE_MAX_DISPLAY + 1).map((item, i) => { return `${i + 1}. ${item.name.length <= client.config.SONG_MAX_LENGTH ? item.name : item.name.substring(0, client.config.SONG_MAX_LENGTH) + "..."}` }).reverse().join("\n")
             const dashboardEmbed = new Discord.MessageEmbed().setTitle(`[${song.formattedDuration}] ${song.name}`).setImage(song.thumbnail || client.elements.BANNER_SECONDARY).setFooter({ text: `${lang.DASHBOARD_VOLUME} ${queue.volume}%${queue.repeatMode === 0 ? "" : queue.repeatMode === 1 ? ` | ${lang.DASHBOARD_REPEAT_SONG}` : ` | ${lang.DASHBOARD_REPEAT_QUEUE}`}${queue.autoplay ? ` | ${lang.DASHBOARD_AUTOPLAY_ON}` : ""}${queue.filters.length < 1 ? "" : ` | ${lang.DASHBOARD_FILTERS} ${queue.filters.length}`}` }).setColor(guild.me.displayHexColor.replace("#000000", client.elements.COLOR_WHITE))
-            const dashboardButtons = new Discord.MessageActionRow().addComponents(queue.playing ? { type: "BUTTON", customId: "Pause", style: "SECONDARY", emoji: { id: client.elements.EMOJI_PAUSE } } : { type: "BUTTON", customId: "Resume", style: "PRIMARY", emoji: { id: client.elements.EMOJI_PLAY } }, { type: "BUTTON", customId: "Stop", style: "SECONDARY", emoji: { id: client.elements.EMOJI_STOP } }, { type: "BUTTON", customId: "Skip", style: "SECONDARY", emoji: { id: client.elements.EMOJI_SKIP } }, { type: "BUTTON", customId: "Repeat", style: "SECONDARY", emoji: { id: client.elements.EMOJI_REPEAT } }, { type: "BUTTON", customId: "Volume", style: "SECONDARY", emoji: { id: client.elements.EMOJI_VOLUME } })
+            const dashboardButtons = new Discord.MessageActionRow().addComponents(queue.playing ? { type: "BUTTON", customId: "pause", style: "SECONDARY", emoji: { id: client.elements.EMOJI_PAUSE } } : { type: "BUTTON", customId: "resume", style: "PRIMARY", emoji: { id: client.elements.EMOJI_PLAY } }, { type: "BUTTON", customId: "stop", style: "SECONDARY", emoji: { id: client.elements.EMOJI_STOP } }, { type: "BUTTON", customId: "skip", style: "SECONDARY", emoji: { id: client.elements.EMOJI_SKIP } }, { type: "BUTTON", customId: "repeat", style: "SECONDARY", emoji: { id: client.elements.EMOJI_REPEAT } }, { type: "BUTTON", customId: "volume", style: "SECONDARY", emoji: { id: client.elements.EMOJI_VOLUME } })
             client.cache["dashboard" + guild.id]?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__**\n${queue.songs.length - 1 <= client.config.QUEUE_MAX_DISPLAY ? "" : `**+${queue.songs.length - 1 - client.config.QUEUE_MAX_DISPLAY}**\n`}${songs || lang.DASHBOARD_QUEUE_NO_SONG}`, embeds: [dashboardEmbed], components: [dashboardButtons] }).catch(error => {})
         } else {
             const dashboardEmbed = new Discord.MessageEmbed().setTitle(`${lang.DASHBOARD_SONG_NO_PLAYING}`).setDescription(`[Flopy](${client.config.INVITE_FLOPY}) | [Flopy 2](${client.config.INVITE_FLOPY2}) | [Flopy 3](${client.config.INVITE_FLOPY3})`).setImage(client.elements.BANNER_PRIMARY).setFooter({ text: `${lang.DASHBOARD_HELP_COMMAND} ${client.config.PREFIX}help` }).setColor(client.elements.COLOR_FLOPY)
-            const dashboardButtons = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "Resume", style: "SECONDARY", emoji: { id: client.elements.EMOJI_PLAY }, disabled: true }, { type: "BUTTON", customId: "Stop", style: "SECONDARY", emoji: { id: client.elements.EMOJI_STOP }, disabled: true }, { type: "BUTTON", customId: "Skip", style: "SECONDARY", emoji: { id: client.elements.EMOJI_SKIP }, disabled: true }, { type: "BUTTON", customId: "Repeat", style: "SECONDARY", emoji: { id: client.elements.EMOJI_REPEAT }, disabled: true }, { type: "BUTTON", customId: "Volume", style: "SECONDARY", emoji: { id: client.elements.EMOJI_VOLUME }, disabled: true })
+            const dashboardButtons = new Discord.MessageActionRow().addComponents({ type: "BUTTON", customId: "resume", style: "SECONDARY", emoji: { id: client.elements.EMOJI_PLAY }, disabled: true }, { type: "BUTTON", customId: "stop", style: "SECONDARY", emoji: { id: client.elements.EMOJI_STOP }, disabled: true }, { type: "BUTTON", customId: "skip", style: "SECONDARY", emoji: { id: client.elements.EMOJI_SKIP }, disabled: true }, { type: "BUTTON", customId: "repeat", style: "SECONDARY", emoji: { id: client.elements.EMOJI_REPEAT }, disabled: true }, { type: "BUTTON", customId: "volume", style: "SECONDARY", emoji: { id: client.elements.EMOJI_VOLUME }, disabled: true })
             client.cache["dashboard" + guild.id]?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__**\n${lang.DASHBOARD_QUEUE_NONE}`, embeds: [dashboardEmbed], components: [dashboardButtons] }).catch(error => {})
         }
     }
