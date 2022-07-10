@@ -23,6 +23,7 @@ module.exports = {
     DISTUBE_STOP_ON_EMPTY: true,
     DISTUBE_EMPTY_COOLDOWN: 300,
     DISTUBE_NSFW: true,
+    DISTUBE_SAVE_PREVIOUS_SONGS: false,
     DISTUBE_CUSTOM_FILTERS: { "8d": "apulsator=hz=0.08", "purebass": "bass=g=20,dynaudnorm=f=200,asubboost", "subboost": "asubboost", "fast": "atempo=1.3", "vibrato": "vibrato=f=6.5", "pulsator": "apulsator=hz=1" },
     DISTUBE_YOUTUBE_DL: false,
     DISTUBE_UPDATE_YOUTUBE_DL: false,

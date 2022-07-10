@@ -18,6 +18,7 @@ client.distube = new DisTube(client, {
     stopOnEmpty: client.config.DISTUBE_STOP_ON_EMPTY,
     emptyCooldown: client.config.DISTUBE_EMPTY_COOLDOWN,
     nsfw: client.config.DISTUBE_NSFW,
+    savePreviousSongs: client.config.DISTUBE_SAVE_PREVIOUS_SONGS,
     customFilters: client.config.DISTUBE_CUSTOM_FILTERS,
     youtubeDL: client.config.DISTUBE_YOUTUBE_DL,
     updateYouTubeDL: client.config.DISTUBE_UPDATE_YOUTUBE_DL,
