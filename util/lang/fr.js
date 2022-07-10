@@ -18,6 +18,7 @@ module.exports = {
     HELP_USAGE: "Utilisation",
     HELP_COMMAND_AUTOPLAY: "Activer ou désactiver la lecture automatique.",
     HELP_COMMAND_CLEAR: "Vider la file d'attente.",
+    HELP_COMMAND_FIRST: "Ajouter une musique ou une playlist au début de la file d'attente.",
     HELP_COMMAND_INFO: "Afficher des informations sur la musique en cours de lecture.",
     HELP_COMMAND_JUMP: "Passer à une musique spécifique dans la file d'attente.",
     HELP_COMMAND_LAST: "Utiliser votre dernière requête.",
