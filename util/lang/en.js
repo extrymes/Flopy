@@ -25,7 +25,7 @@ module.exports = {
     HELP_COMMAND_REMOVE: "Remove a specific song from the queue.",
     HELP_COMMAND_REPLAY: "Replay the current song.",
     HELP_COMMAND_SAVE: "Use or save a query.",
-    HELP_COMMAND_SEARCH: "Search and select a song.",
+    HELP_COMMAND_SEARCH: "Search and select a song to add to the queue.",
     HELP_COMMAND_SEEK: "Seek a specific time in the current song.",
     HELP_COMMAND_SHUFFLE: "Shuffle the queue.",
     HELP_COMMAND_WATCH: "Start the Watch Together activity.",

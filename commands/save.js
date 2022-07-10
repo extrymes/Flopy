@@ -22,5 +22,5 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
 module.exports.data = {
     name: "save",
     description: "HELP_COMMAND_SAVE",
-    usage: " <name|url>",
+    usage: " <query>",
 }

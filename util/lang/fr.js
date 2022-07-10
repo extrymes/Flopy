@@ -25,7 +25,7 @@ module.exports = {
     HELP_COMMAND_REMOVE: "Retirer une musique spécifique de la file d'attente.",
     HELP_COMMAND_REPLAY: "Rejouer la musique en cours de lecture.",
     HELP_COMMAND_SAVE: "Utiliser ou sauvegarder une requête.",
-    HELP_COMMAND_SEARCH: "Chercher et sélectionner une musique.",
+    HELP_COMMAND_SEARCH: "Chercher et sélectionner une musique à ajouter à la file d'attente.",
     HELP_COMMAND_SEEK: "Aller à un moment spécifique dans la musique en cours de lecture.",
     HELP_COMMAND_SHUFFLE: "Mélanger la file d'attente.",
     HELP_COMMAND_WATCH: "Lancer l'activité Watch Together.",
