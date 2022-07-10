@@ -53,7 +53,6 @@ module.exports = {
     MESSAGE_QUERY_SAVED: "Requête sauvegardée",
     // ERROR
     ERROR_SONG_NO_PLAYING: "Aucune musique en cours de lecture",
-    ERROR_SONG_NO_FOUND: "Aucune musique trouvée",
     ERROR_SONG_NO_RELATED_FOUND: "Aucune musique similaire trouvée",
     ERROR_SONG_NO_CORRECT_POSITION: "Aucune musique à cette position",
     ERROR_SONG_TIME_LONGER: "Moment plus long que la durée de la musique",
@@ -73,6 +72,7 @@ module.exports = {
     ERROR_VIDEO_UNAVAILABLE: "Vidéo non disponible",
     ERROR_VIDEO_RESTRICTED: "Vidéo restreinte",
     ERROR_URL_UNSUPPORTED: "URL non supportée",
+    ERROR_RESULT_NO_FOUND: "Aucun résultat trouvé",
     ERROR_COMMAND_NO_FOUND: "Aucune commande trouvée",
     ERROR_OCCURED: "Une erreur est survenue",
     // UPDATE
