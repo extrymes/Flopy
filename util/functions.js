@@ -104,7 +104,7 @@ module.exports = client => {
     // Send first message
     client.sendFirstMessage = guild => {
         const channel = guild.channels.cache.filter(item => item.type === "GUILD_TEXT" && item.viewable && item.permissionsFor(guild.me).has("SEND_MESSAGES")).first()
-        const firstEmbed = new Discord.MessageEmbed().setTitle("Get ready to listen to music with style!").setDescription("Thank you for inviting me to your server.\nTo start listening to music, mention me in a channel.").setImage(client.elements.BANNER_FLOPY).setColor(client.elements.COLOR_FLOPY)
+        const firstEmbed = new Discord.MessageEmbed().setTitle("Get ready to listen to music with style!").setDescription(`Thank you for inviting me to your server.\nTo start listening to music, mention me in a channel.\n\nThen use the \`${client.config.PREFIX}help\` command to see features.`).setImage(client.elements.BANNER_FLOPY).setColor(client.elements.COLOR_FLOPY)
         channel?.send({ embeds: [firstEmbed] }).catch(error => {})
     }
 
