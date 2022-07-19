@@ -26,9 +26,6 @@ client.distube = new DisTube(client, {
     youtubeIdentityToken: client.config.DISTUBE_YOUTUBE_IDENTITY_TOKEN,
 })
 
-const { DiscordTogether } = require('discord-together')
-client.activity = new DiscordTogether(client)
-
 client.commands = new Collection()
 
 fs.readdir("./commands/", (error, f) => {
