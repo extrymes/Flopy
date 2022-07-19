@@ -64,7 +64,6 @@ module.exports = {
     ERROR_QUERY_TOO_LONG: "Requête trop longue",
     ERROR_VOICE_UNABLE_JOIN: "Impossible de rejoindre le salon vocal",
     ERROR_VOICE_DISCONNECTED: "Salon vocal déconnecté",
-    ERROR_INVITE_UNABLE_CREATE: "Impossible de créer une invitation",
     ERROR_USER_NO_VOICE: "Vous devez être dans un salon vocal",
     ERROR_USER_NO_VOICE_2: "Vous devez être dans mon salon vocal",
     ERROR_USER_NO_MANAGER: "Vous devez avoir la permission de gérer le serveur",
