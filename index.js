@@ -20,8 +20,6 @@ client.distube = new DisTube(client, {
     nsfw: client.config.DISTUBE_NSFW,
     savePreviousSongs: client.config.DISTUBE_SAVE_PREVIOUS_SONGS,
     customFilters: client.config.DISTUBE_CUSTOM_FILTERS,
-    youtubeDL: client.config.DISTUBE_YOUTUBE_DL,
-    updateYouTubeDL: client.config.DISTUBE_UPDATE_YOUTUBE_DL,
     youtubeCookie: client.config.DISTUBE_YOUTUBE_COOKIE,
     youtubeIdentityToken: client.config.DISTUBE_YOUTUBE_IDENTITY_TOKEN,
 })
