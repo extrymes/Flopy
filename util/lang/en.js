@@ -29,7 +29,6 @@ module.exports = {
     HELP_COMMAND_SEARCH: "Search and select a song to add to the queue.",
     HELP_COMMAND_SEEK: "Seek a specific time in the current song.",
     HELP_COMMAND_SHUFFLE: "Shuffle the queue.",
-    HELP_COMMAND_WATCH: "Start the Watch Together activity.",
     HELP_FILTER: "Enable or disable filter.",
     // MESSAGE
     MESSAGE_SONG_PLAYING: "Song playing",
