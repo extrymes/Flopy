@@ -1,4 +1,4 @@
-const Discord = require("discord.js")
+const { EmbedBuilder, ActionRowBuilder, SelectMenuBuilder } = require("discord.js")
 
 module.exports.run = async (client, message, args, settings, queue, lang) => {
     const { guild, channel, member } = message
@@ -12,8 +12,8 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
     const songs = await client.distube.search(name).catch(error => client.distube.emit("error", channel, error))
     if(!songs[0]) return
     const results = songs.map((item, i) => { return { label: `${i + 1}. ${item.name.length <= client.config.SONG_MAX_LENGTH ? item.name : item.name.substring(0, client.config.SONG_MAX_LENGTH) + "..."}`, value: item.url } })
-    const searchEmbed = new Discord.MessageEmbed().setAuthor({ name: `${songs[0].name}`, url: songs[0].url, iconURL: client.elements.ICON_FLOPY }).setThumbnail(songs[0].thumbnail || client.elements.BANNER_SECONDARY).addFields({ name: `**${lang.MESSAGE_SONG_AUTHOR}**`, value: `${songs[0].uploader.name}`, inline: true }, { name: `**${lang.MESSAGE_SONG_VIEWS}**`, value: `${songs[0].views.toString().replace(/(.)(?=(\d{3})+$)/g,"$1,")}`, inline: true }).setColor(client.elements.COLOR_FLOPY)
-    const resultsMenu = new Discord.MessageActionRow().addComponents({ type: "SELECT_MENU", customId: "play", options: [results] })
+    const searchEmbed = new EmbedBuilder().setAuthor({ name: `${songs[0].name}`, url: songs[0].url, iconURL: client.elements.ICON_FLOPY }).setThumbnail(songs[0].thumbnail || client.elements.BANNER_SECONDARY).addFields({ name: `**${lang.MESSAGE_SONG_AUTHOR}**`, value: `${songs[0].uploader.name}`, inline: true }, { name: `**${lang.MESSAGE_SONG_VIEWS}**`, value: `${songs[0].views.toString().replace(/(.)(?=(\d{3})+$)/g,"$1,")}`, inline: true }).setColor(client.elements.COLOR_FLOPY)
+    const resultsMenu = new ActionRowBuilder().addComponents(new SelectMenuBuilder().setCustomId("play").setOptions(results))
     channel.send({ embeds: [searchEmbed], components: [resultsMenu] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 10000))
 }
 module.exports.data = {

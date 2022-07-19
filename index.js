@@ -1,8 +1,8 @@
-const Discord = require("discord.js")
+const { Client, GatewayIntentBits, Partials, Collection } = require("discord.js")
 const fs = require ("fs")
 const colors = require("colors")
 
-const client = new Discord.Client({ partials: ["CHANNEL", "MESSAGE"], intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"] })
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.MessageContent], partials: [Partials.Channel, Partials.Message] })
 require("./util/crash")(client)
 require("./util/functions")(client)
 
@@ -29,7 +29,7 @@ client.distube = new DisTube(client, {
 const { DiscordTogether } = require('discord-together')
 client.activity = new DiscordTogether(client)
 
-client.commands = new Discord.Collection()
+client.commands = new Collection()
 
 fs.readdir("./commands/", (error, f) => {
     const commands = f.filter(f => f.split(".").pop() ==="js")
