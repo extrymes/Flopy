@@ -59,10 +59,10 @@ module.exports = async (client, interaction) => {
         case "play":
             const url = interaction.values[0]
             if(member.voice.channel) {
-                if(client.checkVoice(guild, member) || !guild.me.voice.channel) {
+                if(client.checkVoice(guild, member) || !queue) {
                     message.delete().catch(error => {})
                     channel.sendTyping().catch(error => {})
-                    try { client.distube.play(member.voice.channel, url, { textChannel: channel, member: member }) } catch(error) { client.distube.emit("error", channel, error) }
+                    client.distube.play(member.voice.channel, url, { textChannel: channel, member: member }).catch(error => client.distube.emit("error", channel, error))
                 } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE_2}`)
             } else client.replyError(interaction, `${lang.ERROR_USER_NO_VOICE}`)
             break

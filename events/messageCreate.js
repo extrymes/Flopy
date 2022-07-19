@@ -15,10 +15,10 @@ module.exports = async (client, message) => {
             else client.sendError(channel, `${lang.ERROR_COMMAND_NO_FOUND}`)
         } else {
             if(member.voice.channel) {
-                if(client.checkVoice(guild, member) || !guild.me.voice.channel) {
+                if(client.checkVoice(guild, member) || !queue) {
                     if(!client.cooldown("play" + member.id, 2000)) {
                         channel.sendTyping().catch(error => {})
-                        try { client.distube.play(member.voice.channel, message.content, { textChannel: channel, member: member }) } catch(error) { client.distube.emit("error", channel, error) }
+                        client.distube.play(member.voice.channel, message.content, { textChannel: channel, member: member }).catch(error => client.distube.emit("error", channel, error))
                     } else client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
                 } else client.sendError(channel, `${lang.ERROR_USER_NO_VOICE_2}`)
             } else client.sendError(channel, `${lang.ERROR_USER_NO_VOICE}`)
