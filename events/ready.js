@@ -1,7 +1,7 @@
 module.exports = client => {
     // Status
     console.log(`[-] ${client.user.username} is online`.green)
-    setInterval(() => client.user.setPresence({ activities: [{ name: `@${client.user.username}`, type: "LISTENING" }], status: "online" }), client.config.STATUS_UPDATE_INTERVAL * 1000)
+    setInterval(() => client.user.setPresence({ activities: [{ name: `@${client.user.username}`, type: 2 }], status: "online" }), client.config.STATUS_UPDATE_INTERVAL * 1000)
 
     // Servers
     console.log("[!] Checking servers ...".yellow)
