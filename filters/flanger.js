@@ -10,7 +10,7 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
     if(queue.paused) client.distube.resume(queue)
     const filters = queue.filters.names.map((item, i) => { return `\`${item}\`` }).join(", ")
     client.updateDashboard(guild, queue, lang)
-    client.sendMessage(channel, `${lang.MESSAGE_SONG_FILTERS} ${queue.filters.size > 0 ? filters : lang.MESSAGE_SONG_FILTERS_NONE}`)
+    client.sendMessage(channel, `${lang.MESSAGE_FILTERS_ACTIVE} ${queue.filters.size > 0 ? filters : lang.MESSAGE_FILTERS_NONE}`)
 }
 module.exports.data = {
     name: "flanger",
