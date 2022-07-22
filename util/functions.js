@@ -182,16 +182,15 @@ module.exports = client => {
     // Create bar
     client.createBar = queue => {
         const song = queue.songs[0]
-        let percentage = ((queue.currentTime / song.duration) * 100).toFixed(0)
+        const progress = Number(Math.min(((queue.currentTime / song.duration) * client.config.BAR_MAX_LENGTH).toFixed(0), client.config.BAR_MAX_LENGTH))
+        const rest = client.config.BAR_MAX_LENGTH - progress
         let bar = ""
-        for(i = 0; i < 20; i++) {
-            if(percentage >= 5) {
-                percentage -= 5
-                bar += client.elements.SYMBOL_LINE
-            } else if(percentage !== null) {
-                percentage = null
-                bar += client.elements.SYMBOL_CIRCLE
-            } else bar += " "
+        for(i = 0; i < progress; i++) {
+            bar += client.elements.SYMBOL_LINE
+        }
+        bar += client.elements.SYMBOL_CIRCLE
+        for(i = 0; i < rest; i++) {
+            bar += " "
         }
         return `\`${queue.formattedCurrentTime} ${bar} ${song.formattedDuration}\``
     }
