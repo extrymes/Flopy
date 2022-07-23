@@ -19,7 +19,7 @@ module.exports = {
     HELP_COMMAND_AUTOPLAY: "Enable or disable autoplay.",
     HELP_COMMAND_CLEAR: "Clear the queue.",
     HELP_COMMAND_FIRST: "Add a song or a playlist to the beginning of the queue.",
-    HELP_COMMAND_INFO: "Show information on the current song.",
+    HELP_COMMAND_INFO: "Show information about the current song.",
     HELP_COMMAND_JUMP: "Jump to a specific song in the queue.",
     HELP_COMMAND_LAST: "Use your last query.",
     HELP_COMMAND_LIKE: "Like the current song.",
