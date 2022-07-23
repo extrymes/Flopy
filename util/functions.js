@@ -90,14 +90,14 @@ module.exports = client => {
 
     // Send help message
     client.sendHelpMessage = (channel, lang, command) => {
-        if(!command) {
+        if(command) {
+            const commandEmbed = new EmbedBuilder().setAuthor({ name: `Help: ${command.data.name}`, iconURL: client.elements.ICON_FLOPY }).addFields({ name: `**${lang.HELP_DESCRIPTION}**`, value: `${eval("lang." + command.data.description)}` }, { name: `**${lang.HELP_USAGE}**`, value: `\`${client.config.PREFIX}${command.data.name}${command.data.usage}\`` }).setColor(client.elements.COLOR_FLOPY)
+            channel.send({ embeds: [commandEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 8000))
+        } else {
             const commands = client.commands.filter(item => item.data.type === "command" && item.data.name !== "help").map((item, i) => { return `\`${item.data.name}\`` }).join(", ")
             const filters = client.commands.filter(item => item.data.type === "filter").map((item, i) => { return `\`${item.data.name}\`` }).join(", ")
             const helpEmbed = new EmbedBuilder().setAuthor({ name: "Help", iconURL: client.elements.ICON_FLOPY }).addFields({ name: `**${lang.HELP_COMMANDS}**`, value: `${commands}` }, { name: `**${lang.HELP_FILTERS}**`, value: `${filters}` }).setFooter({ text: `${lang.HELP_DETAILS} ${client.config.PREFIX}help <command>` }).setColor(client.elements.COLOR_FLOPY)
             channel.send({ embeds: [helpEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 10000))
-        } else {
-            const commandEmbed = new EmbedBuilder().setAuthor({ name: `Help: ${command.data.name}`, iconURL: client.elements.ICON_FLOPY }).addFields({ name: `**${lang.HELP_DESCRIPTION}**`, value: `${eval("lang." + command.data.description)}` }, { name: `**${lang.HELP_USAGE}**`, value: `\`${client.config.PREFIX}${command.data.name}${command.data.usage}\`` }).setColor(client.elements.COLOR_FLOPY)
-            channel.send({ embeds: [commandEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 8000))
         }
     }
 
@@ -154,10 +154,10 @@ module.exports = client => {
     client.updateDashboard = (guild, queue, lang) => {
         const song = queue?.songs[0]
         if(song) {
-            const songs = queue.songs.slice(1, client.config.QUEUE_MAX_DISPLAY + 1).map((item, i) => { return `${i + 1}. ${item.name.length <= client.config.SONG_MAX_LENGTH ? item.name : item.name.substring(0, client.config.SONG_MAX_LENGTH) + "..."}` }).reverse().join("\n")
+            const songs = queue.songs.slice(1, client.config.QUEUE_MAX_LENGTH + 1).map((item, i) => { return `${i + 1}. ${item.name.length <= client.config.SONG_MAX_LENGTH ? item.name : item.name.substring(0, client.config.SONG_MAX_LENGTH) + "..."}` }).reverse().join("\n")
             const dashboardEmbed = new EmbedBuilder().setTitle(`[${song.formattedDuration}] ${song.name}`).setImage(song.thumbnail || client.elements.BANNER_SECONDARY).setFooter({ text: `${lang.DASHBOARD_VOLUME} ${queue.volume}%${queue.repeatMode === 0 ? "" : queue.repeatMode === 1 ? ` | ${lang.DASHBOARD_REPEAT_SONG}` : ` | ${lang.DASHBOARD_REPEAT_QUEUE}`}${queue.autoplay ? ` | ${lang.DASHBOARD_AUTOPLAY_ON}` : ""}${queue.filters.size < 1 ? "" : ` | ${lang.DASHBOARD_FILTERS} ${queue.filters.size}`}` }).setColor(guild.members.me.displayHexColor.replace("#000000", client.elements.COLOR_WHITE))
             const dashboardButtons = new ActionRowBuilder().addComponents(queue.playing ? new ButtonBuilder().setCustomId("pause").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_PAUSE) : new ButtonBuilder().setCustomId("resume").setStyle(ButtonStyle.Primary).setEmoji(client.elements.EMOJI_PLAY), new ButtonBuilder().setCustomId("stop").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_STOP), new ButtonBuilder().setCustomId("skip").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_SKIP), new ButtonBuilder().setCustomId("repeat").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_REPEAT), new ButtonBuilder().setCustomId("volume").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_VOLUME))
-            client.cache["dashboard" + guild.id]?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__**\n${queue.songs.length - 1 <= client.config.QUEUE_MAX_DISPLAY ? "" : `**+${queue.songs.length - 1 - client.config.QUEUE_MAX_DISPLAY}**\n`}${songs || lang.DASHBOARD_QUEUE_NO_SONG}`, embeds: [dashboardEmbed], components: [dashboardButtons] }).catch(error => {})
+            client.cache["dashboard" + guild.id]?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__**\n${queue.songs.length - 1 <= client.config.QUEUE_MAX_LENGTH ? "" : `**+${queue.songs.length - 1 - client.config.QUEUE_MAX_LENGTH}**\n`}${songs || lang.DASHBOARD_QUEUE_NO_SONG}`, embeds: [dashboardEmbed], components: [dashboardButtons] }).catch(error => {})
         } else {
             const dashboardEmbed = new EmbedBuilder().setTitle(`${lang.DASHBOARD_SONG_NO_PLAYING}`).setDescription(`[Flopy](${client.config.INVITE_FLOPY}) | [Flopy 2](${client.config.INVITE_FLOPY2}) | [Flopy 3](${client.config.INVITE_FLOPY3})`).setImage(client.elements.BANNER_PRIMARY).setFooter({ text: `${lang.DASHBOARD_HELP_COMMAND} ${client.config.PREFIX}help` }).setColor(client.elements.COLOR_FLOPY)
             const dashboardButtons = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("resume").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_PLAY).setDisabled(), new ButtonBuilder().setCustomId("stop").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_STOP).setDisabled(), new ButtonBuilder().setCustomId("skip").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_SKIP).setDisabled(), new ButtonBuilder().setCustomId("repeat").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_REPEAT).setDisabled(), new ButtonBuilder().setCustomId("volume").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_VOLUME).setDisabled())
