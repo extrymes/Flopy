@@ -7,7 +7,7 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
     if(!member.voice.channel) return client.sendError(channel, `${lang.ERROR_USER_NO_VOICE}`)
     if(!client.checkVoice(guild, member) && queue) return client.sendError(channel, `${lang.ERROR_USER_NO_VOICE_2}`)
     if(!name) return client.sendHelpMessage(channel, lang, client.commands.get("search"))
-    if(client.cooldown("search" + guild.id, 10000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
+    if(client.cooldown("search" + member.id, 10000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
     channel.sendTyping().catch(error => {})
     const songs = await client.distube.search(name).catch(error => client.distube.emit("error", channel, error))
     if(!songs[0]) return
