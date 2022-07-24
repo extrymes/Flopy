@@ -72,6 +72,7 @@ module.exports = {
     ERROR_URL_UNSUPPORTED: "URL unsupported",
     ERROR_RESULT_NO_FOUND: "No result found",
     ERROR_COMMAND_NO_FOUND: "No command found",
+    ERROR_COMMAND_ARGUMENT_INVALID: "Invalid command argument",
     ERROR_USER_NO_VOICE: "You must be in a voice channel",
     ERROR_USER_NO_VOICE_2: "You must be in my voice channel",
     ERROR_USER_NO_MANAGER: "You must have permission to manage server",

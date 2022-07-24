@@ -72,6 +72,7 @@ module.exports = {
     ERROR_URL_UNSUPPORTED: "URL non prise en charge",
     ERROR_RESULT_NO_FOUND: "Aucun résultat trouvé",
     ERROR_COMMAND_NO_FOUND: "Aucune commande trouvée",
+    ERROR_COMMAND_ARGUMENT_INVALID: "Argument de commande invalide",
     ERROR_USER_NO_VOICE: "Vous devez être dans un salon vocal",
     ERROR_USER_NO_VOICE_2: "Vous devez être dans mon salon vocal",
     ERROR_USER_NO_MANAGER: "Vous devez avoir la permission de gérer le serveur",
