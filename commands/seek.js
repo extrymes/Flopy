@@ -8,7 +8,7 @@ module.exports.run = async (client, message, args, settings, queue, lang) => {
     if(song.isLive) return client.sendError(channel, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
     if(isNaN(time) || time < 0) return client.sendHelpMessage(channel, lang, client.commands.get("seek"))
     const sec = await client.convertTime(time)
-    if(sec > song.duration) return client.sendError(channel, `${lang.ERROR_SONG_TIME_LONGER}`)
+    if(sec > song.duration) return client.sendError(channel, `${lang.ERROR_SONG_TIME_GREATER}`)
     if(client.cooldown("seek" + guild.id, 4000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
     client.distube.seek(queue, sec)
     if(queue.paused) {
