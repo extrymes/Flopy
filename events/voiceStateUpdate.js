@@ -3,7 +3,10 @@ module.exports = async (client, oldState, newState) => {
     const oldVoice = oldState.channel
 
     if(member === guild.members.me) {
-        if(!newVoice && !client.cooldown("joinVoice" + guild.id, 5000)) try { client.distube.voices.join(oldVoice) } catch {}
+        if(!newVoice) {
+            client.distube.voices.leave(guild)
+            if(!client.cooldown("joinVoice" + guild.id, 5000)) try { client.distube.voices.join(oldVoice) } catch {}
+        }
         if(!client.cooldown("voiceUpdate" + guild.id, client.config.VOICE_UPDATE_COOLDOWN * 1000)) {
             setTimeout(async () => {
                 if(client.cache["dashboard" + guild.id]) {
