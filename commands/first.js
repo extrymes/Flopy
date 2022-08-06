@@ -1,16 +1,28 @@
-module.exports.run = async (client, message, args, settings, queue, lang) => {
-    const { guild, channel, member } = message
-    const query = args.slice(0).join(" ")
+module.exports.run = async (client, interaction, settings, queue, lang) => {
+    const { guild, channel, member, options } = interaction
+    const query = options.getString("query")
 
-    if(!member.voice.channel) return client.sendError(channel, `${lang.ERROR_USER_NO_VOICE}`)
-    if(!client.checkVoice(guild, member) && queue) return client.sendError(channel, `${lang.ERROR_USER_NO_VOICE_2}`)
-    if(!query) return client.sendError(channel, `${lang.ERROR_COMMAND_ARGUMENT_INVALID}`)
-    if(client.cooldown("play" + member.id, 2000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
-    channel.sendTyping().catch(error => {})
-    client.distube.play(member.voice.channel, query, { textChannel: channel, member: member, position: 1 }).catch(error => client.distube.emit("error", channel, error))
+    if(!member.voice.channel) return client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE}`)
+    if(!client.checkVoice(guild, member) && queue) return client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
+    if(client.cooldown("play" + member.id, 2000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
+    await interaction.deferReply()
+    client.distube.play(member.voice.channel, query, { textChannel: channel, member: member, metadata: { interaction: interaction }, position: 1 }).catch(error => {
+        const errorMessage = client.getErrorMessage(error.message, lang)
+        client.replyError(interaction, true, `${errorMessage}`)
+    })
 }
 module.exports.data = {
     name: "first",
-    description: "HELP_COMMAND_FIRST",
-    usage: " [query]",
+    description: languages["en"].COMMAND_FIRST_DESCRIPTION,
+    description_localizations: { "fr": languages["fr"].COMMAND_FIRST_DESCRIPTION },
+    options: [
+        {
+            name: "query",
+            description: languages["en"].COMMAND_FIRST_DESCRIPTION,
+            description_localizations: { "fr": languages["fr"].COMMAND_FIRST_DESCRIPTION },
+            type: 3,
+            required: true,
+        },
+    ],
+    dm_permission: false,
 }

@@ -1,15 +1,17 @@
 const { EmbedBuilder } = require("discord.js")
 
-module.exports.run = async (client, message, args, settings, queue, lang) => {
-    const { channel, member } = message
+module.exports.run = async (client, interaction, settings, queue, lang) => {
+    const member = interaction.member
 
-    if(!queue?.songs[0]) return client.sendError(channel, `${lang.ERROR_SONG_NO_PLAYING}`)
-    if(client.cooldown("like" + member.id, 8000)) return client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
+    if(!queue?.songs[0]) return client.replyError(interaction, false, `${lang.ERROR_SONG_NO_PLAYING}`)
+    if(client.cooldown("like" + member.id, 8000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
     const likeEmbed = new EmbedBuilder().setTitle(`${client.elements.EMOJI_LIKE}  ${lang.MESSAGE_SONG_LIKE.replace("$user", `**${member.displayName}**`)}`).setColor(client.elements.COLOR_PINK)
-    channel.send({ embeds: [likeEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 8000))
+    interaction.reply({ embeds: [likeEmbed] })
+    setTimeout(() => interaction.deleteReply().catch(error => {}), 8000)
 }
 module.exports.data = {
     name: "like",
-    description: "HELP_COMMAND_LIKE",
-    usage: "",
+    description: languages["en"].COMMAND_LIKE_DESCRIPTION,
+    description_localizations: { "fr": languages["fr"].COMMAND_LIKE_DESCRIPTION },
+    dm_permission: false,
 }

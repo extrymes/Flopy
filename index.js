@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Partials, Collection } = require("discord.js")
+const { Client, GatewayIntentBits, Partials, Collection, REST, Routes } = require("discord.js")
 const { DisTube } = require("distube")
 const fs = require ("fs")
 const colors = require("colors")
@@ -25,16 +25,14 @@ client.distube = new DisTube(client, {
     youtubeIdentityToken: client.config.DISTUBE_YOUTUBE_IDENTITY_TOKEN,
 })
 
-fs.readdir("./commands/", (error, f) => {
-    const commands = f.filter(f => f.split(".").pop() ==="js")
-    if(error) console.log(error)
-    console.log(`[-] Commands: ${f.length}`)
-    commands.forEach((f) => {
-        const command = require(`./commands/${f}`)
-        command.data.type = "command"
-        client.commands.set(command.data.name, command)
-    })
-})
+const commandFiles = fs.readdirSync("./commands").filter(file => file.endsWith(".js"))
+const commandsData = []
+for (const file of commandFiles) {
+	const command = require(`./commands/${file}`)
+    client.commands.set(command.data.name, command)
+	commandsData.push(command.data)
+}
+console.log(`[-] Commands: ${commandFiles.length}`)
 
 fs.readdir("./filters/", (error, f) => {
     const commands = f.filter(f => f.split(".").pop() ==="js")
@@ -57,15 +55,12 @@ fs.readdir("./events", (error, f) => {
     })
 })
 
-fs.readdir("./player", (error, f) => {
-    if(error) console.log(error)
-    console.log(`[-] Player: ${f.length}`)
-    f.forEach((f) => {
-        const events = require(`./player/${f}`)
-        const event = f.split(".")[0]
-        client.distube.on(event, events.bind(null, client))
-    })
-})
+const rest = new REST({ version: 10 }).setToken(client.config.TOKEN)
+try {
+    rest.put(Routes.applicationCommands(client.config.CLIENT_ID), { body: commandsData })
+} catch(error) {
+    console.log(error)
+}
 
 client.mongoose.init()
 client.login(client.config.TOKEN)

@@ -122,10 +122,21 @@ module.exports = client => {
         channel?.send({ embeds: [errorEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 4000))
     }
 
+    // Reply message
+    client.replyMessage = (interaction, edit, content) => {
+        const messageEmbed = new EmbedBuilder().setTitle(`${content}`).setColor(client.elements.COLOR_FLOPY)
+        if(edit) interaction.editReply({ embeds: [messageEmbed] })
+        else interaction.reply({ embeds: [messageEmbed] })
+        setTimeout(() => interaction.deleteReply().catch(error => {}), 4000)
+    }
+
     // Reply error
-    client.replyError = (interaction, content) => {
+    client.replyError = (interaction, edit, content) => {
         const errorEmbed = new EmbedBuilder().setTitle(`${content}`).setColor(client.elements.COLOR_GREY)
-        interaction.reply({ embeds: [errorEmbed], ephemeral: true })
+        if(edit) {
+            interaction.editReply({ embeds: [errorEmbed] }).catch(error => {})
+            setTimeout(() => interaction.deleteReply().catch(error => {}), 4000)
+        } else interaction.reply({ embeds: [errorEmbed], ephemeral: true })
     }
 
     // Setup dashboard
@@ -159,7 +170,7 @@ module.exports = client => {
             const dashboardButtons = new ActionRowBuilder().addComponents(queue.playing ? new ButtonBuilder().setCustomId("pause").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_PAUSE) : new ButtonBuilder().setCustomId("resume").setStyle(ButtonStyle.Primary).setEmoji(client.elements.EMOJI_PLAY), new ButtonBuilder().setCustomId("stop").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_STOP), new ButtonBuilder().setCustomId("skip").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_SKIP), new ButtonBuilder().setCustomId("repeat").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_REPEAT), new ButtonBuilder().setCustomId("volume").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_VOLUME))
             client.cache["dashboard" + guild.id]?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__**\n${queue.songs.length - 1 <= client.config.QUEUE_MAX_LENGTH ? "" : `**+${queue.songs.length - 1 - client.config.QUEUE_MAX_LENGTH}**\n`}${songs || lang.DASHBOARD_QUEUE_NO_SONG}`, embeds: [dashboardEmbed], components: [dashboardButtons] }).catch(error => {})
         } else {
-            const dashboardEmbed = new EmbedBuilder().setTitle(`${lang.DASHBOARD_SONG_NO_PLAYING}`).setDescription(`[Flopy](${client.config.INVITE_FLOPY}) | [Flopy 2](${client.config.INVITE_FLOPY2}) | [Flopy 3](${client.config.INVITE_FLOPY3})`).setImage(client.elements.BANNER_PRIMARY).setFooter({ text: `${lang.DASHBOARD_HELP_COMMAND} ${client.config.PREFIX}help` }).setColor(client.elements.COLOR_FLOPY)
+            const dashboardEmbed = new EmbedBuilder().setTitle(`${lang.DASHBOARD_SONG_NO_PLAYING}`).setDescription(`[Flopy](${client.config.INVITE_FLOPY}) | [Flopy 2](${client.config.INVITE_FLOPY2}) | [Flopy 3](${client.config.INVITE_FLOPY3})`).setImage(client.elements.BANNER_PRIMARY).setFooter({ text: `${lang.DASHBOARD_SLASH_COMMANDS}` }).setColor(client.elements.COLOR_FLOPY)
             const dashboardButtons = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("resume").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_PLAY).setDisabled(), new ButtonBuilder().setCustomId("stop").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_STOP).setDisabled(), new ButtonBuilder().setCustomId("skip").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_SKIP).setDisabled(), new ButtonBuilder().setCustomId("repeat").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_REPEAT).setDisabled(), new ButtonBuilder().setCustomId("volume").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_VOLUME).setDisabled())
             client.cache["dashboard" + guild.id]?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__**\n${lang.DASHBOARD_QUEUE_NONE}`, embeds: [dashboardEmbed], components: [dashboardButtons] }).catch(error => {})
         }
