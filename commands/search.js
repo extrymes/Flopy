@@ -1,4 +1,5 @@
 const { EmbedBuilder, ActionRowBuilder, SelectMenuBuilder } = require("discord.js")
+const elements = require("../util/elements")
 const languages = require("../util/languages")
 
 module.exports.run = async (client, interaction, settings, queue, lang) => {
@@ -15,7 +16,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
     })
     if(!songs[0]) return
     const results = songs.map((item, i) => { return { label: `${i + 1}. ${item.name.length <= client.config.SONG_MAX_LENGTH ? item.name : item.name.substring(0, client.config.SONG_MAX_LENGTH) + "..."}`, value: item.url } })
-    const searchEmbed = new EmbedBuilder().setAuthor({ name: `${songs[0].name}`, url: songs[0].url, iconURL: client.elements.ICON_FLOPY }).setThumbnail(songs[0].thumbnail || client.elements.BANNER_SECONDARY).addFields({ name: `**${lang.MESSAGE_SONG_AUTHOR}**`, value: `${songs[0].uploader.name}`, inline: true }, { name: `**${lang.MESSAGE_SONG_VIEWS}**`, value: `${songs[0].views.toString().replace(/(.)(?=(\d{3})+$)/g,"$1,")}`, inline: true }).setColor(client.elements.COLOR_FLOPY)
+    const searchEmbed = new EmbedBuilder().setAuthor({ name: `${songs[0].name}`, url: songs[0].url, iconURL: elements.ICON_FLOPY }).setThumbnail(songs[0].thumbnail || elements.BANNER_SECONDARY).addFields({ name: `**${lang.MESSAGE_SONG_AUTHOR}**`, value: `${songs[0].uploader.name}`, inline: true }, { name: `**${lang.MESSAGE_SONG_VIEWS}**`, value: `${songs[0].views.toString().replace(/(.)(?=(\d{3})+$)/g,"$1,")}`, inline: true }).setColor(elements.COLOR_FLOPY)
     const resultsMenu = new ActionRowBuilder().addComponents(new SelectMenuBuilder().setCustomId("play").setOptions(results))
     interaction.editReply({ embeds: [searchEmbed], components: [resultsMenu] }).catch(error => {}).catch(error => {})
     setTimeout(() => interaction.deleteReply().catch(error => {}), 10000)
