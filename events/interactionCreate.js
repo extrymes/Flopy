@@ -7,7 +7,7 @@ module.exports = async (client, interaction) => {
     const lang = languages[settings.flopy1.language]
 
     if(interaction.isChatInputCommand()) {
-        if(channel === client.cache["dashboard" + guild.id]?.channel) {
+        if(channel === client.cache["dashboard" + guild.id]?.channel || interaction.commandName === "setup" ) {
             const command = client.commands.get(interaction.commandName)
             command.run(client, interaction, settings, queue, lang)
         } else client.replyError(interaction, false, `${lang.ERROR_COMMANDS_NOT_USABLE}`)
@@ -76,18 +76,6 @@ module.exports = async (client, interaction) => {
                         })
                     } else client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
                 } else client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE}`)
-                break
-            case "lang_en":
-                const en = require("../util/lang/en")
-                client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "language": "en" }) })
-                client.updateDashboard(guild, queue, en)
-                interaction.deferUpdate()
-                break
-            case "lang_fr":
-                const fr = require("../util/lang/fr")
-                client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "language": "fr" }) })
-                client.updateDashboard(guild, queue, fr)
-                interaction.deferUpdate()
                 break
             case "hide":
                 message.delete().catch(error => {})

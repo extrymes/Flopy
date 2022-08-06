@@ -132,15 +132,14 @@ module.exports = client => {
     }
 
     // Setup dashboard
-    client.setupDashboard = (guild, channel, settings) => {
-        const setupEmbed = new EmbedBuilder().setTitle("Language selection").setImage(client.elements.BANNER_PRIMARY).setColor(client.elements.COLOR_FLOPY)
-        const langButtons = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("lang_en").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_LANG_EN), new ButtonBuilder().setCustomId("lang_fr").setStyle(ButtonStyle.Secondary).setEmoji(client.elements.EMOJI_LANG_FR))
+    client.setupDashboard = (guild, channel, settings, queue, lang) => {
         client.cooldown("leaveVoice" + guild.id, 1000)
         client.cache["dashboard" + guild.id]?.delete().catch(error => {})
-        channel.send({ embeds: [setupEmbed], components: [langButtons] }).catch(error => {}).then(message => {
+        channel.send({ content: "ㅤ" }).catch(error => {}).then(message => {
             if(message) {
                 client.cache["dashboard" + guild.id] = message
                 client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "channel": channel.id, "message": message.id }) })
+                client.updateDashboard(guild, queue, lang)
             } else client.leaveVoice(guild)
         })
     }
