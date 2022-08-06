@@ -88,19 +88,6 @@ module.exports = client => {
         channel?.send({ embeds: [messageEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 4000))
     }
 
-    // Send help message
-    client.sendHelpMessage = (channel, lang, command) => {
-        if(command) {
-            const commandEmbed = new EmbedBuilder().setAuthor({ name: `Help: ${command.data.name}`, iconURL: client.elements.ICON_FLOPY }).addFields({ name: `**${lang.HELP_DESCRIPTION}**`, value: `${eval("lang." + command.data.description)}` }, { name: `**${lang.HELP_USAGE}**`, value: `\`${client.config.PREFIX}${command.data.name}${command.data.usage}\`` }).setColor(client.elements.COLOR_FLOPY)
-            channel.send({ embeds: [commandEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 8000))
-        } else {
-            const commands = client.commands.filter(item => item.data.type === "command" && item.data.name !== "help").map((item, i) => { return `\`${item.data.name}\`` }).join(", ")
-            const filters = client.commands.filter(item => item.data.type === "filter").map((item, i) => { return `\`${item.data.name}\`` }).join(", ")
-            const helpEmbed = new EmbedBuilder().setAuthor({ name: "Help", iconURL: client.elements.ICON_FLOPY }).addFields({ name: `**${lang.HELP_COMMANDS}**`, value: `${commands}` }, { name: `**${lang.HELP_FILTERS}**`, value: `${filters}` }).setFooter({ text: `${lang.HELP_DETAILS} ${client.config.PREFIX}help <command>` }).setColor(client.elements.COLOR_FLOPY)
-            channel.send({ embeds: [helpEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 10000))
-        }
-    }
-
     // Send first message
     client.sendFirstMessage = guild => {
         const channel = guild.channels.cache.filter(item => item.type === ChannelType.GuildText && item.viewable && item.permissionsFor(guild.members.me).has("SendMessages")).first()
