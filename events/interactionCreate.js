@@ -70,7 +70,10 @@ module.exports = async (client, interaction) => {
                     if(client.checkVoice(guild, member) || !queue) {
                         message.delete().catch(error => {})
                         await interaction.deferReply()
-                        client.distube.play(member.voice.channel, url, { textChannel: channel, member: member, metadata: { interaction: interaction } }).catch(error => client.distube.emit("error", channel, error))
+                        client.distube.play(member.voice.channel, url, { textChannel: channel, member: member, metadata: { interaction: interaction } }).catch(error => {
+                            const errorMessage = client.getErrorMessage(error.message, lang)
+                            client.replyError(interaction, true, `${errorMessage}`)
+                        })
                     } else client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
                 } else client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE}`)
                 break

@@ -13,7 +13,10 @@ module.exports = async (client, message) => {
             if(client.checkVoice(guild, member) || !queue) {
                 if(!client.cooldown("play" + member.id, 2000)) {
                     channel.sendTyping().catch(error => {})
-                    client.distube.play(member.voice.channel, message.content, { textChannel: channel, member: member, metadata: {} }).catch(error => client.distube.emit("error", channel, error))
+                    client.distube.play(member.voice.channel, message.content, { textChannel: channel, member: member, metadata: {} }).catch(error => {
+                        const errorMessage = client.getErrorMessage(error.message, lang)
+                        client.sendError(channel, `${errorMessage}`)
+                    })
                 } else client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
             } else client.sendError(channel, `${lang.ERROR_USER_NO_VOICE_2}`)
         } else client.sendError(channel, `${lang.ERROR_USER_NO_VOICE}`)
