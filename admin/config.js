@@ -1,5 +1,6 @@
 module.exports = {
     TOKEN: "OTA5NTM0MTUxMTEwMTg5MTU2.YZFrrw.uI7QkhGOxH_0jKnQyUtOGyx-Jvc",
+    CLIENT_ID: "909534151110189156",
     DBCONNECTION: "mongodb+srv://Extrymes:'gCGkCy76*J*s`n@flopy.ockfu.mongodb.net/Flopy?retryWrites=true&w=majority",
     GUILD_DEFAULTSETTINGS: {
         flopy1: { channel: "", message: "", voice: "", language: "en" },
