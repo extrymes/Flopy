@@ -1,6 +1,6 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType } = require("discord.js")
-const mongoose = require("mongoose")
 const { Guild, User } = require("../models/index")
+const mongoose = require("mongoose")
 const elements = require("../util/elements")
 
 module.exports = client => {
@@ -16,7 +16,7 @@ module.exports = client => {
     client.getGuild = async guild => {
         const data = await Guild.findOne({ guildID: guild.id })
         if(data) return data
-        else return Object.assign(client.config.GUILD_DEFAULTSETTINGS, { "null": true })
+        return Object.assign(client.config.GUILD_DEFAULTSETTINGS, { "null": true })
     }
 
     // Update guild in the database
@@ -41,7 +41,7 @@ module.exports = client => {
     client.getUser = async user => {
         const data = await User.findOne({ userID: user.id })
         if(data) return data
-        else return Object.assign(client.config.USER_DEFAULTSETTINGS, { "null": true })
+        return Object.assign(client.config.USER_DEFAULTSETTINGS, { "null": true })
     }
 
     // Update user in the database
@@ -56,19 +56,23 @@ module.exports = client => {
 
     // Cooldown
     client.cooldown = (id, time) => {
-    	if(client.cache["cooldown" + id]) return true
-        else {
-            client.cache["cooldown" + id] = true
-            setTimeout(() => delete client.cache["cooldown" + id], time)
-            return false
-        }
+        if(client.cache["cooldown" + id]) return true
+        client.cache["cooldown" + id] = true
+        setTimeout(() => delete client.cache["cooldown" + id], time)
+        return false
+    }
+
+    // Check sendable
+    client.checkSendable = (guild, channel) => {
+        if(channel.viewable && channel.permissionsFor(guild.members.me).has("SendMessages") && channel.permissionsFor(guild.members.me).has("EmbedLinks")) return true
+        return false
     }
 
     // Check voice
     client.checkVoice = (guild, member) => {
         const voice = guild.members.me.voice.channel || false
         if(voice === member.voice.channel) return true
-        else return false
+        return false
     }
 
     // Leave voice
@@ -80,7 +84,7 @@ module.exports = client => {
     // Check manager
     client.checkManager = member => {
         if(member.permissions.has("ManageGuild")) return true
-        else return false
+        return false
     }
 
     // Send message
@@ -91,7 +95,7 @@ module.exports = client => {
 
     // Send first message
     client.sendFirstMessage = guild => {
-        const channel = guild.channels.cache.filter(item => item.type === ChannelType.GuildText && item.viewable && item.permissionsFor(guild.members.me).has("SendMessages")).first()
+        const channel = guild.channels.cache.filter(item => item.type === ChannelType.GuildText && client.checkSendable(guild, item)).first()
         const firstEmbed = new EmbedBuilder().setTitle("Get ready to listen to music easily!").setDescription(`To begin, use \`/setup\` command in a channel.\nTo listen in multiple voice channels at the same time, more bots: [Flopy](${client.config.INVITE_FLOPY}), [Flopy 2](${client.config.INVITE_FLOPY2}), [Flopy 3](${client.config.INVITE_FLOPY3}).`).setImage(elements.BANNER_FLOPY).setColor(elements.COLOR_FLOPY)
         channel?.send({ embeds: [firstEmbed] }).catch(error => {})
     }
@@ -197,12 +201,12 @@ module.exports = client => {
     // Convert time
     client.convertTime = time => {
         let sec = 0
-        sec = sec + Number(time[time.length - 1] || 0)
-        sec = sec + Number(time[time.length - 2] || 0) * 10
-        sec = sec + Number(time[time.length - 3] || 0) * 60
-        sec = sec + Number(time[time.length - 4] || 0) * 60 * 10
-        sec = sec + Number(time[time.length - 5] || 0) * 60 * 60
-        sec = sec + Number(time[time.length - 6] || 0) * 60 * 60 * 10
+        sec += Number(time[time.length - 1] || 0)
+        sec += Number(time[time.length - 2] || 0) * 10
+        sec += Number(time[time.length - 3] || 0) * 60
+        sec += Number(time[time.length - 4] || 0) * 60 * 10
+        sec += Number(time[time.length - 5] || 0) * 60 * 60
+        sec += Number(time[time.length - 6] || 0) * 60 * 60 * 10
         return sec
     }
 
