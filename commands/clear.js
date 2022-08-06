@@ -1,3 +1,5 @@
+const languages = require("../util/languages")
+
 module.exports.run = async (client, interaction, settings, queue, lang) => {
     const { guild, member } = interaction
 

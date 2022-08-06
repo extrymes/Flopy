@@ -1,3 +1,5 @@
+const languages = require("../util/languages")
+
 module.exports = client => {
     // Status
     console.log(`[-] ${client.user.username} is online`.green)
@@ -15,7 +17,7 @@ module.exports = client => {
             if(client.cache["dashboard" + guild.id]) {
                 const voice = guild.channels.cache.get(settings.flopy1.voice)
                 const queue = client.distube.getQueue(guild)
-                const lang = require(`../util/lang/${settings.flopy1.language}`)
+                const lang = languages[settings.flopy1.language]
                 client.updateDashboard(guild, queue, lang)
                 try { client.distube.voices.join(voice) } catch {}
                 //setTimeout(() => client.sendUpdateMessage(guild, lang), 5000)

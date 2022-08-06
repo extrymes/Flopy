@@ -1,8 +1,10 @@
+const languages = require("../util/languages")
+
 module.exports = async (client, message) => {
     const { guild, channel, member, author } = message
     const settings = await client.getGuild(guild)
     const queue = client.distube.getQueue(guild)
-    const lang = require(`../util/lang/${settings.flopy1.language}`)
+    const lang = languages[settings.flopy1.language]
 
     if(author.bot) return
 

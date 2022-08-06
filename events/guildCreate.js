@@ -1,3 +1,5 @@
+const languages = require("../util/languages")
+
 module.exports = async (client, guild) => {
     const settings = await client.getGuild(guild)
 
@@ -9,7 +11,7 @@ module.exports = async (client, guild) => {
         if(client.cache["dashboard" + guild.id]) {
             const voice = guild.channels.cache.get(settings.flopy1.voice)
             const queue = client.distube.getQueue(guild)
-            const lang = require(`../util/lang/${settings.flopy1.language}`)
+            const lang = languages[settings.flopy1.language]
             client.updateDashboard(guild, queue, lang)
             try { client.distube.voices.join(voice) } catch {}
         }

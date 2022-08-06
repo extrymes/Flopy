@@ -1,8 +1,10 @@
+const languages = require("../util/languages")
+
 module.exports = async (client, queue, playlist) => {
     const guild = queue.textChannel.guild
     const channel = client.cache["dashboard" + guild.id]?.channel
     const settings = await client.getGuild(guild)
-    const lang = require(`../util/lang/${settings.flopy1.language}`)
+    const lang = languages[settings.flopy1.language]
 
     client.cache["query" + playlist.member.id] = playlist.url
     if(queue.songs[0] === playlist.songs[0]) {

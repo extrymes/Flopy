@@ -1,8 +1,10 @@
+const languages = require("../util/languages")
+
 module.exports = async (client, interaction) => {
     const { guild, channel, message, member } = interaction
     const settings = await client.getGuild(guild)
     const queue = client.distube.getQueue(guild)
-    const lang = require(`../util/lang/${settings.flopy1.language}`)
+    const lang = languages[settings.flopy1.language]
 
     if(interaction.isChatInputCommand()) {
         if(channel === client.cache["dashboard" + guild.id]?.channel) {

@@ -1,9 +1,11 @@
+const languages = require("../util/languages")
+
 module.exports = async (client, channel, error) => {
     const guild = channel.guild
     const message = error.message
     const settings = await client.getGuild(guild)
-    const lang = require(`../util/lang/${settings.flopy1.language}`)
- 
+    const lang = languages[settings.flopy1.language]
+
     if(message.includes("I do not have permission to join this voice channel") || message.includes("Cannot connect to the voice channel") || message.includes("The voice channel is full")) client.sendError(channel, `${lang.ERROR_VOICE_UNABLE_JOIN}`)
     else if(message.includes("No result found") || message.includes("Cannot resolve undefined to a Song") || message.includes("search string is mandatory")) client.sendError(channel, `${lang.ERROR_RESULT_NO_FOUND}`)
     else if(message.includes("Video unavailable") || message.includes("This video is unavailable")) client.sendError(channel, `${lang.ERROR_VIDEO_UNAVAILABLE}`)
