@@ -34,17 +34,6 @@ for (const file of commandFiles) {
 }
 console.log(`[-] Commands: ${commandFiles.length}`)
 
-fs.readdir("./filters/", (error, f) => {
-    const commands = f.filter(f => f.split(".").pop() ==="js")
-    if(error) console.log(error)
-    console.log(`[-] Filters: ${f.length}`)
-    commands.forEach((f) => {
-        const command = require(`./filters/${f}`)
-        command.data.type = "filter"
-        client.commands.set(command.data.name, command)
-    })
-})
-
 fs.readdir("./events", (error, f) => {
     if(error) console.log(error)
     console.log(`[-] Events: ${f.length}`)
