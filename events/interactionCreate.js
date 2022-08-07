@@ -10,7 +10,7 @@ module.exports = async (client, interaction) => {
         if(channel === client.cache["dashboard" + guild.id]?.channel || interaction.commandName === "setup" ) {
             const command = client.commands.get(interaction.commandName)
             command.run(client, interaction, settings, queue, lang)
-        } else client.replyError(interaction, false, `${lang.ERROR_COMMANDS_NOT_USABLE}`)
+        } else client.replyError(interaction, false, `${lang.ERROR_COMMAND_NOT_USABLE}`)
     } else {
         switch(interaction.customId) {
             case "resume":
