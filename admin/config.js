@@ -10,9 +10,6 @@ module.exports = {
     USER_DEFAULTSETTINGS: {
         query: "",
     },
-    INVITE_FLOPY: "https://discord.com/api/oauth2/authorize?client_id=909205146863566858&permissions=3172352&scope=bot%20applications.commands",
-    INVITE_FLOPY2: "https://discord.com/api/oauth2/authorize?client_id=909533411247546368&permissions=3172352&scope=bot%20applications.commands",
-    INVITE_FLOPY3: "https://discord.com/api/oauth2/authorize?client_id=909533975809232926&permissions=3172352&scope=bot%20applications.commands",
     STATUS_UPDATE_INTERVAL: 600,
     DASHBOARD_MAX_LIFE: 3600,
     VOICE_UPDATE_COOLDOWN: 30,

@@ -25,4 +25,8 @@ module.exports = {
     COLOR_WHITE: "#ffffff",
     COLOR_GREY: "#6d6a6a",
     COLOR_PINK: "#f34e6d",
+    // INVITE
+    INVITE_FLOPY: "https://discord.com/api/oauth2/authorize?client_id=909205146863566858&permissions=3172352&scope=bot%20applications.commands",
+    INVITE_FLOPY2: "https://discord.com/api/oauth2/authorize?client_id=909533411247546368&permissions=3172352&scope=bot%20applications.commands",
+    INVITE_FLOPY3: "https://discord.com/api/oauth2/authorize?client_id=909533975809232926&permissions=3172352&scope=bot%20applications.commands",
 }
