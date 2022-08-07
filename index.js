@@ -3,7 +3,7 @@ const { DisTube } = require("distube")
 const fs = require ("fs")
 const colors = require("colors")
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.MessageContent], partials: [Partials.Channel, Partials.Message] })
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.MessageContent] })
 require("./util/crash")(client)
 require("./util/functions")(client)
 
