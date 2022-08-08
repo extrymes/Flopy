@@ -68,6 +68,12 @@ module.exports = client => {
         return false
     }
 
+    // Check manager
+    client.checkManager = member => {
+        if(member.permissions.has("ManageGuild")) return true
+        return false
+    }
+
     // Check voice
     client.checkVoice = (guild, member) => {
         const voice = guild.members.me.voice.channel || false
@@ -79,12 +85,6 @@ module.exports = client => {
     client.leaveVoice = guild => {
         client.cooldown("joinVoice" + guild.id, 1000)
         client.distube.voices.leave(guild)
-    }
-
-    // Check manager
-    client.checkManager = member => {
-        if(member.permissions.has("ManageGuild")) return true
-        return false
     }
 
     // Send message
@@ -109,7 +109,7 @@ module.exports = client => {
     // Send update message
     client.sendUpdateMessage = (guild, lang) => {
         const channel = client.cache["dashboard" + guild.id]?.channel
-        const updateEmbed = new EmbedBuilder().setAuthor({ name: `${lang.UPDATE_TITLE}`, iconURL: elements.ICON_FLOPY }).setDescription(lang.UPDATE_DESCRIPTION).setImage(elements.BANNER_FLOPY).setColor(elements.COLOR_FLOPY)
+        const updateEmbed = new EmbedBuilder().setAuthor({ name: `${lang.UPDATE_TITLE}`, iconURL: elements.ICON_FLOPY }).setDescription(`${lang.UPDATE_DESCRIPTION}`).setImage(elements.BANNER_FLOPY).setColor(elements.COLOR_FLOPY)
         const hideButton = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("hide").setStyle(ButtonStyle.Secondary).setEmoji(elements.EMOJI_UPDATE))
         channel?.send({ embeds: [updateEmbed], components: [hideButton] }).catch(error => {})
     }
