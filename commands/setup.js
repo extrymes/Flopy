@@ -20,8 +20,8 @@ module.exports.data = {
     options: [
         {
             name: "language",
-            description: languages["en"].COMMAND_SETUP_DESCRIPTION,
-            description_localizations: { "fr": languages["fr"].COMMAND_SETUP_DESCRIPTION },
+            description: languages["en"].COMMAND_SETUP_OPTION,
+            description_localizations: { "fr": languages["fr"].COMMAND_SETUP_OPTION },
             type: 3,
             required: true,
             choices: [

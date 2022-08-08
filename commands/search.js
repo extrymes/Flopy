@@ -28,8 +28,8 @@ module.exports.data = {
     options: [
         {
             name: "name",
-            description: languages["en"].COMMAND_SEARCH_DESCRIPTION,
-            description_localizations: { "fr": languages["fr"].COMMAND_SEARCH_DESCRIPTION },
+            description: languages["en"].COMMAND_SEARCH_OPTION,
+            description_localizations: { "fr": languages["fr"].COMMAND_SEARCH_OPTION },
             type: 3,
             required: true,
         },

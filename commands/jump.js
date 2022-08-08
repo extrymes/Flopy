@@ -19,8 +19,8 @@ module.exports.data = {
     options: [
         {
             name: "position",
-            description: languages["en"].COMMAND_JUMP_DESCRIPTION,
-            description_localizations: { "fr": languages["fr"].COMMAND_JUMP_DESCRIPTION },
+            description: languages["en"].COMMAND_JUMP_OPTION,
+            description_localizations: { "fr": languages["fr"].COMMAND_JUMP_OPTION },
             type: 4,
             required: true,
         },

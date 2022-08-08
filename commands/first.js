@@ -20,8 +20,8 @@ module.exports.data = {
     options: [
         {
             name: "query",
-            description: languages["en"].COMMAND_FIRST_DESCRIPTION,
-            description_localizations: { "fr": languages["fr"].COMMAND_FIRST_DESCRIPTION },
+            description: languages["en"].COMMAND_FIRST_OPTION,
+            description_localizations: { "fr": languages["fr"].COMMAND_FIRST_OPTION },
             type: 3,
             required: true,
         },

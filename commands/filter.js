@@ -21,8 +21,8 @@ module.exports.data = {
     options: [
         {
             name: "name",
-            description: languages["en"].COMMAND_FILTER_DESCRIPTION,
-            description_localizations: { "fr": languages["fr"].COMMAND_FILTER_DESCRIPTION },
+            description: languages["en"].COMMAND_FILTER_OPTION,
+            description_localizations: { "fr": languages["fr"].COMMAND_FILTER_OPTION },
             type: 3,
             required: true,
             choices: [
