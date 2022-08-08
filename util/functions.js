@@ -141,7 +141,7 @@ module.exports = client => {
     client.setupDashboard = (guild, channel, settings, queue, lang) => {
         client.cooldown("leaveVoice" + guild.id, 1000)
         client.cache["dashboard" + guild.id]?.delete().catch(error => {})
-        channel.send({ content: "ㅤ" }).catch(error => {}).then(message => {
+        channel?.send({ content: "ㅤ" }).catch(error => {}).then(message => {
             if(message) {
                 client.cache["dashboard" + guild.id] = message
                 client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "channel": channel.id, "message": message.id }) })
@@ -171,20 +171,6 @@ module.exports = client => {
             const dashboardButtons = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("resume").setStyle(ButtonStyle.Secondary).setEmoji(elements.EMOJI_PLAY).setDisabled(), new ButtonBuilder().setCustomId("stop").setStyle(ButtonStyle.Secondary).setEmoji(elements.EMOJI_STOP).setDisabled(), new ButtonBuilder().setCustomId("skip").setStyle(ButtonStyle.Secondary).setEmoji(elements.EMOJI_SKIP).setDisabled(), new ButtonBuilder().setCustomId("repeat").setStyle(ButtonStyle.Secondary).setEmoji(elements.EMOJI_REPEAT).setDisabled(), new ButtonBuilder().setCustomId("volume").setStyle(ButtonStyle.Secondary).setEmoji(elements.EMOJI_VOLUME).setDisabled())
             client.cache["dashboard" + guild.id]?.edit({ content: `**__${lang.DASHBOARD_QUEUE}__**\n${lang.DASHBOARD_QUEUE_NONE}`, embeds: [dashboardEmbed], components: [dashboardButtons] }).catch(error => {})
         }
-    }
-
-    // Refresh dashboard
-    client.refreshDashboard = (guild, settings, queue, lang) => {
-        const channel = client.cache["dashboard" + guild.id]?.channel
-        client.cooldown("leaveVoice" + guild.id, 1000)
-        client.cache["dashboard" + guild.id]?.delete().catch(error => {})
-        channel?.send({ content: "ㅤ" }).catch(error => {}).then(message => {
-            if(message) {
-                client.cache["dashboard" + guild.id] = message
-                client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "message": message.id }) })
-                client.updateDashboard(guild, queue, lang)
-            } else client.leaveVoice(guild)
-        })
     }
 
     // Create bar
