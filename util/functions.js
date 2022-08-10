@@ -9,7 +9,7 @@ module.exports = client => {
         const newGuild = { guildID: guild.id }
         const merged = Object.assign({ _id: mongoose.Types.ObjectId() }, newGuild)
         const createGuild = await new Guild(merged)
-        createGuild.save().then(g => console.log("[+] New server".blue))
+        createGuild.save().then(g => console.log("[+] New guild".blue))
     }
 
     // Get guild in the database

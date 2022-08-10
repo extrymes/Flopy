@@ -5,8 +5,8 @@ module.exports = client => {
     console.log(`[-] ${client.user.username} is online`.green)
     setInterval(() => client.user.setPresence({ activities: [{ name: `@${client.user.username}`, type: 2 }], status: "online" }), client.config.STATUS_UPDATE_INTERVAL * 1000)
 
-    // Servers
-    console.log("[!] Checking servers ...".yellow)
+    // Guilds
+    console.log("[!] Checking guilds ...".yellow)
     client.guilds.cache.forEach(async (guild, id) => {
         const settings = await client.getGuild(guild)
         if(settings.null) {
