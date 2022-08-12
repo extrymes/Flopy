@@ -54,14 +54,6 @@ module.exports = client => {
         return data.updateOne(settings)
     }
 
-    // Cooldown
-    client.cooldown = (id, time) => {
-        if(client.cache["cooldown" + id]) return true
-        client.cache["cooldown" + id] = true
-        setTimeout(() => delete client.cache["cooldown" + id], time)
-        return false
-    }
-
     // Check sendable
     client.checkSendable = (guild, channel) => {
         if(channel.viewable && channel.permissionsFor(guild.members.me).has("SendMessages") && channel.permissionsFor(guild.members.me).has("EmbedLinks")) return true
@@ -211,5 +203,13 @@ module.exports = client => {
         if(error.includes("Unknown Playlist")) return `${lang.ERROR_PLAYLIST_UNKNOWN}`
         console.log(error)
         return `${lang.ERROR_OCCURED}`
+    }
+
+    // Cooldown
+    client.cooldown = (id, time) => {
+        if(client.cache["cooldown" + id]) return true
+        client.cache["cooldown" + id] = true
+        setTimeout(() => delete client.cache["cooldown" + id], time)
+        return false
     }
 }
