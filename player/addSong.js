@@ -7,6 +7,12 @@ module.exports = async (client, queue, song) => {
     const lang = languages[settings.flopy1.language]
     
     client.cache["query" + song.member.id] = song.url
-    if(song.metadata.interaction) client.replyMessage(song.metadata.interaction, true, `${queue.songs[0] === song ? lang.MESSAGE_SONG_PLAYING : lang.MESSAGE_QUEUE_SONG_ADDED}`)
-    else client.sendMessage(channel, `${lang.MESSAGE_SONG_PLAYING}`)
+    if(queue.songs[0] === song) {
+        if(song.metadata.interaction) client.replyMessage(song.metadata.interaction, true, `${lang.MESSAGE_SONG_PLAYING}`)
+        else client.sendMessage(channel, `${lang.MESSAGE_SONG_PLAYING}`)
+    } else {
+        client.updateDashboard(guild, queue, lang)
+        if(song.metadata.interaction) client.replyMessage(song.metadata.interaction, true, `${lang.MESSAGE_QUEUE_SONG_ADDED} (#${queue.songs.indexOf(song)})`)
+        else client.sendMessage(channel, `${lang.MESSAGE_QUEUE_SONG_ADDED} (#${queue.songs.indexOf(song)})`)
+    }
 }
