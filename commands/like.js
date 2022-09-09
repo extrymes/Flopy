@@ -8,7 +8,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
     if(!queue?.songs[0]) return client.replyError(interaction, false, `${lang.ERROR_SONG_NO_PLAYING}`)
     if(client.cooldown("like" + member.id, 8000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
     const likeEmbed = new EmbedBuilder().setTitle(`${elements.EMOJI_LIKE}  ${lang.MESSAGE_SONG_LIKE.replace("$user", `**${member.displayName}**`)}`).setColor(elements.COLOR_PINK)
-    interaction.reply({ embeds: [likeEmbed] })
+    interaction.reply({ embeds: [likeEmbed] }).catch(error => {})
     setTimeout(() => interaction.deleteReply().catch(error => {}), 8000)
 }
 module.exports.data = {

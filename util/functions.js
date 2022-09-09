@@ -115,8 +115,8 @@ module.exports = client => {
     // Reply message
     client.replyMessage = (interaction, edit, content) => {
         const messageEmbed = new EmbedBuilder().setTitle(`${content}`).setColor(elements.COLOR_FLOPY)
-        if(edit) interaction.editReply({ embeds: [messageEmbed] })
-        else interaction.reply({ embeds: [messageEmbed] })
+        if(edit) interaction.editReply({ embeds: [messageEmbed] }).catch(error => {})
+        else interaction.reply({ embeds: [messageEmbed] }).catch(error => {})
         setTimeout(() => interaction.deleteReply().catch(error => {}), 4000)
     }
 
@@ -126,7 +126,7 @@ module.exports = client => {
         if(edit) {
             interaction.editReply({ embeds: [errorEmbed] }).catch(error => {})
             setTimeout(() => interaction.deleteReply().catch(error => {}), 4000)
-        } else interaction.reply({ embeds: [errorEmbed], ephemeral: true })
+        } else interaction.reply({ embeds: [errorEmbed], ephemeral: true }).catch(error => {})
     }
 
     // Setup dashboard

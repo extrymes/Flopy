@@ -10,7 +10,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
     if(client.cooldown("info" + guild.id, 8000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
     const bar = client.createBar(queue)
     const infoEmbed = new EmbedBuilder().setAuthor({ name: `${song.name}`, url: song.url, iconURL: elements.ICON_FLOPY }).setThumbnail(song.thumbnail || elements.BANNER_SECONDARY).addFields({ name: `**${lang.MESSAGE_SONG_AUTHOR}**`, value: `${song.uploader.name}`, inline: true }, { name: `**${lang.MESSAGE_SONG_VIEWS}**`, value: `${song.views.toString().replace(/(.)(?=(\d{3})+$)/g,"$1,")}`, inline: true }, { name: `**${lang.MESSAGE_SONG_LIKES}**`, value: `${song.likes.toString().replace(/(.)(?=(\d{3})+$)/g,"$1,")}`, inline: true }, { name: `**${lang.MESSAGE_SONG_DURATION}**`, value: `${bar}` }).setColor(elements.COLOR_FLOPY)
-    interaction.reply({ embeds: [infoEmbed] })
+    interaction.reply({ embeds: [infoEmbed] }).catch(error => {})
     setTimeout(() => interaction.deleteReply().catch(error => {}), 8000)
 }
 module.exports.data = {
