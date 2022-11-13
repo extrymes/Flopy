@@ -11,7 +11,7 @@ module.exports = async (client, queue, playlist) => {
         if(playlist.metadata.interaction) client.replyMessage(playlist.metadata.interaction, true, `${lang.MESSAGE_PLAYLIST_PLAYING}`)
         else client.sendMessage(channel, `${lang.MESSAGE_PLAYLIST_PLAYING}`)
     } else {
-        client.updateDashboard(guild, queue, lang)
+        client.editDashboard(guild, queue, lang)
         if(playlist.metadata.interaction) client.replyMessage(playlist.metadata.interaction, true, `${lang.MESSAGE_QUEUE_PLAYLIST_ADDED} (#${queue.songs.indexOf(playlist.songs[0])})`)
         else client.sendMessage(channel, `${lang.MESSAGE_QUEUE_PLAYLIST_ADDED} (#${queue.songs.indexOf(playlist.songs[0])})`)
     }

@@ -18,7 +18,7 @@ module.exports = client => {
                 const voice = guild.channels.cache.get(settings.flopy1.voice)
                 const queue = client.distube.getQueue(guild)
                 const lang = languages[settings.flopy1.language]
-                client.updateDashboard(guild, queue, lang)
+                client.editDashboard(guild, queue, lang)
                 try { client.distube.voices.join(voice).catch(error => {}) } catch {}
                 //setTimeout(() => client.sendUpdateMessage(guild, lang), 5000)
             }

@@ -11,7 +11,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
     else queue.filters.add(name)
     if(queue.paused) client.distube.resume(queue)
     const filters = queue.filters.names.map((item, i) => { return `\`${item}\`` }).join(", ")
-    client.updateDashboard(guild, queue, lang)
+    client.editDashboard(guild, queue, lang)
     client.replyMessage(interaction, false, `${lang.MESSAGE_FILTERS_ACTIVE} ${queue.filters.size > 0 ? filters : lang.MESSAGE_FILTERS_NONE}`)
 }
 module.exports.data = {

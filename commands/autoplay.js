@@ -7,7 +7,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
     if(!client.checkVoice(guild, member)) return client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
     if(client.cooldown("autoplay" + guild.id, 2000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
     const autoplay = client.distube.toggleAutoplay(queue)
-    client.updateDashboard(guild, queue, lang)
+    client.editDashboard(guild, queue, lang)
     client.replyMessage(interaction, false, `${autoplay ? lang.MESSAGE_AUTOPLAY_ENABLED : lang.MESSAGE_AUTOPLAY_DISABLED}`)
 }
 module.exports.data = {

@@ -14,7 +14,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
     client.distube.seek(queue, sec)
     if(queue.paused) {
         client.distube.resume(queue)
-        client.updateDashboard(guild, queue, lang)
+        client.editDashboard(guild, queue, lang)
     }
     const bar = client.createBar(queue)
     client.replyMessage(interaction, false, `${bar}`)

@@ -11,7 +11,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
     client.distube.seek(queue, 0)
     if(queue.paused) {
         client.distube.resume(queue)
-        client.updateDashboard(guild, queue, lang)
+        client.editDashboard(guild, queue, lang)
     }
     client.replyMessage(interaction, false, `${lang.MESSAGE_SONG_REPLAYED}`)
 }

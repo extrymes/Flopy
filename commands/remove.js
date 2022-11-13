@@ -9,7 +9,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
     if(position < 1 || position > queue.songs.length - 1) return client.replyError(interaction, false, `${lang.ERROR_SONG_NO_CORRECT_POSITION}`)
     if(client.cooldown("remove" + guild.id, 2000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
     queue.songs.splice(position, 1)
-    client.updateDashboard(guild, queue, lang)
+    client.editDashboard(guild, queue, lang)
     client.replyMessage(interaction, false, `${lang.MESSAGE_QUEUE_SONG_REMOVED} (#${position})`)
 }
 module.exports.data = {

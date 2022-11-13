@@ -17,7 +17,7 @@ module.exports = async (client, interaction) => {
                 if(client.checkVoice(guild, member)) {
                     try {
                         client.distube.resume(queue)
-                        client.updateDashboard(guild, queue, lang)
+                        client.editDashboard(guild, queue, lang)
                     } catch {}
                     interaction.deferUpdate().catch(error => {})
                 } else client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
@@ -26,7 +26,7 @@ module.exports = async (client, interaction) => {
                 if(client.checkVoice(guild, member)) {
                     try {
                         client.distube.pause(queue)
-                        client.updateDashboard(guild, queue, lang)
+                        client.editDashboard(guild, queue, lang)
                     } catch {}
                     interaction.deferUpdate().catch(error => {})
                 } else client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
@@ -50,7 +50,7 @@ module.exports = async (client, interaction) => {
                 if(client.checkVoice(guild, member)) {
                     try {
                         client.distube.setRepeatMode(queue, queue.repeatMode === 0 ? 1 : queue.repeatMode === 1 ? 2 : 0)
-                        client.updateDashboard(guild, queue, lang)
+                        client.editDashboard(guild, queue, lang)
                     } catch {}
                     interaction.deferUpdate().catch(error => {})
                 } else client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
@@ -59,7 +59,7 @@ module.exports = async (client, interaction) => {
                 if(client.checkVoice(guild, member)) {
                     try {
                         client.distube.setVolume(queue, queue.volume === 50 ? 25 : queue.volume === 25 ? 75 : queue.volume === 75 ? 100 : 50)
-                        client.updateDashboard(guild, queue, lang)
+                        client.editDashboard(guild, queue, lang)
                     } catch {}
                     interaction.deferUpdate().catch(error => {})
                 } else client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
