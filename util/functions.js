@@ -94,7 +94,7 @@ module.exports = client => {
 
     // Send help message
     client.sendHelpMessage = (guild, channel, lang) => {
-        const helpEmbed = new EmbedBuilder().setAuthor({ name: `${guild.name}`, iconURL: elements.ICON_FLOPY }).setDescription(`${client.cache["dashboard" + guild.id] ? lang.HELP_PLAY_SONG.replace("$channel", `${client.cache["dashboard" + guild.id]?.channel}`) : lang.HELP_SETUP_DASHBOARD.replace("$command", `\`/setup\``)}`).setColor(elements.COLOR_FLOPY)
+        const helpEmbed = new EmbedBuilder().setAuthor({ name: `${lang.HELP_MESSAGE}`, iconURL: elements.ICON_FLOPY }).setDescription(`${client.cache["dashboard" + guild.id] ? lang.HELP_PLAY_SONG.replace("$channel", `${client.cache["dashboard" + guild.id]?.channel}`) : lang.HELP_SETUP_DASHBOARD.replace("$command", `\`/setup\``)}`).setColor(elements.COLOR_FLOPY)
         channel.send({ embeds: [helpEmbed] }).catch(error => {})
     }
 
