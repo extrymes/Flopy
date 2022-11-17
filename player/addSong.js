@@ -9,7 +9,7 @@ module.exports = async (client, queue, song) => {
     client.cache["query" + song.member.id] = song.url
     if(queue.songs[0] === song) {
         if(song.metadata.interaction) client.replyMessage(song.metadata.interaction, true, `${lang.MESSAGE_SONG_PLAYING}`)
-        else client.sendMessage(channel, `${lang.MESSAGE_SONG_PLAYING}`)
+        else setTimeout(() => client.sendMessage(channel, `${lang.MESSAGE_SONG_PLAYING}`), 500)
     } else {
         client.editDashboard(guild, queue, lang)
         if(song.metadata.interaction) client.replyMessage(song.metadata.interaction, true, `${lang.MESSAGE_QUEUE_SONG_ADDED} (#${queue.songs.indexOf(song)})`)
