@@ -22,4 +22,5 @@ module.exports = {
     INVITE_FLOPY: "https://discord.com/api/oauth2/authorize?client_id=909205146863566858&permissions=3172352&scope=bot%20applications.commands",
     INVITE_FLOPY2: "https://discord.com/api/oauth2/authorize?client_id=909533411247546368&permissions=3172352&scope=bot%20applications.commands",
     INVITE_FLOPY3: "https://discord.com/api/oauth2/authorize?client_id=909533975809232926&permissions=3172352&scope=bot%20applications.commands",
+    INVITE_SUPPORT: "https://discord.gg/cEzzFUnYvb",
 }
