@@ -88,7 +88,7 @@ module.exports = client => {
     // Send first message
     client.sendFirstMessage = guild => {
         const channel = guild.channels.cache.filter(item => item.type === ChannelType.GuildText && client.checkSendable(guild, item)).first()
-        const firstEmbed = new EmbedBuilder().setTitle("Get ready to listen to music easily!").setDescription(`To begin, use \`/setup\` command in a channel.\nTo listen in multiple voice channels at the same time, more bots: [Flopy](${elements.INVITE_FLOPY}), [Flopy 2](${elements.INVITE_FLOPY2}), [Flopy 3](${elements.INVITE_FLOPY3}).`).setImage(elements.BANNER_FLOPY).setColor(elements.COLOR_FLOPY)
+        const firstEmbed = new EmbedBuilder().setTitle("Get ready to listen to music easily!").setDescription(`To begin, use \`/setup\` command in a channel.\nIf you need help, here is the [support server](${elements.INVITE_SUPPORT}).`).setImage(elements.BANNER_FLOPY).setColor(elements.COLOR_FLOPY)
         channel?.send({ embeds: [firstEmbed] }).catch(error => {})
     }
 
