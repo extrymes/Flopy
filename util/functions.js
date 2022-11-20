@@ -82,7 +82,7 @@ module.exports = client => {
     // Send message
     client.sendMessage = (channel, content) => {
         const messageEmbed = new EmbedBuilder().setTitle(`${content}`).setColor(elements.COLOR_FLOPY)
-        channel?.send({ embeds: [messageEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 4000))
+        channel?.send({ embeds: [messageEmbed] }).then(m => setTimeout(() => m?.delete().catch(error => {}), 4000)).catch(error => {})
     }
 
     // Send first message
@@ -95,7 +95,7 @@ module.exports = client => {
     // Send help message
     client.sendHelpMessage = (guild, channel, lang) => {
         const helpEmbed = new EmbedBuilder().setAuthor({ name: `${lang.HELP_MESSAGE}`, iconURL: elements.ICON_FLOPY }).setDescription(`${client.cache["dashboard" + guild.id] ? lang.HELP_PLAY_SONG.replace("$channel", `${client.cache["dashboard" + guild.id]?.channel}`) : lang.HELP_SETUP_DASHBOARD.replace("$command", `\`/setup\``)}`).setColor(elements.COLOR_FLOPY)
-        channel.send({ embeds: [helpEmbed] }).catch(error => {})
+        channel?.send({ embeds: [helpEmbed] }).catch(error => {})
     }
 
     // Send update message
@@ -109,7 +109,7 @@ module.exports = client => {
     // Send error
     client.sendError = (channel, content) => {
         const errorEmbed = new EmbedBuilder().setTitle(`${content}`).setColor(elements.COLOR_GREY)
-        channel?.send({ embeds: [errorEmbed] }).catch(error => {}).then(m => setTimeout(() => m?.delete().catch(error => {}), 4000))
+        channel?.send({ embeds: [errorEmbed] }).then(m => setTimeout(() => m?.delete().catch(error => {}), 4000)).catch(error => {})
     }
 
     // Reply message
@@ -149,9 +149,9 @@ module.exports = client => {
     // Get dashboard
     client.getDashboard = async (guild, settings) => {
         const channel = guild.channels.cache.get(settings.flopy1.channel)
-        await channel?.messages?.fetch(settings.flopy1.message).catch(error => {}).then(message => {
+        await channel?.messages?.fetch(settings.flopy1.message).then(message => {
             if(message) client.cache["dashboard" + guild.id] = message
-        })
+        }).catch(error => {})
     }
 
     // Send dashboard
@@ -159,12 +159,12 @@ module.exports = client => {
         const dashboard = client.createDashboard(guild, queue, lang)
         client.cooldown("leaveVoice" + guild.id, 1000)
         client.cache["dashboard" + guild.id]?.delete().catch(error => {})
-        channel.send(dashboard).catch(error => {}).then(message => {
+        channel?.send(dashboard).then(message => {
             if(message) {
                 client.cache["dashboard" + guild.id] = message
                 client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "channel": channel.id, "message": message.id }) })
             } else client.leaveVoice(guild)
-        })
+        }).catch(error => {})
     }
 
     // Edit dashboard

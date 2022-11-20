@@ -11,8 +11,6 @@ module.exports = {
             family: 4 // Use IPv4, skip trying IPv6
         }
 
-        mongoose.connect(DBCONNECTION, mongOptions)
-        mongoose.Promise = global.Promise
-        mongoose.connection.on("connected", () => console.log("[-] Flopy is connected to the database".green))
+        mongoose.connect(DBCONNECTION, mongOptions).then(() => console.log("[-] Flopy is connected to the database".green)).catch(error => console.log(error))
     }
 }
