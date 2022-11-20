@@ -1,16 +1,14 @@
-const { DBCONNECTION } = require("./config")
+const config = require("./config")
 const mongoose = require("mongoose")
 
 module.exports = {
     init: () => {
-        const mongOptions = {
-            autoIndex: false, // Don't build indexes
-            maxPoolSize: 10, // Maintain up to 10 socket connections
-            serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
-            socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
-            family: 4 // Use IPv4, skip trying IPv6
-        }
-
-        mongoose.connect(DBCONNECTION, mongOptions).then(() => console.log("[-] Flopy is connected to the database".green)).catch(error => console.log(error))
+        mongoose.connect(config.DBCONNECTION, {
+            autoIndex: config.MONGO_AUTO_INDEX,
+            maxPoolSize: config.MONGO_MAX_POOL_SIZE,
+            serverSelectionTimeoutMS: config.MONGO_SERVER_SELECTION_TIMEOUT_MS,
+            socketTimeoutMS: config.MONGO_SOCKET_TIMEOUT_MS,
+            family: config.MONGO_FAMILY,
+        }).then(() => console.log("[-] Flopy is connected to the database".green)).catch(error => console.log(error))
     }
 }
