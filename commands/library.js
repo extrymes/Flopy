@@ -30,7 +30,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
             library.push({ name: playing.name, url: playing.url, isPlaylist: isPlaylist })
             if(data.null) {
                 await client.createUser(member)
-                Object.assign(client.config.USER_DEFAULTSETTINGS, { library: [] })
+                Object.assign(client.config.USER_DEFAULT_SETTINGS, { library: [] })
             }
             setTimeout(() => client.updateUser(member, { library: library }), 1000)
             client.replyMessage(interaction, false, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED}`)

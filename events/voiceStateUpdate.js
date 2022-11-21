@@ -12,7 +12,7 @@ module.exports = async (client, oldState, newState) => {
                 if(client.cache["dashboard" + guild.id]) {
                     const voiceId = member.voice.channel?.id || ""
                     const settings = await client.getGuild(guild)
-                    if(voiceId !== settings.flopy1.voice) client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { "voice": voiceId }) })
+                    if(voiceId !== settings.flopy1.voice) client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { voice: voiceId }) })
                 } else client.leaveVoice(guild)
             }, client.config.VOICE_UPDATE_COOLDOWN * 1000)
         }

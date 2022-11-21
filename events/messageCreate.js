@@ -1,12 +1,12 @@
 const languages = require("../util/languages")
 
 module.exports = async (client, message) => {
-    const { guild, channel, member, author } = message
+    const { guild, channel, member } = message
     const settings = await client.getGuild(guild)
     const queue = client.distube.getQueue(guild)
     const lang = languages[settings.flopy1.language]
 
-    if(author.bot) return
+    if(message.author.bot) return
 
     if(channel === client.cache["dashboard" + guild.id]?.channel) {
         if(member.voice.channel) {
@@ -21,5 +21,5 @@ module.exports = async (client, message) => {
             } else client.sendError(channel, `${lang.ERROR_USER_NO_VOICE_2}`)
         } else client.sendError(channel, `${lang.ERROR_USER_NO_VOICE}`)
         message.delete().catch(error => {})
-    } else if(message.mentions.users.first() === client.user && !client.cooldown("help" + author.id, 4000)) client.sendHelpMessage(guild, channel, lang)
+    } else if(message.mentions.users.first() === client.user && !client.cooldown("help" + member.id, 4000)) client.sendHelpMessage(guild, channel, lang)
 }
