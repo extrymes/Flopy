@@ -54,6 +54,11 @@ module.exports = client => {
         return data.updateOne(settings)
     }
 
+    // Delete user in the database
+    client.deleteUser = async user => {
+        await User.deleteOne({ userID: user.id }).then(console.log(`[~] Old user`.blue))
+    }
+
     // Check sendable
     client.checkSendable = (guild, channel) => {
         if(channel.viewable && channel.permissionsFor(guild.members.me).has("SendMessages") && channel.permissionsFor(guild.members.me).has("EmbedLinks")) return true
