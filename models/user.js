@@ -4,9 +4,9 @@ const { USER_DEFAULTSETTINGS: defaults } = require("../admin/config")
 const userShema = {
     _id: mongoose.Schema.Types.ObjectId,
     userID: String,
-    query: {
-        "type": String,
-        "default": defaults.query
+    library: {
+        "type": Array,
+        "default": defaults.library
     }
 }
 
