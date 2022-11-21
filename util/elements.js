@@ -13,7 +13,6 @@ module.exports = {
     EMOJI_PLAYLIST: "1044280477609111734",
     EMOJI_LANG_EN: "🇺🇸",
     EMOJI_LANG_FR: "🇫🇷",
-    EMOJI_LIKE: "❤️",
     EMOJI_UPDATE: "🎉",
     SYMBOL_LINE: "▬",
     SYMBOL_CIRCLE: "⬤",
