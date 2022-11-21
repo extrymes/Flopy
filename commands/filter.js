@@ -17,6 +17,15 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
             client.editDashboard(guild, queue, lang)
             client.replyMessage(interaction, false, `${lang.MESSAGE_FILTERS_ACTIVE} ${queue.filters.size > 0 ? filters : lang.MESSAGE_FILTERS_NONE}`)
             break
+        case "reset":
+            if(!queue?.songs[0] || queue.filters.size < 1) return client.replyError(interaction, false, `${lang.ERROR_FILTER_NO_ACTIVE}`)
+            if(!client.checkVoice(guild, member)) return client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
+            if(client.cooldown("filter" + guild.id, 2000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
+            queue.filters.clear()
+            if(queue.paused) client.distube.resume(queue)
+            client.editDashboard(guild, queue, lang)
+            client.replyMessage(interaction, false, `${lang.MESSAGE_FILTERS_ACTIVE} ${lang.MESSAGE_FILTERS_NONE}`)
+            break
         default:
             client.replyError(interaction, false, `${lang.ERROR_OCCURED}`)
     }
@@ -114,6 +123,12 @@ module.exports.data = {
                     ],
                 },
             ],
+        },
+        {
+            name: "reset",
+            description: languages["en"].COMMAND_FILTER_RESET_DESCRIPTION,
+            description_localizations: { "fr": languages["fr"].COMMAND_FILTER_RESET_DESCRIPTION },
+            type: 1,
         },
     ],
     dm_permission: false,
