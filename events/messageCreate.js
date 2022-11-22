@@ -18,8 +18,8 @@ module.exports = async (client, message) => {
                         client.sendError(channel, `${errorMessage}`)
                     })
                 } else client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
-            } else client.sendError(channel, `${lang.ERROR_USER_NO_VOICE_2}`)
-        } else client.sendError(channel, `${lang.ERROR_USER_NO_VOICE}`)
+            } else client.sendError(channel, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
+        } else client.sendError(channel, `${lang.ERROR_USER_MUST_JOIN_VOICE}`)
         message.delete().catch(error => {})
     } else if(message.mentions.users.first() === client.user && !client.cooldown("help" + member.id, 4000)) client.sendHelpMessage(guild, channel, lang)
 }

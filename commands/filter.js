@@ -8,7 +8,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
         case "toggle":
             const name = options.getString("name")
             if(!queue?.songs[0]) return client.replyError(interaction, false, `${lang.ERROR_SONG_NO_PLAYING}`)
-            if(!client.checkVoice(guild, member) && queue) return client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
+            if(!client.checkVoice(guild, member) && queue) return client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
             if(client.cooldown("filter" + guild.id, 2000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
             if(queue.filters.has(name)) queue.filters.remove(name)
             else queue.filters.add(name)
@@ -19,7 +19,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
             break
         case "reset":
             if(!queue?.songs[0] || queue.filters.size < 1) return client.replyError(interaction, false, `${lang.ERROR_FILTER_NO_ACTIVE}`)
-            if(!client.checkVoice(guild, member)) return client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
+            if(!client.checkVoice(guild, member)) return client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
             if(client.cooldown("filter" + guild.id, 2000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
             queue.filters.clear()
             if(queue.paused) client.distube.resume(queue)

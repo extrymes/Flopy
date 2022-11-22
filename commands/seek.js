@@ -6,7 +6,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
     const time = options.getInteger("time").toString()
 
     if(!song) return client.replyError(interaction, false, `${lang.ERROR_SONG_NO_PLAYING}`)
-    if(!client.checkVoice(guild, member)) return client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
+    if(!client.checkVoice(guild, member)) return client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
     if(song.isLive) return client.replyError(interaction, false, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
     const sec = client.convertTime(time)
     if(sec > song.duration) return client.replyError(interaction, false, `${lang.ERROR_SONG_TIME_GREATER}`)

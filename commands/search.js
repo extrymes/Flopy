@@ -6,8 +6,8 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
     const { guild, member, options } = interaction
     const name = options.getString("name")
 
-    if(!member.voice.channel) return client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE}`)
-    if(!client.checkVoice(guild, member) && queue) return client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
+    if(!member.voice.channel) return client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE}`)
+    if(!client.checkVoice(guild, member) && queue) return client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
     if(client.cooldown("search" + member.id, 10000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
     await interaction.deferReply().catch(error => {})
     const songs = await client.distube.search(name).catch(error => {

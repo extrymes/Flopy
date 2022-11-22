@@ -10,8 +10,8 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
 
     switch(subcommand) {
         case "play":
-            if(!member.voice.channel) return client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE}`)
-            if(!client.checkVoice(guild, member) && queue) return client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
+            if(!member.voice.channel) return client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE}`)
+            if(!client.checkVoice(guild, member) && queue) return client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
             if(data.null) return client.replyError(interaction, false, `${lang.ERROR_LIBRARY_NO_ITEM}`)
             if(client.cooldown("library" + member.id, 10000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
             const items = library.map((item, i) => { return { label: `${i + 1}. ${item.name.length <= client.config.SONG_MAX_LENGTH ? item.name : item.name.substring(0, client.config.SONG_MAX_LENGTH) + "..."}`, value: item.url, emoji: item.isPlaylist ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG } })

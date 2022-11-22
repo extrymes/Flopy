@@ -5,7 +5,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
     const { guild, channel, member, options } = interaction
     const language = options.getString("language")
 
-    if(!client.checkManager(member)) return client.replyError(interaction, false, `${lang.ERROR_USER_NO_MANAGER}`)
+    if(!client.checkManager(member)) return client.replyError(interaction, false, `${lang.ERROR_USER_MUST_BE_MANAGER}`)
     if(!client.checkSendable(guild, channel)) return client.replyError(interaction, false, `${lang.ERROR_DASHBOARD_UNABLE_SETUP}`)
     if(client.cooldown("setup" + guild.id, 4000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
     await interaction.deferReply().catch(error => {})

@@ -20,7 +20,7 @@ module.exports = async (client, interaction) => {
                         client.editDashboard(guild, queue, lang)
                     } catch {}
                     interaction.deferUpdate().catch(error => {})
-                } else client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
+                } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
                 break
             case "pause":
                 if(client.checkVoice(guild, member)) {
@@ -29,13 +29,13 @@ module.exports = async (client, interaction) => {
                         client.editDashboard(guild, queue, lang)
                     } catch {}
                     interaction.deferUpdate().catch(error => {})
-                } else client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
+                } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
                 break
             case "stop":
                 if(client.checkVoice(guild, member)) {
                     try { client.distube.stop(queue) } catch {}
                     interaction.deferUpdate().catch(error => {})
-                } else client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
+                } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
                 break
             case "skip":
                 if(client.checkVoice(guild, member)) {
@@ -44,7 +44,7 @@ module.exports = async (client, interaction) => {
                         if(queue.paused && (queue.songs[1] || queue.autoplay)) client.distube.resume(queue)
                     } catch {}
                     interaction.deferUpdate().catch(error => {})
-                } else client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
+                } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
                 break
             case "repeat":
                 if(client.checkVoice(guild, member)) {
@@ -53,7 +53,7 @@ module.exports = async (client, interaction) => {
                         client.editDashboard(guild, queue, lang)
                     } catch {}
                     interaction.deferUpdate().catch(error => {})
-                } else client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
+                } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
                 break
             case "volume":
                 if(client.checkVoice(guild, member)) {
@@ -62,7 +62,7 @@ module.exports = async (client, interaction) => {
                         client.editDashboard(guild, queue, lang)
                     } catch {}
                     interaction.deferUpdate().catch(error => {})
-                } else client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
+                } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
                 break
             case "play":
                 const url = interaction.values[0]
@@ -76,8 +76,8 @@ module.exports = async (client, interaction) => {
                                 client.replyError(interaction, true, `${errorMessage}`)
                             })
                         } else client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
-                    } else client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
-                } else client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE}`)
+                    } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
+                } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE}`)
                 break
             case "hide":
                 message.delete().catch(error => {})
