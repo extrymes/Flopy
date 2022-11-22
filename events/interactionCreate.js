@@ -68,12 +68,14 @@ module.exports = async (client, interaction) => {
                 const url = interaction.values[0]
                 if(member.voice.channel) {
                     if(client.checkVoice(guild, member) || !queue) {
-                        message.delete().catch(error => {})
-                        await interaction.deferReply().catch(error => {})
-                        client.distube.play(member.voice.channel, url, { textChannel: channel, member: member, metadata: { interaction: interaction } }).catch(error => {
-                            const errorMessage = client.getErrorMessage(error.message, lang)
-                            client.replyError(interaction, true, `${errorMessage}`)
-                        })
+                        if(!client.cooldown("play" + member.id, 2000)) {
+                            message.delete().catch(error => {})
+                            await interaction.deferReply().catch(error => {})
+                            client.distube.play(member.voice.channel, url, { textChannel: channel, member: member, metadata: { interaction: interaction } }).catch(error => {
+                                const errorMessage = client.getErrorMessage(error.message, lang)
+                                client.replyError(interaction, true, `${errorMessage}`)
+                            })
+                        } else client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
                     } else client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE_2}`)
                 } else client.replyError(interaction, false, `${lang.ERROR_USER_NO_VOICE}`)
                 break
