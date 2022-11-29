@@ -1,4 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, SelectMenuBuilder } = require("discord.js")
+const { EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder } = require("discord.js")
 const elements = require("../util/elements")
 const languages = require("../util/languages")
 
@@ -17,7 +17,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
             const items = library.map((item, i) => { return { label: `${i + 1}. ${item.name.length <= client.config.SONG_MAX_LENGTH ? item.name : item.name.substring(0, client.config.SONG_MAX_LENGTH) + "..."}`, value: item.url, emoji: item.isPlaylist ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG } })
             const playlistCount = library.filter(item => item.isPlaylist).length
             const libraryEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_LIBRARY_TITLE}`, iconURL: elements.ICON_FLOPY }).setThumbnail(member.user.displayAvatarURL()).addFields({ name: `${lang.MESSAGE_LIBRARY_NAME}`, value: `${member.user.username}`, inline: true }, { name: `${lang.MESSAGE_LIBRARY_SONGS}`, value: `${library.length - playlistCount}`, inline: true }, { name: `${lang.MESSAGE_LIBRARY_PLAYLISTS}`, value: `${playlistCount}`, inline: true }).setColor(elements.COLOR_FLOPY)
-            const libraryMenu = new ActionRowBuilder().addComponents(new SelectMenuBuilder().setCustomId("play").setOptions(items))
+            const libraryMenu = new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId("play").setOptions(items))
             interaction.reply({ embeds: [libraryEmbed], components: [libraryMenu] }).catch(error => {})
             setTimeout(() => interaction.deleteReply().catch(error => {}), 10000)
             break
