@@ -3,23 +3,21 @@ const elements = require("../util/elements")
 const languages = require("../util/languages")
 
 module.exports.run = async (client, interaction, settings, queue, lang) => {
-    const { guild, member, options } = interaction
-    const data = await client.getUser(member)
+    const { member, options } = interaction
     const subcommand = options.getSubcommand()
+    const data = await client.getUser(member)
     const library = data.library
 
     switch(subcommand) {
         case "play":
-            if(!member.voice.channel) return client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE}`)
-            if(!client.checkVoice(guild, member) && queue) return client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
             if(data.null) return client.replyError(interaction, false, `${lang.ERROR_LIBRARY_NO_ITEM}`)
-            if(client.cooldown("library" + member.id, 10000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
+            if(client.cooldown("library" + member.id, 4000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
             const items = library.map((item, i) => { return { label: `${i + 1}. ${item.name.length <= client.config.SONG_MAX_LENGTH ? item.name : item.name.substring(0, client.config.SONG_MAX_LENGTH) + "..."}`, value: item.url, emoji: item.isPlaylist ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG } })
-            const playlistCount = library.filter(item => item.isPlaylist).length
-            const libraryEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_LIBRARY_TITLE}`, iconURL: elements.ICON_FLOPY }).setThumbnail(member.user.displayAvatarURL()).addFields({ name: `${lang.MESSAGE_LIBRARY_NAME}`, value: `${member.user.username}`, inline: true }, { name: `${lang.MESSAGE_LIBRARY_SONGS}`, value: `${library.length - playlistCount}`, inline: true }, { name: `${lang.MESSAGE_LIBRARY_PLAYLISTS}`, value: `${playlistCount}`, inline: true }).setColor(elements.COLOR_FLOPY)
+            const playlistsCount = library.filter(item => item.isPlaylist).length
+            const libraryEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_LIBRARY_TITLE}`, iconURL: elements.ICON_FLOPY }).setThumbnail(member.user.displayAvatarURL().replace("gif", "png")).addFields({ name: `${lang.MESSAGE_LIBRARY_NAME}`, value: `${member.user.username}`, inline: true }, { name: `${lang.MESSAGE_LIBRARY_SONGS}`, value: `${library.length - playlistsCount}`, inline: true }, { name: `${lang.MESSAGE_LIBRARY_PLAYLISTS}`, value: `${playlistsCount}`, inline: true }).setColor(elements.COLOR_FLOPY)
             const libraryMenu = new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId("play").setOptions(items))
-            interaction.reply({ embeds: [libraryEmbed], components: [libraryMenu] }).catch(error => {})
-            setTimeout(() => interaction.deleteReply().catch(error => {}), 10000)
+            interaction.reply({ embeds: [libraryEmbed], components: [libraryMenu], ephemeral: true }).catch(error => {})
+            setTimeout(() => interaction.deleteReply().catch(error => {}), 60000)
             break
         case "add":
             const playing = queue?.songs[0]?.playlist || queue?.songs[0]
