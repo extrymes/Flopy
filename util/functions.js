@@ -1,15 +1,12 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType } = require("discord.js")
 const { Guild, User } = require("../models/index")
-const mongoose = require("mongoose")
 const elements = require("../util/elements")
 
 module.exports = client => {
     // Create guild in the database
     client.createGuild = async guild => {
-        const newGuild = { guildID: guild.id }
-        const merged = Object.assign({ _id: mongoose.Types.ObjectId() }, newGuild)
-        const createGuild = await new Guild(merged)
-        createGuild.save().then(g => console.log("[+] New guild".blue))
+        const newGuild = await new Guild({ guildID: guild.id })
+        newGuild.save().then(i => console.log(`[+] New guild ${i.guildID}`.blue))
     }
 
     // Get guild in the database
@@ -31,10 +28,8 @@ module.exports = client => {
 
     // Create user in the database
     client.createUser = async user => {
-        const newUser = { userID: user.id }
-        const merged = Object.assign({ _id: mongoose.Types.ObjectId() }, newUser)
-        const createUser = await new User(merged)
-        createUser.save().then(g => console.log("[+] New user".blue))
+        const newUser = await new User({ userID: user.id })
+        newUser.save().then(i => console.log(`[+] New user ${i.userID}`.blue))
     }
 
     // Get user in the database
@@ -56,7 +51,7 @@ module.exports = client => {
 
     // Delete user in the database
     client.deleteUser = async user => {
-        await User.deleteOne({ userID: user.id }).then(console.log(`[~] Old user`.blue))
+        await User.deleteOne({ userID: user.id })
     }
 
     // Check sendable
@@ -128,10 +123,9 @@ module.exports = client => {
     // Reply error
     client.replyError = (interaction, edit, content) => {
         const errorEmbed = new EmbedBuilder().setTitle(`${content}`).setColor(elements.COLOR_GREY)
-        if(edit) {
-            interaction.editReply({ embeds: [errorEmbed] }).catch(error => {})
-            setTimeout(() => interaction.deleteReply().catch(error => {}), 4000)
-        } else interaction.reply({ embeds: [errorEmbed], ephemeral: true }).catch(error => {})
+        if(edit) interaction.editReply({ embeds: [errorEmbed] }).catch(error => {})
+        else interaction.reply({ embeds: [errorEmbed], ephemeral: true }).catch(error => {})
+        setTimeout(() => interaction.deleteReply().catch(error => {}), 4000)
     }
 
     // Create dashboard

@@ -6,7 +6,7 @@ module.exports = async (client, interaction) => {
     const queue = client.distube.getQueue(guild)
     const lang = languages[settings.flopy1.language]
 
-    if(interaction.isChatInputCommand()) {
+    if(interaction.isCommand()) {
         if(channel === client.cache["dashboard" + guild.id]?.channel || interaction.commandName === "setup" ) {
             const command = client.commands.get(interaction.commandName)
             command.run(client, interaction, settings, queue, lang)
@@ -69,7 +69,6 @@ module.exports = async (client, interaction) => {
                 if(member.voice.channel) {
                     if(client.checkVoice(guild, member) || !queue) {
                         if(!client.cooldown("play" + member.id, 2000)) {
-                            message.delete().catch(error => {})
                             await interaction.deferReply().catch(error => {})
                             client.distube.play(member.voice.channel, url, { textChannel: channel, member: member, metadata: { interaction: interaction } }).catch(error => {
                                 const errorMessage = client.getErrorMessage(error.message, lang)

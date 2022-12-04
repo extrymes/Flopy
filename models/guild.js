@@ -2,7 +2,6 @@ const mongoose = require("mongoose")
 const { GUILD_DEFAULT_SETTINGS: defaults } = require("../admin/config")
 
 const guildShema = {
-    _id: mongoose.Schema.Types.ObjectId,
     guildID: String,
     flopy1: {
         "type": Object,
