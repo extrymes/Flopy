@@ -10,7 +10,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
     if(song.isLive) return client.replyError(interaction, false, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
     const sec = client.convertTime(time)
     if(sec > song.duration) return client.replyError(interaction, false, `${lang.ERROR_SONG_TIME_GREATER}`)
-    if(client.cooldown("seek" + guild.id, 4000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
+    if(client.cooldown("seek" + guild.id, 4000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
     client.distube.seek(queue, sec)
     if(queue.paused) {
         client.distube.resume(queue)

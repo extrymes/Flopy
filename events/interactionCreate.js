@@ -74,7 +74,7 @@ module.exports = async (client, interaction) => {
                                 const errorMessage = client.getErrorMessage(error.message, lang)
                                 client.replyError(interaction, true, `${errorMessage}`)
                             })
-                        } else client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
+                        } else client.replyError(interaction, false, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
                     } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
                 } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE}`)
                 break

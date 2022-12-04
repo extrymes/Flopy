@@ -6,7 +6,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
     const { member, options } = interaction
     const name = options.getString("name")
 
-    if(client.cooldown("search" + member.id, 4000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
+    if(client.cooldown("search" + member.id, 4000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
     await interaction.deferReply({ ephemeral: true }).catch(error => {})
     const songs = await client.distube.search(name).catch(error => {
         const errorMessage = client.getErrorMessage(error.message, lang)

@@ -17,7 +17,7 @@ module.exports = async (client, message) => {
                         const errorMessage = client.getErrorMessage(error.message, lang)
                         client.sendError(channel, `${errorMessage}`)
                     })
-                } else client.sendError(channel, `${lang.ERROR_ACTION_TOO_FAST}`)
+                } else client.sendError(channel, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
             } else client.sendError(channel, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
         } else client.sendError(channel, `${lang.ERROR_USER_MUST_JOIN_VOICE}`)
         message.delete().catch(error => {})
