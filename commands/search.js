@@ -3,13 +3,11 @@ const elements = require("../util/elements")
 const languages = require("../util/languages")
 
 module.exports.run = async (client, interaction, settings, queue, lang) => {
-    const { guild, member, options } = interaction
+    const { member, options } = interaction
     const name = options.getString("name")
 
-    if(!member.voice.channel) return client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE}`)
-    if(!client.checkVoice(guild, member) && queue) return client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
-    if(client.cooldown("search" + member.id, 10000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
-    await interaction.deferReply().catch(error => {})
+    if(client.cooldown("search" + member.id, 4000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_TOO_FAST}`)
+    await interaction.deferReply({ ephemeral: true }).catch(error => {})
     const songs = await client.distube.search(name).catch(error => {
         const errorMessage = client.getErrorMessage(error.message, lang)
         client.replyError(interaction, true, `${errorMessage}`)
@@ -18,8 +16,8 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
     const items = songs.map((item, i) => { return { label: `${i + 1}. ${item.name.length <= client.config.SONG_MAX_LENGTH ? item.name : item.name.substring(0, client.config.SONG_MAX_LENGTH) + "..."}`, value: item.url } })
     const searchEmbed = new EmbedBuilder().setAuthor({ name: `${songs[0].name}`, url: songs[0].url, iconURL: elements.ICON_FLOPY }).setThumbnail(songs[0].thumbnail || elements.BANNER_SECONDARY).addFields({ name: `**${lang.MESSAGE_SONG_AUTHOR}**`, value: `${songs[0].uploader.name}`, inline: true }, { name: `**${lang.MESSAGE_SONG_VIEWS}**`, value: `${songs[0].views.toString().replace(/(.)(?=(\d{3})+$)/g,"$1,")}`, inline: true }).setColor(elements.COLOR_FLOPY)
     const searchMenu = new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId("play").setOptions(items))
-    interaction.editReply({ embeds: [searchEmbed], components: [searchMenu] }).catch(error => {})
-    setTimeout(() => interaction.deleteReply().catch(error => {}), 10000)
+    interaction.editReply({ embeds: [searchEmbed], components: [searchMenu], ephemeral: true }).catch(error => {})
+    setTimeout(() => interaction.deleteReply().catch(error => {}), 60000)
 }
 module.exports.data = {
     name: "search",
