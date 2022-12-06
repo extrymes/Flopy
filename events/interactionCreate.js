@@ -78,9 +78,6 @@ module.exports = async (client, interaction) => {
                     } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
                 } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE}`)
                 break
-            case "hide":
-                message.delete().catch(error => {})
-                break
             default:
                 client.replyError(interaction, false, `${lang.ERROR_OCCURED}`)
         }

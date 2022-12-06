@@ -20,7 +20,6 @@ module.exports = client => {
                 const lang = languages[settings.flopy1.language]
                 client.editDashboard(guild, queue, lang)
                 try { client.distube.voices.join(voice).catch(error => {}) } catch {}
-                //setTimeout(() => client.sendUpdateMessage(guild, lang), 5000)
             }
         }
     })

@@ -89,8 +89,6 @@ module.exports = {
         HELP_MESSAGE: "Help message",
         HELP_PLAY_SONG: "Join a voice channel and send a song name or a link in $channel.",
         HELP_SETUP_DASHBOARD: "Use $command command in a channel to setup the dashboard.",
-        UPDATE_TITLE: "",
-        UPDATE_DESCRIPTION: "",
     },
     "fr": {
         DASHBOARD_SONG_NO_PLAYING: "Aucune musique en cours de lecture",
@@ -182,7 +180,5 @@ module.exports = {
         HELP_MESSAGE: "Message d'aide",
         HELP_PLAY_SONG: "Rejoignez un salon vocal et envoyez le nom d'une musique ou un lien dans $channel.",
         HELP_SETUP_DASHBOARD: "Utilisez la commande $command dans un salon pour intaller le tableau de bord.",
-        UPDATE_TITLE: "",
-        UPDATE_DESCRIPTION: "",
     },
 }

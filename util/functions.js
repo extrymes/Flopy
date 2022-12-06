@@ -98,14 +98,6 @@ module.exports = client => {
         channel?.send({ embeds: [helpEmbed] }).catch(error => {})
     }
 
-    // Send update message
-    client.sendUpdateMessage = (guild, lang) => {
-        const channel = client.cache["dashboard" + guild.id]?.channel
-        const updateEmbed = new EmbedBuilder().setAuthor({ name: `${lang.UPDATE_TITLE}`, iconURL: elements.ICON_FLOPY }).setDescription(`${lang.UPDATE_DESCRIPTION}`).setImage(elements.BANNER_FLOPY).setColor(elements.COLOR_FLOPY)
-        const hideButton = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("hide").setStyle(ButtonStyle.Secondary).setEmoji(elements.EMOJI_UPDATE))
-        channel?.send({ embeds: [updateEmbed], components: [hideButton] }).catch(error => {})
-    }
-
     // Send error
     client.sendError = (channel, content) => {
         const errorEmbed = new EmbedBuilder().setTitle(`${content}`).setColor(elements.COLOR_GREY)
