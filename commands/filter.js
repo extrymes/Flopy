@@ -27,7 +27,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
             client.replyMessage(interaction, false, `${lang.MESSAGE_FILTERS_ACTIVE} ${lang.MESSAGE_FILTERS_NONE}`)
             break
         default:
-            client.replyError(interaction, false, `${lang.ERROR_OCCURED}`)
+            client.replyError(interaction, false, `${lang.ERROR_UNKNOWN}`)
     }
 }
 module.exports.data = {

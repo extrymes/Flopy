@@ -43,7 +43,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
             client.replyMessage(interaction, false, `${item.isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_REMOVED : lang.MESSAGE_LIBRARY_SONG_REMOVED}`)
             break
         default:
-            client.replyError(interaction, false, `${lang.ERROR_OCCURED}`)
+            client.replyError(interaction, false, `${lang.ERROR_UNKNOWN}`)
     }
 }
 module.exports.data = {
