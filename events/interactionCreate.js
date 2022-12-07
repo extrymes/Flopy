@@ -1,14 +1,14 @@
 const languages = require("../util/languages")
 
 module.exports = async (client, interaction) => {
-    const { guild, channel, message, member } = interaction
+    const { guild, channel, member } = interaction
     const settings = await client.getGuild(guild)
     const queue = client.distube.getQueue(guild)
     const lang = languages[settings.flopy1.language]
 
     if(interaction.isCommand()) {
         if(channel === client.cache["dashboard" + guild.id]?.channel || interaction.commandName === "setup" ) {
-            const command = client.commands.get(interaction.commandName)
+            const command = require(`../commands/${interaction.commandName}`)
             command.run(client, interaction, settings, queue, lang)
         } else client.replyError(interaction, false, `${lang.ERROR_COMMAND_NOT_USABLE}`)
     } else {

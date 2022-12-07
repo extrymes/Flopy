@@ -9,7 +9,6 @@ require("./util/functions")(client)
 
 client.config = require("./admin/config")
 client.mongoose = require("./admin/mongoose")
-client.commands = new Collection()
 client.distube = new DisTube(client, {
     leaveOnFinish: client.config.DISTUBE_LEAVE_ON_FINISH,
     leaveOnStop: client.config.DISTUBE_LEAVE_ON_STOP,
@@ -24,11 +23,10 @@ client.distube = new DisTube(client, {
 client.cache = {}
 
 const commandFiles = fs.readdirSync("./commands").filter(file => file.endsWith(".js"))
-const commandsData = []
+const commands = []
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`)
-    client.commands.set(command.data.name, command)
-    commandsData.push(command.data)
+    commands.push(command.data)
 }
 console.log(`[-] Commands: ${commandFiles.length}`)
 
@@ -48,7 +46,7 @@ console.log(`[-] Player: ${playerFiles.length}`)
 
 const rest = new REST({ version: 10 }).setToken(client.config.TOKEN)
 try {
-    rest.put(Routes.applicationCommands(client.config.CLIENT_ID), { body: commandsData })
+    rest.put(Routes.applicationCommands(client.config.CLIENT_ID), { body: commands })
 } catch(error) {
     console.log(error)
 }

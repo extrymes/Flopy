@@ -115,7 +115,7 @@ module.exports = client => {
     // Reply error
     client.replyError = (interaction, edit, content) => {
         const errorEmbed = new EmbedBuilder().setTitle(`${content}`).setColor(elements.COLOR_GREY)
-        if(edit) interaction.editReply({ embeds: [errorEmbed] }).catch(error => {})
+        if(edit) interaction.editReply({ embeds: [errorEmbed], ephemeral: true }).catch(error => {})
         else interaction.reply({ embeds: [errorEmbed], ephemeral: true }).catch(error => {})
         setTimeout(() => interaction.deleteReply().catch(error => {}), 4000)
     }
