@@ -6,7 +6,7 @@ module.exports = async (client, message) => {
     const queue = client.distube.getQueue(guild)
     const lang = languages[settings.flopy1.language]
 
-    if(member.user.bot) return
+    if(message.author.bot) return
 
     if(channel === client.cache["dashboard" + guild.id]?.channel) {
         if(member.voice.channel) {
