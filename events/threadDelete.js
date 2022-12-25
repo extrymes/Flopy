@@ -1,8 +1,8 @@
 module.exports = async (client, thread) => {
     const guild = thread.guild
     
-    if(thread === client.cache["dashboard" + guild.id]?.channel) {
-        delete client.cache["dashboard" + guild.id]
+    if(thread === client.dashboards.get(guild.id)?.channel) {
+        client.dashboards.delete(guild.id)
         client.leaveVoice(guild)
     }
 }

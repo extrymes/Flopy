@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Partials, Collection, REST, Routes } = require("discord.js")
+const { Client, GatewayIntentBits, REST, Routes } = require("discord.js")
 const { DisTube } = require("distube")
 const fs = require ("fs")
 const colors = require("colors")
@@ -9,6 +9,9 @@ require("./util/functions")(client)
 
 client.config = require("./admin/config")
 client.mongoose = require("./admin/mongoose")
+client.dashboards = new Map()
+client.cooldowns = new Map()
+client.queries = new Map()
 client.distube = new DisTube(client, {
     leaveOnFinish: client.config.DISTUBE_LEAVE_ON_FINISH,
     leaveOnStop: client.config.DISTUBE_LEAVE_ON_STOP,
@@ -20,7 +23,6 @@ client.distube = new DisTube(client, {
     youtubeCookie: client.config.DISTUBE_YOUTUBE_COOKIE,
     youtubeIdentityToken: client.config.DISTUBE_YOUTUBE_IDENTITY_TOKEN,
 })
-client.cache = {}
 
 const commandFiles = fs.readdirSync("./commands").filter(file => file.endsWith(".js"))
 const commands = []

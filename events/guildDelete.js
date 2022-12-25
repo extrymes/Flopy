@@ -1,3 +1,3 @@
 module.exports = async (client, guild) => {
-    delete client.cache["dashboard" + guild.id]
+    client.dashboards.delete(guild.id)
 }

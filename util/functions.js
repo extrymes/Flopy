@@ -75,7 +75,7 @@ module.exports = client => {
 
     // Leave voice
     client.leaveVoice = guild => {
-        client.cooldown("joinVoice" + guild.id, 1000)
+        client.manageCooldown("joinVoice", guild.id, 1000)
         client.distube.voices.leave(guild)
     }
 
@@ -94,7 +94,7 @@ module.exports = client => {
 
     // Send help message
     client.sendHelpMessage = (guild, channel, lang) => {
-        const helpEmbed = new EmbedBuilder().setAuthor({ name: `${lang.HELP_MESSAGE}`, iconURL: elements.ICON_FLOPY }).setDescription(`${client.cache["dashboard" + guild.id] ? lang.HELP_PLAY_SONG.replace("$channel", `${client.cache["dashboard" + guild.id]?.channel}`) : lang.HELP_SETUP_DASHBOARD.replace("$command", `\`/setup\``)}`).setColor(elements.COLOR_FLOPY)
+        const helpEmbed = new EmbedBuilder().setAuthor({ name: `${lang.HELP_MESSAGE}`, iconURL: elements.ICON_FLOPY }).setDescription(`${client.dashboards.has(guild.id) ? lang.HELP_PLAY_SONG.replace("$channel", `${client.dashboards.get(guild.id)?.channel}`) : lang.HELP_SETUP_DASHBOARD.replace("$command", `\`/setup\``)}`).setColor(elements.COLOR_FLOPY)
         channel?.send({ embeds: [helpEmbed] }).catch(error => {})
     }
 
@@ -141,18 +141,18 @@ module.exports = client => {
     client.getDashboard = async (guild, settings) => {
         const channel = guild.channels.cache.get(settings.flopy1.channel)
         await channel?.messages?.fetch(settings.flopy1.message).then(message => {
-            if(message) client.cache["dashboard" + guild.id] = message
+            if(message) client.dashboards.set(guild.id, message)
         }).catch(error => {})
     }
 
     // Send dashboard
     client.sendDashboard = (guild, channel, settings, queue, lang) => {
         const dashboard = client.createDashboard(guild, queue, lang)
-        client.cooldown("leaveVoice" + guild.id, 1000)
-        client.cache["dashboard" + guild.id]?.delete().catch(error => {})
+        client.manageCooldown("leaveVoice", guild.id, 1000)
+        client.dashboards.get(guild.id)?.delete().catch(error => {})
         channel?.send(dashboard).then(message => {
             if(message) {
-                client.cache["dashboard" + guild.id] = message
+                client.dashboards.set(guild.id, message)
                 client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { channel: channel.id, message: message.id }) })
             } else client.leaveVoice(guild)
         }).catch(error => {})
@@ -161,7 +161,7 @@ module.exports = client => {
     // Edit dashboard
     client.editDashboard = (guild, queue, lang) => {
         const dashboard = client.createDashboard(guild, queue, lang)
-        client.cache["dashboard" + guild.id]?.edit(dashboard).catch(error => {})
+        client.dashboards.get(guild.id)?.edit(dashboard).catch(error => {})
     }
 
     // Create bar
@@ -170,11 +170,11 @@ module.exports = client => {
         const progress = Number(Math.min(((queue.currentTime / song.duration) * client.config.BAR_MAX_LENGTH).toFixed(0), client.config.BAR_MAX_LENGTH))
         const rest = client.config.BAR_MAX_LENGTH - progress
         let bar = ""
-        for(i = 0; i < progress; i++) {
+        for(let i = 0; i < progress; i++) {
             bar += elements.SYMBOL_LINE
         }
         bar += elements.SYMBOL_CIRCLE
-        for(i = 0; i < rest; i++) {
+        for(let i = 0; i < rest; i++) {
             bar += " "
         }
         return `\`${queue.formattedCurrentTime} ${bar} ${song.formattedDuration}\``
@@ -204,11 +204,12 @@ module.exports = client => {
         return `${lang.ERROR_UNKNOWN}`
     }
 
-    // Cooldown
-    client.cooldown = (id, time) => {
-        if(client.cache["cooldown" + id]) return true
-        client.cache["cooldown" + id] = true
-        setTimeout(() => delete client.cache["cooldown" + id], time)
-        return false
+    // Manage cooldown
+    client.manageCooldown = (name, target, time) => {
+        const cooldownId = name + target
+        if(client.cooldowns.has(cooldownId)) return false
+        client.cooldowns.set(cooldownId, true)
+        setTimeout(() => client.cooldowns.delete(cooldownId), time)
+        return true
     }
 }

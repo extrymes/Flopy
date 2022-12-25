@@ -7,7 +7,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
     if(!song) return client.replyError(interaction, false, `${lang.ERROR_SONG_NO_PLAYING}`)
     if(!client.checkVoice(guild, member)) return client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
     if(song.isLive) return client.replyError(interaction, false, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
-    if(client.cooldown("replay" + guild.id, 4000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
+    if(!client.manageCooldown("replay", guild.id, 4000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
     client.distube.seek(queue, 0)
     if(queue.paused) {
         client.distube.resume(queue)
