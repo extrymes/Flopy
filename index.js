@@ -25,22 +25,22 @@ client.distube = new DisTube(client, {
 })
 
 const commandFiles = fs.readdirSync("./commands").filter(file => file.endsWith(".js"))
-const commands = []
-for (const file of commandFiles) {
+const commands = new Array()
+for(const file of commandFiles) {
     const command = require(`./commands/${file}`)
     commands.push(command.data)
 }
 console.log(`[-] Commands: ${commandFiles.length}`)
 
 const eventFiles = fs.readdirSync("./events").filter(file => file.endsWith(".js"))
-for (const file of eventFiles) {
+for(const file of eventFiles) {
     const event = require(`./events/${file}`)
     client.on(file.split(".")[0], event.bind(null, client))
 }
 console.log(`[-] Events: ${eventFiles.length}`)
 
 const playerFiles = fs.readdirSync("./player").filter(file => file.endsWith(".js"))
-for (const file of playerFiles) {
+for(const file of playerFiles) {
     const event = require(`./player/${file}`)
     client.distube.on(file.split(".")[0], event.bind(null, client))
 }
@@ -50,7 +50,7 @@ const rest = new REST({ version: 10 }).setToken(client.config.TOKEN)
 try {
     rest.put(Routes.applicationCommands(client.config.CLIENT_ID), { body: commands })
 } catch(error) {
-    console.log(error)
+    console.warn(error)
 }
 
 client.mongoose.init()

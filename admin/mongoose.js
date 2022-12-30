@@ -9,6 +9,6 @@ module.exports = {
             serverSelectionTimeoutMS: config.MONGO_SERVER_SELECTION_TIMEOUT_MS,
             socketTimeoutMS: config.MONGO_SOCKET_TIMEOUT_MS,
             family: config.MONGO_FAMILY,
-        }).then(() => console.log("[-] Flopy is connected to the database".green)).catch(error => console.log(error))
+        }).then(() => console.log("[-] Flopy is connected to the database".green)).catch(error => console.warn(error))
     }
 }

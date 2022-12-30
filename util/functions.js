@@ -19,7 +19,7 @@ module.exports = client => {
     // Update guild in the database
     client.updateGuild = async (guild, settings) => {
         let data = await client.getGuild(guild)
-        if(typeof data !== "object") data = {}
+        if(typeof data !== "object") data = new Object()
         for(const key in settings) {
             if(data[key] !== settings[key]) data[key] = settings[key]
         }
@@ -42,7 +42,7 @@ module.exports = client => {
     // Update user in the database
     client.updateUser = async (user, settings) => {
         let data = await client.getUser(user)
-        if(typeof data !== "object") data = {}
+        if(typeof data !== "object") data = new Object()
         for(const key in settings) {
             if(data[key] !== settings[key]) data[key] = settings[key]
         }
@@ -95,7 +95,7 @@ module.exports = client => {
     // Send help message
     client.sendHelpMessage = (guild, channel, lang) => {
         const helpEmbed = new EmbedBuilder().setAuthor({ name: `${lang.HELP_MESSAGE}`, iconURL: elements.ICON_FLOPY }).setDescription(`${client.dashboards.has(guild.id) ? lang.HELP_PLAY_SONG.replace("$channel", `${client.dashboards.get(guild.id)?.channel}`) : lang.HELP_SETUP_DASHBOARD.replace("$command", `\`/setup\``)}`).setColor(elements.COLOR_FLOPY)
-        channel?.send({ embeds: [helpEmbed] }).catch(error => {})
+        channel.send({ embeds: [helpEmbed] }).catch(error => {})
     }
 
     // Send error
@@ -124,8 +124,8 @@ module.exports = client => {
     client.createDashboard = (guild, queue, lang) => {
         const song = queue?.songs[0]
         if(song) {
-            const songs = queue.songs.slice(1, client.config.QUEUE_MAX_LENGTH + 1).map((item, i) => { return `${i + 1}. ${item.name.length <= client.config.SONG_MAX_LENGTH ? item.name : item.name.substring(0, client.config.SONG_MAX_LENGTH) + "..."}` }).reverse().join("\n")
-            const dashboardContent = `**__${lang.DASHBOARD_QUEUE}__**\n${queue.songs.length - 1 <= client.config.QUEUE_MAX_LENGTH ? "" : `**+${queue.songs.length - 1 - client.config.QUEUE_MAX_LENGTH}**\n`}${songs || lang.DASHBOARD_QUEUE_NO_SONG}`
+            const songs = queue.songs.slice(1, client.config.QUEUE_MAX_DISPLAY + 1).map((item, i) => { return `${i + 1}. ${item.name.length <= client.config.SONG_MAX_DISPLAY ? item.name : item.name.substr(0, client.config.SONG_MAX_DISPLAY).concat("...")}` }).reverse().join("\n")
+            const dashboardContent = `**__${lang.DASHBOARD_QUEUE}__**\n${queue.songs.length - 1 <= client.config.QUEUE_MAX_DISPLAY ? "" : `**+${queue.songs.length - 1 - client.config.QUEUE_MAX_DISPLAY}**\n`}${songs || lang.DASHBOARD_QUEUE_NO_SONG}`
             const dashboardEmbed = new EmbedBuilder().setTitle(`[${song.formattedDuration}] ${song.name}`).setImage(song.thumbnail || elements.BANNER_SECONDARY).setFooter({ text: `${lang.DASHBOARD_VOLUME} ${queue.volume}%${queue.repeatMode === 0 ? "" : queue.repeatMode === 1 ? ` | ${lang.DASHBOARD_REPEAT_SONG}` : ` | ${lang.DASHBOARD_REPEAT_QUEUE}`}${queue.autoplay ? ` | ${lang.DASHBOARD_AUTOPLAY_ON}` : ""}${queue.filters.size < 1 ? "" : ` | ${lang.DASHBOARD_FILTERS} ${queue.filters.size}`}` }).setColor(guild.members.me.displayHexColor.replace("#000000", elements.COLOR_WHITE))
             const dashboardButtons = new ActionRowBuilder().addComponents(queue.playing ? new ButtonBuilder().setCustomId("pause").setStyle(ButtonStyle.Secondary).setEmoji(elements.EMOJI_PAUSE) : new ButtonBuilder().setCustomId("resume").setStyle(ButtonStyle.Primary).setEmoji(elements.EMOJI_PLAY), new ButtonBuilder().setCustomId("stop").setStyle(ButtonStyle.Secondary).setEmoji(elements.EMOJI_STOP), new ButtonBuilder().setCustomId("skip").setStyle(ButtonStyle.Secondary).setEmoji(elements.EMOJI_SKIP), new ButtonBuilder().setCustomId("repeat").setStyle(ButtonStyle.Secondary).setEmoji(elements.EMOJI_REPEAT), new ButtonBuilder().setCustomId("volume").setStyle(ButtonStyle.Secondary).setEmoji(elements.EMOJI_VOLUME))
             return { content: dashboardContent, embeds: [dashboardEmbed], components: [dashboardButtons] }
@@ -164,31 +164,31 @@ module.exports = client => {
         client.dashboards.get(guild.id)?.edit(dashboard).catch(error => {})
     }
 
-    // Create bar
-    client.createBar = queue => {
+    // Manage cooldown
+    client.manageCooldown = (name, target, time) => {
+        const cooldownId = name + target
+        if(client.cooldowns.has(cooldownId)) return false
+        client.cooldowns.set(cooldownId, true)
+        setTimeout(() => client.cooldowns.delete(cooldownId), time)
+        return true
+    }
+
+    // Create duration bar
+    client.createDurationBar = queue => {
         const song = queue.songs[0]
-        const progress = Number(Math.min(((queue.currentTime / song.duration) * client.config.BAR_MAX_LENGTH).toFixed(0), client.config.BAR_MAX_LENGTH))
-        const rest = client.config.BAR_MAX_LENGTH - progress
-        let bar = ""
-        for(let i = 0; i < progress; i++) {
-            bar += elements.SYMBOL_LINE
-        }
-        bar += elements.SYMBOL_CIRCLE
-        for(let i = 0; i < rest; i++) {
-            bar += " "
-        }
+        const progress = Math.min(Math.round((queue.currentTime / song.duration) * client.config.BAR_MAX_DISPLAY), client.config.BAR_MAX_DISPLAY)
+        const rest = client.config.BAR_MAX_DISPLAY - progress
+        const bar = new Array(progress).fill(elements.SYMBOL_LINE).concat(elements.SYMBOL_CIRCLE).concat(new Array(rest).fill(" ")).join("")
         return `\`${queue.formattedCurrentTime} ${bar} ${song.formattedDuration}\``
     }
 
-    // Convert time
-    client.convertTime = time => {
+    // Convert HMS to seconds
+    client.convertHMSToSeconds = hms => {
         let sec = 0
-        sec += Number(time[time.length - 1] || 0)
-        sec += Number(time[time.length - 2] || 0) * 10
-        sec += Number(time[time.length - 3] || 0) * 60
-        sec += Number(time[time.length - 4] || 0) * 60 * 10
-        sec += Number(time[time.length - 5] || 0) * 60 * 60
-        sec += Number(time[time.length - 6] || 0) * 60 * 60 * 10
+        const units = [1, 10, 60, 600, 3600, 36000]
+        for(let i = 0; i < hms.length; i++) {
+            sec += Number(hms[hms.length - i - 1] || 0) * units[i]
+        }
         return sec
     }
 
@@ -200,16 +200,7 @@ module.exports = client => {
         if(error.includes("Sign in to confirm your age") || error.includes("Sorry, this content is age-restricted") || error.includes("This video is only available to Music Premium members")) return `${lang.ERROR_VIDEO_RESTRICTED}`
         if(error.includes("Unsupported URL") || error.includes("This url is not supported")) return `${lang.ERROR_URL_UNSUPPORTED}`
         if(error.includes("Unknown Playlist")) return `${lang.ERROR_PLAYLIST_UNKNOWN}`
-        console.log(error)
+        console.warn(error)
         return `${lang.ERROR_UNKNOWN}`
-    }
-
-    // Manage cooldown
-    client.manageCooldown = (name, target, time) => {
-        const cooldownId = name + target
-        if(client.cooldowns.has(cooldownId)) return false
-        client.cooldowns.set(cooldownId, true)
-        setTimeout(() => client.cooldowns.delete(cooldownId), time)
-        return true
     }
 }
