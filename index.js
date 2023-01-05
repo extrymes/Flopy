@@ -4,6 +4,7 @@ const fs = require ("fs")
 const colors = require("colors")
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.MessageContent] })
+require("dotenv").config()
 require("./util/crash")(client)
 require("./util/functions")(client)
 
@@ -46,12 +47,12 @@ for(const file of playerFiles) {
 }
 console.log(`[-] Player: ${playerFiles.length}`)
 
-const rest = new REST({ version: 10 }).setToken(client.config.TOKEN)
+const rest = new REST({ version: 10 }).setToken(process.env.TOKEN)
 try {
-    rest.put(Routes.applicationCommands(client.config.CLIENT_ID), { body: commands })
+    rest.put(Routes.applicationCommands(process.env.CLIENT_ID), { body: commands })
 } catch(error) {
     console.warn(error)
 }
 
 client.mongoose.init()
-client.login(client.config.TOKEN)
+client.login(process.env.TOKEN)

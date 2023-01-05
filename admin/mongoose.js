@@ -3,7 +3,7 @@ const config = require("./config")
 
 module.exports = {
     init: () => {
-        mongoose.connect(config.DBCONNECTION, {
+        mongoose.connect(process.env.MONGO_CONNECTION, {
             autoIndex: config.MONGO_AUTO_INDEX,
             maxPoolSize: config.MONGO_MAX_POOL_SIZE,
             serverSelectionTimeoutMS: config.MONGO_SERVER_SELECTION_TIMEOUT_MS,

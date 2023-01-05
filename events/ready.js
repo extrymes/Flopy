@@ -3,13 +3,13 @@ const languages = require("../util/languages")
 module.exports = client => {
     // Status
     console.log(`[-] ${client.user.username} is online`.green)
-    setInterval(() => client.user.setPresence({ activities: [{ name: `@${client.user.username}`, type: 2 }], status: "online" }), client.config.STATUS_UPDATE_INTERVAL * 1000)
+    setInterval(() => client.user.setPresence({ activities: [{ name: `@${client.user.username}`, type: 2 }], status: "online" }), client.config.PRESENCE_UPDATE_INTERVAL * 1000)
 
     // Guilds
     console.log("[!] Checking guilds ...".yellow)
     client.guilds.cache.forEach(async (guild, id) => {
         const settings = await client.getGuild(guild)
-        if(settings.null) {
+        if(!settings) {
             await client.createGuild(guild)
             client.sendFirstMessage(guild)
         } else {

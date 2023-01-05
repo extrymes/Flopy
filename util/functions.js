@@ -5,7 +5,7 @@ const elements = require("../util/elements")
 module.exports = client => {
     // Create guild in the database
     client.createGuild = async guild => {
-        const newGuild = await new Guild({ guildID: guild.id })
+        const newGuild = new Guild({ guildID: guild.id })
         newGuild.save().then(i => console.log(`[+] New guild ${i.guildID}`.blue))
     }
 
@@ -13,22 +13,21 @@ module.exports = client => {
     client.getGuild = async guild => {
         const data = await Guild.findOne({ guildID: guild.id })
         if(data) return data
-        return Object.assign(client.config.GUILD_DEFAULT_SETTINGS, { null: true })
+        return null
     }
 
     // Update guild in the database
     client.updateGuild = async (guild, settings) => {
         let data = await client.getGuild(guild)
-        if(typeof data !== "object") data = new Object()
         for(const key in settings) {
-            if(data[key] !== settings[key]) data[key] = settings[key]
+            data[key] = settings[key]
         }
         return data.updateOne(settings)
     }
 
     // Create user in the database
     client.createUser = async user => {
-        const newUser = await new User({ userID: user.id })
+        const newUser = new User({ userID: user.id })
         newUser.save().then(i => console.log(`[+] New user ${i.userID}`.blue))
     }
 
@@ -36,15 +35,14 @@ module.exports = client => {
     client.getUser = async user => {
         const data = await User.findOne({ userID: user.id })
         if(data) return data
-        return Object.assign(client.config.USER_DEFAULT_SETTINGS, { null: true })
+        return null
     }
 
     // Update user in the database
     client.updateUser = async (user, settings) => {
         let data = await client.getUser(user)
-        if(typeof data !== "object") data = new Object()
         for(const key in settings) {
-            if(data[key] !== settings[key]) data[key] = settings[key]
+            data[key] = settings[key]
         }
         return data.updateOne(settings)
     }

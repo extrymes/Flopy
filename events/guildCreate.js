@@ -3,7 +3,7 @@ const languages = require("../util/languages")
 module.exports = async (client, guild) => {
     const settings = await client.getGuild(guild)
 
-    if(settings.null) {
+    if(!settings) {
         await client.createGuild(guild)
         client.sendFirstMessage(guild)
     } else {

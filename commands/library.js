@@ -6,11 +6,11 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
     const { member, options } = interaction
     const subcommand = options.getSubcommand()
     const data = await client.getUser(member)
-    const library = data.library
+    const library = data?.library || new Array()
 
     switch(subcommand) {
         case "play":
-            if(data.null) return client.replyError(interaction, false, `${lang.ERROR_LIBRARY_NO_ITEM}`)
+            if(!data) return client.replyError(interaction, false, `${lang.ERROR_LIBRARY_NO_ITEM}`)
             if(!client.manageCooldown("library", member.id, 4000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
             const items = library.map((item, i) => { return { label: `${i + 1}. ${item.name.length <= client.config.SONG_MAX_DISPLAY ? item.name : item.name.substr(0, client.config.SONG_MAX_DISPLAY).concat("...")}`, value: item.url, emoji: item.isPlaylist ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG } })
             const playlistsCount = library.filter(item => item.isPlaylist).length
@@ -26,10 +26,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
             if(library.length >= client.config.LIBRARY_MAX_ITEMS) return client.replyError(interaction, false, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`)
             if(library.find(item => item.url === playing.url)) return client.replyError(interaction, false, `${isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_ALREADY_ADDED : lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`)
             library.push({ name: playing.name, url: playing.url, isPlaylist: isPlaylist })
-            if(data.null) {
-                await client.createUser(member)
-                Object.assign(client.config.USER_DEFAULT_SETTINGS, { library: [] })
-            }
+            if(!data) await client.createUser(member)
             setTimeout(() => client.updateUser(member, { library: library }), 1000)
             client.replyMessage(interaction, false, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED}`)
             break
