@@ -99,6 +99,16 @@ module.exports = client => {
         } else destination?.send({ embeds: [notificationEmbed] }).then(m => setTimeout(() => m?.delete().catch(error => {}), 4000)).catch(error => {})
     }
 
+    // Send advanced notification
+    client.sendAdvancedNotification = (destination, title, description, thumbnail, editReply) => {
+        const notificationEmbed = new EmbedBuilder().setTitle(`${title}`).setDescription(`${description}`).setThumbnail(thumbnail || elements.BANNER_SECONDARY).setColor(elements.COLOR_FLOPY)
+        if(destination?.token) {
+            if(editReply) destination.editReply({ embeds: [notificationEmbed] }).catch(error => {})
+            else destination.reply({ embeds: [notificationEmbed] }).catch(error => {})
+            setTimeout(() => destination.deleteReply().catch(error => {}), 4000)
+        } else destination?.send({ embeds: [notificationEmbed] }).then(m => setTimeout(() => m?.delete().catch(error => {}), 4000)).catch(error => {})
+    }
+
     // Send error notification
     client.sendErrorNotification = (destination, title, editReply) => {
         const notificationEmbed = new EmbedBuilder().setTitle(`${title}`).setColor(elements.COLOR_GREY)

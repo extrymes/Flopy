@@ -13,7 +13,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
         client.distube.resume(queue)
         client.editDashboard(guild, queue, lang)
     }
-    client.sendNotification(interaction, `${lang.MESSAGE_SONG_REPLAYED}`)
+    client.sendAdvancedNotification(interaction, `${lang.MESSAGE_SONG_REPLAYED}`, song.name, song.thumbnail)
 }
 module.exports.data = {
     name: "replay",

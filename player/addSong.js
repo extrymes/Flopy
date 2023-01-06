@@ -9,6 +9,6 @@ module.exports = async (client, queue, song) => {
     client.queries.set(song.member.id, song.url)
     if(queue.songs[0] !== song) {
         client.editDashboard(guild, queue, lang)
-        client.sendNotification(destination, `${lang.MESSAGE_QUEUE_SONG_ADDED} (#${queue.songs.indexOf(song)})`)
-    } else setTimeout(() => client.sendNotification(destination, `${lang.MESSAGE_SONG_PLAYING}`), 500)
+        client.sendAdvancedNotification(destination, `${lang.MESSAGE_QUEUE_SONG_ADDED} (#${queue.songs.indexOf(song)})`, song.name, song.thumbnail, true)
+    } else setTimeout(() => client.sendAdvancedNotification(destination, `${lang.MESSAGE_SONG_PLAYING}`, song.name, song.thumbnail, true), 1000)
 }
