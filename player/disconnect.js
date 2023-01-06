@@ -6,5 +6,5 @@ module.exports = async (client, queue) => {
     const settings = await client.getGuild(guild)
     const lang = languages[settings.flopy1.language]
     
-    client.sendError(channel, `${lang.ERROR_VOICE_DISCONNECTED}`)
+    client.sendErrorNotification(channel, `${lang.ERROR_VOICE_DISCONNECTED}`)
 }

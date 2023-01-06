@@ -66,7 +66,7 @@ module.exports = client => {
 
     // Check voice
     client.checkVoice = (guild, member) => {
-        const voice = guild.members.me.voice.channel || false
+        const voice = guild.members.me.voice.channel
         if(voice === member.voice.channel) return true
         return false
     }
@@ -75,12 +75,6 @@ module.exports = client => {
     client.leaveVoice = guild => {
         client.manageCooldown("joinVoice", guild.id, 1000)
         client.distube.voices.leave(guild)
-    }
-
-    // Send message
-    client.sendMessage = (channel, content) => {
-        const messageEmbed = new EmbedBuilder().setTitle(`${content}`).setColor(elements.COLOR_FLOPY)
-        channel?.send({ embeds: [messageEmbed] }).then(m => setTimeout(() => m?.delete().catch(error => {}), 4000)).catch(error => {})
     }
 
     // Send first message
@@ -96,26 +90,23 @@ module.exports = client => {
         channel.send({ embeds: [helpEmbed] }).catch(error => {})
     }
 
-    // Send error
-    client.sendError = (channel, content) => {
-        const errorEmbed = new EmbedBuilder().setTitle(`${content}`).setColor(elements.COLOR_GREY)
-        channel?.send({ embeds: [errorEmbed] }).then(m => setTimeout(() => m?.delete().catch(error => {}), 4000)).catch(error => {})
+    // Send notification
+    client.sendNotification = (destination, title, ephemeral) => {
+        const notificationEmbed = new EmbedBuilder().setTitle(`${title}`).setColor(elements.COLOR_FLOPY)
+        if(destination?.token) {
+            destination.reply({ embeds: [notificationEmbed], ephemeral: ephemeral }).catch(error => {})
+            setTimeout(() => destination.deleteReply().catch(error => {}), 4000)
+        } else destination?.send({ embeds: [notificationEmbed] }).then(m => setTimeout(() => m?.delete().catch(error => {}), 4000)).catch(error => {})
     }
 
-    // Reply message
-    client.replyMessage = (interaction, edit, content) => {
-        const messageEmbed = new EmbedBuilder().setTitle(`${content}`).setColor(elements.COLOR_FLOPY)
-        if(edit) interaction.editReply({ embeds: [messageEmbed] }).catch(error => {})
-        else interaction.reply({ embeds: [messageEmbed] }).catch(error => {})
-        setTimeout(() => interaction.deleteReply().catch(error => {}), 4000)
-    }
-
-    // Reply error
-    client.replyError = (interaction, edit, content) => {
-        const errorEmbed = new EmbedBuilder().setTitle(`${content}`).setColor(elements.COLOR_GREY)
-        if(edit) interaction.editReply({ embeds: [errorEmbed], ephemeral: true }).catch(error => {})
-        else interaction.reply({ embeds: [errorEmbed], ephemeral: true }).catch(error => {})
-        setTimeout(() => interaction.deleteReply().catch(error => {}), 4000)
+    // Send error notification
+    client.sendErrorNotification = (destination, title, editReply) => {
+        const notificationEmbed = new EmbedBuilder().setTitle(`${title}`).setColor(elements.COLOR_GREY)
+        if(destination?.token) {
+            if(editReply) destination.editReply({ embeds: [notificationEmbed], ephemeral: true }).catch(error => {})
+            else destination.reply({ embeds: [notificationEmbed], ephemeral: true }).catch(error => {})
+            setTimeout(() => destination.deleteReply().catch(error => {}), 4000)
+        } else destination?.send({ embeds: [notificationEmbed] }).then(m => setTimeout(() => m?.delete().catch(error => {}), 4000)).catch(error => {})
     }
 
     // Create dashboard

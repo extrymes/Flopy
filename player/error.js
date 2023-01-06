@@ -6,5 +6,5 @@ module.exports = async (client, channel, error) => {
     const lang = languages[settings.flopy1.language]
 
     const errorMessage = client.getErrorMessage(error.message, lang)
-    client.sendError(channel, `${errorMessage}`)
+    client.sendErrorNotification(channel, `${errorMessage}`)
 }

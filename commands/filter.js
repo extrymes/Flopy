@@ -7,27 +7,27 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
     switch(subcommand) {
         case "toggle":
             const name = options.getString("name")
-            if(!queue?.songs[0]) return client.replyError(interaction, false, `${lang.ERROR_SONG_NO_PLAYING}`)
-            if(!client.checkVoice(guild, member) && queue) return client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
-            if(!client.manageCooldown("filter", guild.id, 2000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
+            if(!queue?.songs[0]) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_NO_PLAYING}`)
+            if(!client.checkVoice(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
+            if(!client.manageCooldown("filter", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
             if(queue.filters.has(name)) queue.filters.remove(name)
             else queue.filters.add(name)
             if(queue.paused) client.distube.resume(queue)
             const filters = queue.filters.names.map((item, i) => { return `\`${item}\`` }).join(", ")
             client.editDashboard(guild, queue, lang)
-            client.replyMessage(interaction, false, `${lang.MESSAGE_FILTERS_ACTIVE} ${queue.filters.size > 0 ? filters : lang.MESSAGE_FILTERS_NONE}`)
+            client.sendNotification(interaction, `${lang.MESSAGE_FILTERS_ACTIVE} ${queue.filters.size ? filters : lang.MESSAGE_FILTERS_NONE}`)
             break
         case "reset":
-            if(!queue?.songs[0] || queue.filters.size < 1) return client.replyError(interaction, false, `${lang.ERROR_FILTER_NO_ACTIVE}`)
-            if(!client.checkVoice(guild, member)) return client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
-            if(!client.manageCooldown("filter", guild.id, 2000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
+            if(!queue?.filters?.size) return client.sendErrorNotification(interaction, `${lang.ERROR_FILTER_NO_ACTIVE}`)
+            if(!client.checkVoice(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
+            if(!client.manageCooldown("filter", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
             queue.filters.clear()
             if(queue.paused) client.distube.resume(queue)
             client.editDashboard(guild, queue, lang)
-            client.replyMessage(interaction, false, `${lang.MESSAGE_FILTERS_ACTIVE} ${lang.MESSAGE_FILTERS_NONE}`)
+            client.sendNotification(interaction, `${lang.MESSAGE_FILTERS_ACTIVE} ${lang.MESSAGE_FILTERS_NONE}`)
             break
         default:
-            client.replyError(interaction, false, `${lang.ERROR_UNKNOWN}`)
+            client.sendErrorNotification(interaction, `${lang.ERROR_UNKNOWN}`)
     }
 }
 module.exports.data = {

@@ -7,7 +7,7 @@ module.exports = client => {
 
     // Guilds
     console.log("[!] Checking guilds ...".yellow)
-    client.guilds.cache.forEach(async (guild, id) => {
+    client.guilds.cache.forEach(async guild => {
         const settings = await client.getGuild(guild)
         if(!settings) {
             await client.createGuild(guild)

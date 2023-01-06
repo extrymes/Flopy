@@ -10,7 +10,7 @@ module.exports = async (client, interaction) => {
         if(channel === client.dashboards.get(guild.id)?.channel || interaction.commandName === "setup" ) {
             const command = require(`../commands/${interaction.commandName}`)
             command.run(client, interaction, settings, queue, lang)
-        } else client.replyError(interaction, false, `${lang.ERROR_COMMAND_NOT_USABLE}`)
+        } else client.sendErrorNotification(interaction, `${lang.ERROR_COMMAND_NOT_USABLE}`)
     } else {
         switch(interaction.customId) {
             case "resume":
@@ -20,7 +20,7 @@ module.exports = async (client, interaction) => {
                         client.editDashboard(guild, queue, lang)
                     } catch {}
                     interaction.deferUpdate().catch(error => {})
-                } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
+                } else client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
                 break
             case "pause":
                 if(client.checkVoice(guild, member)) {
@@ -29,13 +29,13 @@ module.exports = async (client, interaction) => {
                         client.editDashboard(guild, queue, lang)
                     } catch {}
                     interaction.deferUpdate().catch(error => {})
-                } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
+                } else client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
                 break
             case "stop":
                 if(client.checkVoice(guild, member)) {
                     try { client.distube.stop(queue) } catch {}
                     interaction.deferUpdate().catch(error => {})
-                } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
+                } else client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
                 break
             case "skip":
                 if(client.checkVoice(guild, member)) {
@@ -44,7 +44,7 @@ module.exports = async (client, interaction) => {
                         if(queue.paused && (queue.songs[1] || queue.autoplay)) client.distube.resume(queue)
                     } catch {}
                     interaction.deferUpdate().catch(error => {})
-                } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
+                } else client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
                 break
             case "repeat":
                 if(client.checkVoice(guild, member)) {
@@ -53,7 +53,7 @@ module.exports = async (client, interaction) => {
                         client.editDashboard(guild, queue, lang)
                     } catch {}
                     interaction.deferUpdate().catch(error => {})
-                } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
+                } else client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
                 break
             case "volume":
                 if(client.checkVoice(guild, member)) {
@@ -62,7 +62,7 @@ module.exports = async (client, interaction) => {
                         client.editDashboard(guild, queue, lang)
                     } catch {}
                     interaction.deferUpdate().catch(error => {})
-                } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
+                } else client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
                 break
             case "play":
                 const url = interaction.values[0]
@@ -70,16 +70,16 @@ module.exports = async (client, interaction) => {
                     if(client.checkVoice(guild, member) || !queue) {
                         if(client.manageCooldown("play", member.id, 2000)) {
                             await interaction.deferReply().catch(error => {})
-                            client.distube.play(member.voice.channel, url, { textChannel: channel, member: member, metadata: { interaction: interaction } }).catch(error => {
+                            client.distube.play(member.voice.channel, url, { textChannel: channel, member: member, metadata: interaction }).catch(error => {
                                 const errorMessage = client.getErrorMessage(error.message, lang)
-                                client.replyError(interaction, true, `${errorMessage}`)
+                                client.sendErrorNotification(interaction, `${errorMessage}`, true)
                             })
-                        } else client.replyError(interaction, false, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
-                    } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
-                } else client.replyError(interaction, false, `${lang.ERROR_USER_MUST_JOIN_VOICE}`)
+                        } else client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
+                    } else client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
+                } else client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE}`)
                 break
             default:
-                client.replyError(interaction, false, `${lang.ERROR_UNKNOWN}`)
+                client.sendErrorNotification(interaction, `${lang.ERROR_UNKNOWN}`)
         }
     }
 }

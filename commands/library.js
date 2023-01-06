@@ -10,8 +10,8 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
 
     switch(subcommand) {
         case "play":
-            if(!data) return client.replyError(interaction, false, `${lang.ERROR_LIBRARY_NO_ITEM}`)
-            if(!client.manageCooldown("library", member.id, 4000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
+            if(!data) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_NO_ITEM}`)
+            if(!client.manageCooldown("library", member.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
             const items = library.map((item, i) => { return { label: `${i + 1}. ${item.name.length <= client.config.SONG_MAX_DISPLAY ? item.name : item.name.substr(0, client.config.SONG_MAX_DISPLAY).concat("...")}`, value: item.url, emoji: item.isPlaylist ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG } })
             const playlistsCount = library.filter(item => item.isPlaylist).length
             const libraryEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_LIBRARY_TITLE}`, iconURL: elements.ICON_FLOPY }).setThumbnail(member.user.displayAvatarURL().replace("gif", "png")).addFields({ name: `${lang.MESSAGE_LIBRARY_NAME}`, value: `${member.user.username}`, inline: true }, { name: `${lang.MESSAGE_LIBRARY_SONGS}`, value: `${library.length - playlistsCount}`, inline: true }, { name: `${lang.MESSAGE_LIBRARY_PLAYLISTS}`, value: `${playlistsCount}`, inline: true }).setColor(elements.COLOR_FLOPY)
@@ -21,26 +21,26 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
             break
         case "add":
             const playing = queue?.songs[0]?.playlist || queue?.songs[0]
-            if(!playing) return client.replyError(interaction, false, `${lang.ERROR_SONG_NO_PLAYING}`)
+            if(!playing) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_NO_PLAYING}`)
             const isPlaylist = playing.url.includes("playlist") ? true : false
-            if(library.length >= client.config.LIBRARY_MAX_ITEMS) return client.replyError(interaction, false, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`)
-            if(library.find(item => item.url === playing.url)) return client.replyError(interaction, false, `${isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_ALREADY_ADDED : lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`)
+            if(library.length >= client.config.LIBRARY_MAX_ITEMS) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`)
+            if(library.find(item => item.url === playing.url)) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_ALREADY_ADDED : lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`)
             library.push({ name: playing.name, url: playing.url, isPlaylist: isPlaylist })
             if(!data) await client.createUser(member)
             setTimeout(() => client.updateUser(member, { library: library }), 1000)
-            client.replyMessage(interaction, false, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED}`)
+            client.sendNotification(interaction, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED}`, true)
             break
         case "remove":
             const position = options.getInteger("position") - 1
             const item = library[position]
-            if(!item) return client.replyError(interaction, false, `${lang.ERROR_ITEM_INVALID_POSITION}`)
+            if(!item) return client.sendErrorNotification(interaction, `${lang.ERROR_ITEM_INVALID_POSITION}`)
             library.splice(position, 1)
             if(library.length > 0) client.updateUser(member, { library: library })
             else client.deleteUser(member)
-            client.replyMessage(interaction, false, `${item.isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_REMOVED : lang.MESSAGE_LIBRARY_SONG_REMOVED}`)
+            client.sendNotification(interaction, `${item.isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_REMOVED : lang.MESSAGE_LIBRARY_SONG_REMOVED}`, true)
             break
         default:
-            client.replyError(interaction, false, `${lang.ERROR_UNKNOWN}`)
+            client.sendErrorNotification(interaction, `${lang.ERROR_UNKNOWN}`)
     }
 }
 module.exports.data = {

@@ -6,11 +6,11 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
     const { member, options } = interaction
     const name = options.getString("name")
 
-    if(!client.manageCooldown("search", member.id, 4000)) return client.replyError(interaction, false, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
+    if(!client.manageCooldown("search", member.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
     await interaction.deferReply({ ephemeral: true }).catch(error => {})
     const songs = await client.distube.search(name).catch(error => {
         const errorMessage = client.getErrorMessage(error.message, lang)
-        client.replyError(interaction, true, `${errorMessage}`)
+        client.sendErrorNotification(interaction, `${errorMessage}`, true)
     })
     if(!songs) return
     const items = songs.map((item, i) => { return { label: `${i + 1}. ${item.name.length <= client.config.SONG_MAX_DISPLAY ? item.name : item.name.substr(0, client.config.SONG_MAX_DISPLAY).concat("...")}`, value: item.url } })
