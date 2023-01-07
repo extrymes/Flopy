@@ -22,7 +22,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
         case "add":
             const playing = queue?.songs[0]?.playlist || queue?.songs[0]
             if(!playing) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_NO_PLAYING}`)
-            const isPlaylist = playing.url.includes("playlist") ? true : false
+            const isPlaylist = playing.url.includes("playlist")
             if(library.length >= client.config.LIBRARY_MAX_ITEMS) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`)
             if(library.find(item => item.url === playing.url)) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_ALREADY_ADDED : lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`)
             library.push({ name: playing.name, url: playing.url, isPlaylist: isPlaylist })

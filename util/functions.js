@@ -6,55 +6,48 @@ module.exports = client => {
     // Create guild in the database
     client.createGuild = async guild => {
         const newGuild = new Guild({ guildID: guild.id })
-        newGuild.save().then(i => console.log(`[+] New guild ${i.guildID}`.blue))
+        newGuild.save().then(data => console.log(`[+] Guild saved: ${data.guildID}`.blue))
     }
 
     // Get guild in the database
     client.getGuild = async guild => {
         const data = await Guild.findOne({ guildID: guild.id })
-        if(data) return data
-        return null
+        return data
     }
 
     // Update guild in the database
     client.updateGuild = async (guild, settings) => {
-        let data = await client.getGuild(guild)
-        for(const key in settings) {
-            data[key] = settings[key]
-        }
+        const data = await client.getGuild(guild)
         return data.updateOne(settings)
     }
 
     // Create user in the database
     client.createUser = async user => {
         const newUser = new User({ userID: user.id })
-        newUser.save().then(i => console.log(`[+] New user ${i.userID}`.blue))
+        newUser.save().then(data => console.log(`[+] User saved: ${data.userID}`.blue))
     }
 
     // Get user in the database
     client.getUser = async user => {
         const data = await User.findOne({ userID: user.id })
-        if(data) return data
-        return null
+        return data
     }
 
     // Update user in the database
     client.updateUser = async (user, settings) => {
-        let data = await client.getUser(user)
-        for(const key in settings) {
-            data[key] = settings[key]
-        }
+        const data = await client.getUser(user)
         return data.updateOne(settings)
     }
 
     // Delete user in the database
     client.deleteUser = async user => {
-        await User.deleteOne({ userID: user.id })
+        const oldUser = await client.getUser(user)
+        oldUser.remove().then(data => console.log(`[+] User removed: ${data.userID}`.blue))
     }
 
     // Check sendable
-    client.checkSendable = (guild, channel) => {
-        if(channel.viewable && channel.permissionsFor(guild.members.me).has("SendMessages") && channel.permissionsFor(guild.members.me).has("EmbedLinks")) return true
+    client.checkSendable = (channel, member) => {
+        if(channel.viewable && channel.permissionsFor(member).has("SendMessages") && channel.permissionsFor(member).has("EmbedLinks")) return true
         return false
     }
 
@@ -79,7 +72,7 @@ module.exports = client => {
 
     // Send first message
     client.sendFirstMessage = guild => {
-        const channel = guild.channels.cache.filter(item => item.type === ChannelType.GuildText && client.checkSendable(guild, item)).first()
+        const channel = guild.channels.cache.filter(item => item.type === ChannelType.GuildText && client.checkSendable(item, guild.members.me)).first()
         const firstEmbed = new EmbedBuilder().setTitle("Get ready to listen to music easily!").setDescription(`To begin, use \`/setup\` command in a channel.\nIf you need help, here is the [support server](${elements.INVITE_SUPPORT}).`).setImage(elements.BANNER_FLOPY).setColor(elements.COLOR_FLOPY)
         channel?.send({ embeds: [firstEmbed] }).catch(error => {})
     }
