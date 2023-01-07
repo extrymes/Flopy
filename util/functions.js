@@ -47,7 +47,7 @@ module.exports = client => {
 
     // Check sendable
     client.checkSendable = (channel, member) => {
-        if(channel.viewable && channel.permissionsFor(member).has("SendMessages") && channel.permissionsFor(member).has("EmbedLinks")) return true
+        if(channel.viewable && channel.permissionsFor(member).has("SendMessages") && channel.permissionsFor(member).has("EmbedLinks") && Date.now() > member.communicationDisabledUntil) return true
         return false
     }
 
