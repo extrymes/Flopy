@@ -28,16 +28,16 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
             library.push({ name: playing.name, url: playing.url, isPlaylist: isPlaylist })
             if(!data) await client.createUser(member)
             setTimeout(() => client.updateUser(member, { library: library }), 1000)
-            client.sendNotification(interaction, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED}`, true)
+            client.sendNotification(interaction, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED} (#${library.length})`, true)
             break
         case "remove":
-            const position = options.getInteger("position") - 1
-            const item = library[position]
+            const position = options.getInteger("position")
+            const item = library[position - 1]
             if(!item) return client.sendErrorNotification(interaction, `${lang.ERROR_ITEM_INVALID_POSITION}`)
-            library.splice(position, 1)
+            library.splice(position - 1, 1)
             if(library.length > 0) client.updateUser(member, { library: library })
             else client.deleteUser(member)
-            client.sendNotification(interaction, `${item.isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_REMOVED : lang.MESSAGE_LIBRARY_SONG_REMOVED}`, true)
+            client.sendNotification(interaction, `${item.isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_REMOVED : lang.MESSAGE_LIBRARY_SONG_REMOVED} (#${position})`, true)
             break
         default:
             client.sendErrorNotification(interaction, `${lang.ERROR_UNKNOWN}`)
