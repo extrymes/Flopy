@@ -3,18 +3,18 @@ const elements = require("../util/elements")
 const languages = require("../util/languages")
 
 module.exports.run = async (client, interaction, settings, queue, lang) => {
-    const { member, options } = interaction
+    const { user, options } = interaction
     const subcommand = options.getSubcommand()
-    const data = await client.getUser(member)
+    const data = await client.getUser(user)
     const library = data?.library || new Array()
 
     switch(subcommand) {
         case "play":
             if(!data) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_NO_ITEM}`)
-            if(!client.manageCooldown("library", member.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
+            if(!client.manageCooldown("library", user.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
             const items = library.map((item, i) => { return { label: `${i + 1}. ${item.name.length <= client.config.SONG_MAX_DISPLAY ? item.name : item.name.substr(0, client.config.SONG_MAX_DISPLAY).concat("...")}`, value: item.url, emoji: item.isPlaylist ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG } })
             const playlistsCount = library.filter(item => item.isPlaylist).length
-            const libraryEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_LIBRARY_TITLE}`, iconURL: elements.ICON_FLOPY }).setThumbnail(member.user.displayAvatarURL().replace("gif", "png")).addFields({ name: `${lang.MESSAGE_LIBRARY_NAME}`, value: `${member.user.username}`, inline: true }, { name: `${lang.MESSAGE_LIBRARY_SONGS}`, value: `${library.length - playlistsCount}`, inline: true }, { name: `${lang.MESSAGE_LIBRARY_PLAYLISTS}`, value: `${playlistsCount}`, inline: true }).setColor(elements.COLOR_FLOPY)
+            const libraryEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_LIBRARY_TITLE}`, iconURL: elements.ICON_FLOPY }).setThumbnail(user.displayAvatarURL().replace("gif", "png")).addFields({ name: `${lang.MESSAGE_LIBRARY_NAME}`, value: `${user.username}`, inline: true }, { name: `${lang.MESSAGE_LIBRARY_SONGS}`, value: `${library.length - playlistsCount}`, inline: true }, { name: `${lang.MESSAGE_LIBRARY_PLAYLISTS}`, value: `${playlistsCount}`, inline: true }).setColor(elements.COLOR_FLOPY)
             const libraryMenu = new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId("play").setOptions(items))
             interaction.reply({ embeds: [libraryEmbed], components: [libraryMenu], ephemeral: true }).catch(error => {})
             setTimeout(() => interaction.deleteReply().catch(error => {}), 60000)
@@ -26,8 +26,8 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
             if(library.length >= client.config.LIBRARY_MAX_ITEMS) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`)
             if(library.find(item => item.url === playing.url)) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_ALREADY_ADDED : lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`)
             library.push({ name: playing.name, url: playing.url, isPlaylist: isPlaylist })
-            if(!data) await client.createUser(member)
-            setTimeout(() => client.updateUser(member, { library: library }), 1000)
+            if(!data) await client.createUser(user)
+            setTimeout(() => client.updateUser(user, { library: library }), 1000)
             client.sendNotification(interaction, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED} (#${library.length})`, true)
             break
         case "remove":
@@ -35,8 +35,8 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
             const item = library[position - 1]
             if(!item) return client.sendErrorNotification(interaction, `${lang.ERROR_ITEM_INVALID_POSITION}`)
             library.splice(position - 1, 1)
-            if(library.length > 0) client.updateUser(member, { library: library })
-            else client.deleteUser(member)
+            if(library.length > 0) client.updateUser(user, { library: library })
+            else client.deleteUser(user)
             client.sendNotification(interaction, `${item.isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_REMOVED : lang.MESSAGE_LIBRARY_SONG_REMOVED} (#${position})`, true)
             break
         default:
