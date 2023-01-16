@@ -12,7 +12,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
         case "play":
             if(!data) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_NO_ITEM}`)
             if(!client.manageCooldown("library", user.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
-            const items = library.map((item, i) => { return { label: `${i + 1}. ${item.name.length <= client.config.SONG_MAX_DISPLAY ? item.name : item.name.substr(0, client.config.SONG_MAX_DISPLAY).concat("...")}`, value: item.url, emoji: item.isPlaylist ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG } })
+            const items = library.map((item, i) => { return { label: `${i + 1}. ${item.name.length > client.config.SONG_MAX_DISPLAY ? item.name.substr(0, client.config.SONG_MAX_DISPLAY).concat("...") : item.name}`, value: item.url, emoji: item.isPlaylist ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG } })
             const playlistsCount = library.filter(item => item.isPlaylist).length
             const libraryEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_LIBRARY_TITLE}`, iconURL: elements.ICON_FLOPY }).setThumbnail(user.displayAvatarURL().replace("gif", "png")).addFields({ name: `${lang.MESSAGE_LIBRARY_NAME}`, value: `${user.username}`, inline: true }, { name: `${lang.MESSAGE_LIBRARY_SONGS}`, value: `${library.length - playlistsCount}`, inline: true }, { name: `${lang.MESSAGE_LIBRARY_PLAYLISTS}`, value: `${playlistsCount}`, inline: true }).setColor(elements.COLOR_FLOPY)
             const libraryMenu = new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId("play").setOptions(items))
@@ -23,7 +23,7 @@ module.exports.run = async (client, interaction, settings, queue, lang) => {
             const playing = queue?.songs[0]?.playlist || queue?.songs[0]
             if(!playing) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_NO_PLAYING}`)
             const isPlaylist = playing.url.includes("playlist")
-            if(library.length >= client.config.LIBRARY_MAX_ITEMS) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`)
+            if(library.length >= client.config.LIBRARY_MAX_LENGTH) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`)
             if(library.find(item => item.url === playing.url)) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_ALREADY_ADDED : lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`)
             library.push({ name: playing.name, url: playing.url, isPlaylist: isPlaylist })
             if(!data) await client.createUser(user)
