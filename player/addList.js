@@ -7,6 +7,7 @@ module.exports = async (client, queue, playlist) => {
     const lang = languages[settings.flopy1.language]
 
     client.queries.set(playlist.member.id, playlist.url)
+    queue.songs.splice(1, queue.songs.length - 1 - client.config.QUEUE_MAX_LENGTH)
     if(queue.songs[0] !== playlist.songs[0]) {
         client.editDashboard(guild, queue, lang)
         client.sendAdvancedNotification(destination, `${lang.MESSAGE_QUEUE_PLAYLIST_ADDED} (#${queue.songs.indexOf(playlist.songs[0])})`, playlist.name, playlist.thumbnail, true)
