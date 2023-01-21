@@ -5,8 +5,8 @@ const colors = require("colors")
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.MessageContent] })
 require("dotenv").config()
-require("./util/crash")(client)
-require("./util/functions")(client)
+require("./utils/crash")(client)
+require("./utils/functions")(client)
 
 client.config = require("./admin/config")
 client.mongoose = require("./admin/mongoose")

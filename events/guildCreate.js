@@ -1,4 +1,4 @@
-const languages = require("../util/languages")
+const languages = require("../utils/languages")
 
 module.exports = async (client, guild) => {
     const settings = await client.getGuild(guild)

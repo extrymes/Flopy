@@ -1,6 +1,6 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType } = require("discord.js")
 const { Guild, User } = require("../models/index")
-const elements = require("../util/elements")
+const elements = require("./elements")
 
 module.exports = client => {
     // Create guild in the database

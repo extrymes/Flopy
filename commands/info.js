@@ -1,6 +1,6 @@
 const { EmbedBuilder } = require("discord.js")
-const elements = require("../util/elements")
-const languages = require("../util/languages")
+const elements = require("../utils/elements")
+const languages = require("../utils/languages")
 
 module.exports.run = async (client, interaction, settings, queue, lang) => {
     const member = interaction.member
