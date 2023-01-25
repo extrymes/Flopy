@@ -1,5 +1,5 @@
 module.exports = {
-    BANNER_FLOPY: "https://cdn.discordapp.com/attachments/909213855106891844/939203625090179193/flopy_banner.png",
+    BANNER_FLOPY: "https://cdn.discordapp.com/attachments/909213855106891844/1066431383632879727/flopy_banner.png",
     BANNER_DASHBOARD: "https://cdn.discordapp.com/attachments/909213855106891844/909213955044573214/banner.png",
     ICON_FLOPY: "https://cdn.discordapp.com/attachments/909213855106891844/924407201857142814/icon.png",
     EMOJI_PLAY: "936610283143708702",
