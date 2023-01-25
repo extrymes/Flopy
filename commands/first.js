@@ -1,30 +1,30 @@
+const { SlashCommandBuilder } = require("discord.js")
 const languages = require("../utils/languages")
 
-module.exports.run = async (client, interaction, settings, queue, lang) => {
-    const { guild, channel, member, options } = interaction
-    const query = options.getString("query")
-
-    if(!member.voice.channel) return client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE}`)
-    if(!client.checkVoice(guild, member) && queue) return client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
-    if(!client.manageCooldown("play", member.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
-    await interaction.deferReply().catch(error => {})
-    client.distube.play(member.voice.channel, query, { textChannel: channel, member: member, metadata: interaction, position: 1 }).catch(error => {
-        const errorMessage = client.getErrorMessage(error.message, lang)
-        client.sendErrorNotification(interaction, `${errorMessage}`, true)
-    })
-}
-module.exports.data = {
-    name: "first",
-    description: languages["en"].COMMAND_FIRST_DESCRIPTION,
-    description_localizations: { "fr": languages["fr"].COMMAND_FIRST_DESCRIPTION },
-    options: [
-        {
-            name: "query",
-            description: languages["en"].COMMAND_FIRST_OPTION,
-            description_localizations: { "fr": languages["fr"].COMMAND_FIRST_OPTION },
-            type: 3,
-            required: true,
-        },
-    ],
-    dm_permission: false,
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName("first")
+        .setDescription(`${languages["en"].COMMAND_FIRST_DESCRIPTION}`)
+        .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_FIRST_DESCRIPTION}` })
+        .setDMPermission(false)
+        .addStringOption(option =>
+            option
+            .setName("query")
+            .setDescription(`${languages["en"].COMMAND_FIRST_OPTION}`)
+            .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_FIRST_OPTION}` })
+            .setRequired(true)
+        ),
+    run: async (client, interaction, settings, queue, lang) => {
+        const { guild, channel, member, options } = interaction
+        const query = options.getString("query")
+        
+        if(!member.voice.channel) return client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE}`)
+        if(!client.checkVoice(guild, member) && queue) return client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`)
+        if(!client.manageCooldown("play", member.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
+        await interaction.deferReply().catch(error => {})
+        client.distube.play(member.voice.channel, query, { textChannel: channel, member: member, metadata: interaction, position: 1 }).catch(error => {
+            const errorMessage = client.getErrorMessage(error.message, lang)
+            client.sendErrorNotification(interaction, `${errorMessage}`, true)
+        })
+    }
 }
