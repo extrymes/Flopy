@@ -14,7 +14,7 @@ module.exports = {
     EMOJI_LANG_FR: "🇫🇷",
     SYMBOL_LINE: "▬",
     SYMBOL_CIRCLE: "⬤",
-    COLOR_FLOPY: "#3D81EE",
+    COLOR_FLOPY: "#528AE0",
     COLOR_WHITE: "#FFFFFF",
     COLOR_GREY: "#6D6A6A",
     INVITE_FLOPY: "https://discord.com/api/oauth2/authorize?client_id=909205146863566858&permissions=3172352&scope=bot%20applications.commands",
