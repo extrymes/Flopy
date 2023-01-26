@@ -24,6 +24,6 @@ module.exports = {
         if(!client.manageCooldown("jump", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`)
         client.distube.jump(queue, position)
         if(queue.paused) client.distube.resume(queue)
-        client.sendAdvancedNotification(interaction, `${lang.MESSAGE_SONG_SKIPPED.replace("$position", `#${position}`)}`, song.name, song.thumbnail)
+        client.sendAdvancedNotification(interaction, `${lang.MESSAGE_SONG_SKIPPED.replace("$position", `#${position}`)}`, `${song.name}`, song.thumbnail)
     }
 }

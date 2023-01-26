@@ -20,6 +20,6 @@ module.exports = {
             client.distube.resume(queue)
             client.editDashboard(guild, queue, lang)
         }
-        client.sendAdvancedNotification(interaction, `${lang.MESSAGE_SONG_REPLAYED}`, song.name, song.thumbnail)
+        client.sendAdvancedNotification(interaction, `${lang.MESSAGE_SONG_REPLAYED}`, `${song.name}`, song.thumbnail)
     }
 }
