@@ -8,7 +8,7 @@
     "dotenv": "^16.0.3",
     "libsodium-wrappers": "^0.7.11",
     "mongodb": "^5.5.0",
-    "mongoose": "^7.2.1",
+    "mongoose": "^7.2.2",
     "package.json": "^2.0.1"
   }
 }
