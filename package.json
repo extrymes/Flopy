@@ -7,7 +7,7 @@
     "distube": "^4.0.6",
     "dotenv": "^16.3.1",
     "libsodium-wrappers": "^0.7.11",
-    "mongodb": "^5.8.1",
+    "mongodb": "^6.0.0",
     "mongoose": "^7.4.5",
     "package.json": "^2.0.1"
   }
