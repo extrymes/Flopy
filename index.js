@@ -24,7 +24,6 @@ client.distube = new DisTube(client, {
     savePreviousSongs: client.config.DISTUBE_SAVE_PREVIOUS_SONGS,
     customFilters: client.config.DISTUBE_CUSTOM_FILTERS,
     youtubeCookie: client.config.DISTUBE_YOUTUBE_COOKIE,
-    youtubeIdentityToken: client.config.DISTUBE_YOUTUBE_IDENTITY_TOKEN,
 })
 
 // Read command files
