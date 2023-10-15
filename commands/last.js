@@ -5,7 +5,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("last")
         .setDescription(`${languages["en"].COMMAND_LAST_DESCRIPTION}`)
-        .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_LAST_DESCRIPTION}` })
+        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_LAST_DESCRIPTION}` })
         .setDMPermission(false),
     run: async (client, interaction, settings, queue, lang) => {
         const { guild, channel, member } = interaction;

@@ -5,7 +5,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("jump")
         .setDescription(`${languages["en"].COMMAND_JUMP_DESCRIPTION}`)
-        .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_JUMP_DESCRIPTION}` })
+        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_JUMP_DESCRIPTION}` })
         .setDMPermission(false)
         .addIntegerOption((option) =>
             option

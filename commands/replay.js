@@ -5,7 +5,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("replay")
         .setDescription(`${languages["en"].COMMAND_REPLAY_DESCRIPTION}`)
-        .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_REPLAY_DESCRIPTION}` })
+        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_REPLAY_DESCRIPTION}` })
         .setDMPermission(false),
     run: async (client, interaction, settings, queue, lang) => {
         const { guild, member } = interaction;

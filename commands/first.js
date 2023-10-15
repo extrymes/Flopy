@@ -5,7 +5,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("first")
         .setDescription(`${languages["en"].COMMAND_FIRST_DESCRIPTION}`)
-        .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_FIRST_DESCRIPTION}` })
+        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_FIRST_DESCRIPTION}` })
         .setDMPermission(false)
         .addStringOption((option) =>
             option

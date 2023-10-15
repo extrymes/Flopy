@@ -5,13 +5,13 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("seek")
         .setDescription(`${languages["en"].COMMAND_SEEK_DESCRIPTION}`)
-        .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_SEEK_DESCRIPTION}` })
+        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_SEEK_DESCRIPTION}` })
         .setDMPermission(false)
         .addIntegerOption((option) =>
             option
             .setName("hhmmss")
             .setDescription(`${languages["en"].COMMAND_SEEK_OPTION}`)
-            .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_SEEK_OPTION}` })
+            .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_SEEK_OPTION}` })
             .setRequired(true)
         ),
     run: async (client, interaction, settings, queue, lang) => {

@@ -6,30 +6,30 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("library")
         .setDescription(`${languages["en"].COMMAND_LIBRARY_DESCRIPTION}`)
-        .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_LIBRARY_DESCRIPTION}` })
+        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_LIBRARY_DESCRIPTION}` })
         .setDMPermission(false)
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("play")
                 .setDescription(`${languages["en"].COMMAND_LIBRARY_PLAY_DESCRIPTION}`)
-                .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_LIBRARY_PLAY_DESCRIPTION}` })
+                .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_LIBRARY_PLAY_DESCRIPTION}` })
         )
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("add")
                 .setDescription(`${languages["en"].COMMAND_LIBRARY_ADD_DESCRIPTION}`)
-                .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_LIBRARY_ADD_DESCRIPTION}` })
+                .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_LIBRARY_ADD_DESCRIPTION}` })
         )
         .addSubcommand((subcommand) =>
             subcommand
                 .setName("remove")
                 .setDescription(`${languages["en"].COMMAND_LIBRARY_REMOVE_DESCRIPTION}`)
-                .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_LIBRARY_REMOVE_DESCRIPTION}` })
+                .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_LIBRARY_REMOVE_DESCRIPTION}` })
                 .addIntegerOption(option =>
                     option
                         .setName("position")
                         .setDescription(`${languages["en"].COMMAND_LIBRARY_REMOVE_OPTION}`)
-                        .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_LIBRARY_REMOVE_OPTION}` })
+                        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_LIBRARY_REMOVE_OPTION}` })
                         .setRequired(true)
                 )
         ),

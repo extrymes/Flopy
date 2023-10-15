@@ -5,7 +5,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("autoplay")
         .setDescription(`${languages["en"].COMMAND_AUTOPLAY_DESCRIPTION}`)
-        .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_AUTOPLAY_DESCRIPTION}` })
+        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_AUTOPLAY_DESCRIPTION}` })
         .setDMPermission(false),
     run: async (client, interaction, settings, queue, lang) => {
         const { guild, member } = interaction;

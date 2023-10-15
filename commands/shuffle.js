@@ -5,7 +5,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("shuffle")
         .setDescription(`${languages["en"].COMMAND_SHUFFLE_DESCRIPTION}`)
-        .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_SHUFFLE_DESCRIPTION}` })
+        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_SHUFFLE_DESCRIPTION}` })
         .setDMPermission(false),
     run: async (client, interaction, settings, queue, lang) => {
         const { guild, member } = interaction;

@@ -6,13 +6,13 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("search")
         .setDescription(`${languages["en"].COMMAND_SEARCH_DESCRIPTION}`)
-        .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_SEARCH_DESCRIPTION}` })
+        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_SEARCH_DESCRIPTION}` })
         .setDMPermission(false)
         .addStringOption((option) =>
             option
             .setName("query")
             .setDescription(`${languages["en"].COMMAND_SEARCH_OPTION}`)
-            .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_SEARCH_OPTION}` })
+            .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_SEARCH_OPTION}` })
             .setRequired(true)
         ),
     run: async (client, interaction, settings, queue, lang) => {

@@ -6,13 +6,13 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("setup")
         .setDescription(`${languages["en"].COMMAND_SETUP_DESCRIPTION}`)
-        .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_SETUP_DESCRIPTION}` })
+        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_SETUP_DESCRIPTION}` })
         .setDMPermission(false)
         .addStringOption((option) =>
             option
                 .setName("language")
                 .setDescription(`${languages["en"].COMMAND_SETUP_OPTION}`)
-                .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_SETUP_OPTION}` })
+                .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_SETUP_OPTION}` })
                 .setRequired(true)
                 .setChoices({ name: `${elements.EMOJI_LANG_EN} English`, value: "en" }, { name: `${elements.EMOJI_LANG_FR} Français`, value: "fr" })
         ),

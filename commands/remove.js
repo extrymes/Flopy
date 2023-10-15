@@ -5,7 +5,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("remove")
         .setDescription(`${languages["en"].COMMAND_REMOVE_DESCRIPTION}`)
-        .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_REMOVE_DESCRIPTION}` })
+        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_REMOVE_DESCRIPTION}` })
         .setDMPermission(false)
         .addSubcommand(subcommand =>
             subcommand

@@ -6,7 +6,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("info")
         .setDescription(`${languages["en"].COMMAND_INFO_DESCRIPTION}`)
-        .setDescriptionLocalizations({ "fr": `${languages["en"].COMMAND_INFO_DESCRIPTION}` })
+        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_INFO_DESCRIPTION}` })
         .setDMPermission(false),
     run: async (client, interaction, settings, queue, lang) => {
         const member = interaction.member;
