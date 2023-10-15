@@ -25,7 +25,7 @@ module.exports = {
         const sec = client.convertHHMMSSToSeconds(hhmmss);
         if(sec > currentSong.duration) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_TIME_GREATER}`);
         if(!client.manageCooldown("seek", guild.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
-        client.distube.seek(queue, sec);
+        await client.distube.seek(queue, sec);
         if(queue.paused) {
             client.distube.resume(queue);
             client.editDashboard(guild, queue, lang);
