@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const guildShema = {
     guildID: String,
@@ -16,4 +16,4 @@ const guildShema = {
     },
 }
 
-module.exports = mongoose.model("Guild", guildShema)
+module.exports = mongoose.model("Guild", guildShema);

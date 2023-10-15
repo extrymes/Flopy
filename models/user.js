@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const userShema = {
     userID: String,
@@ -8,4 +8,4 @@ const userShema = {
     }
 }
 
-module.exports = mongoose.model("User", userShema)
+module.exports = mongoose.model("User", userShema);
