@@ -182,6 +182,7 @@ module.exports = (client) => {
         if (error.includes("Video unavailable") || error.includes("This video is unavailable") || error.includes("Premiere will begin shortly")) return `${lang.ERROR_VIDEO_UNAVAILABLE}`;
         if (error.includes("Sign in to confirm your age") || error.includes("Sorry, this content is age-restricted") || error.includes("This video is only available to Music Premium members")) return `${lang.ERROR_VIDEO_RESTRICTED}`;
         if (error.includes("Unsupported URL") || error.includes("This url is not supported")) return `${lang.ERROR_URL_UNSUPPORTED}`;
+        if (error.includes("Invalid URL")) return `${lang.ERROR_URL_INVALID}`;
         if (error.includes("Unknown Playlist")) return `${lang.ERROR_PLAYLIST_UNKNOWN}`;
         console.warn(error);
         return `${lang.ERROR_UNKNOWN}`;
