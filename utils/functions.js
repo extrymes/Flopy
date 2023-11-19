@@ -73,7 +73,7 @@ module.exports = (client) => {
     // Send first message
     client.sendFirstMessage = (guild) => {
         const channel = guild.channels.cache.filter((item) => item.type === ChannelType.GuildText && client.checkSendable(item, guild.members.me)).first();
-        const firstEmbed = new EmbedBuilder().setTitle("Get ready to listen to music easily!").setDescription(`To begin, use \`/setup\` command in a channel.\nIf you need help, here is the [support server](${elements.INVITE_SUPPORT}).`).setImage(elements.BANNER_FLOPY).setColor(elements.COLOR_FLOPY);
+        const firstEmbed = new EmbedBuilder().setTitle("Get ready to listen to music easily!").setDescription(`To get started, use \`/setup\` command in a channel.\nIf you need help, here is the [support server](${elements.INVITE_SUPPORT}).`).setImage(elements.BANNER_FLOPY).setColor(elements.COLOR_FLOPY);
         channel?.send({ embeds: [firstEmbed] }).catch((error) => { });
     }
 
