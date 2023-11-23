@@ -18,7 +18,5 @@ module.exports = {
     DISTUBE_EMPTY_COOLDOWN: 300,
     DISTUBE_NSFW: true,
     DISTUBE_SAVE_PREVIOUS_SONGS: false,
-    DISTUBE_CUSTOM_FILTERS: { "8d": "apulsator=hz=0.08", "purebass": "bass=g=20,dynaudnorm=f=200,asubboost", "subboost": "asubboost", "fast": "atempo=1.3", "vibrato": "vibrato=f=6.5", "pulsator": "apulsator=hz=1" },
-    DISTUBE_YOUTUBE_COOKIE: [{ "domain": ".youtube.com", "expirationDate": 1724928630.652595, "hostOnly": false, "httpOnly": true, "name": "__Secure-1PSIDCC", "path": "/", "sameSite": "unspecified", "secure": true, "session": false, "value": "APoG2W_twM8bIvLqoWLypyE5YaHrYhuf1GdQbugW5AkrEJ8zzLhnIZ4C4JRckoqSQUr9aca23zY" }],
-    DISTUBE_YOUTUBE_IDENTITY_TOKEN: "QUFFLUhqa0NLTk01ZUdIaWYxQ3JydGFJVkEwbUsybENpd3w\u003d",
+    DISTUBE_CUSTOM_FILTERS: { "8d": "apulsator=hz=0.08", "purebass": "bass=g=20,dynaudnorm=f=200,asubboost", "subboost": "asubboost", "fast": "atempo=1.3", "vibrato": "vibrato=f=6.5", "pulsator": "apulsator=hz=1" }
 }

@@ -23,7 +23,7 @@ client.distube = new DisTube(client, {
     nsfw: client.config.DISTUBE_NSFW,
     savePreviousSongs: client.config.DISTUBE_SAVE_PREVIOUS_SONGS,
     customFilters: client.config.DISTUBE_CUSTOM_FILTERS,
-    youtubeCookie: client.config.DISTUBE_YOUTUBE_COOKIE,
+    youtubeCookie: JSON.parse(fs.readFileSync("ytCookies.json"))
 });
 
 // Read command files
