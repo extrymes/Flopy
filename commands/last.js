@@ -17,6 +17,6 @@ module.exports = {
         client.distube.play(member.voice.channel, client.queries.get(member.id), { textChannel: channel, member: member, metadata: interaction }).catch((error) => {
             const errorMessage = client.getErrorMessage(error.message, lang);
             client.sendErrorNotification(interaction, `${errorMessage}`, true);
-        })
+        });
     }
 }

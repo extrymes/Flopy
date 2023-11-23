@@ -4,7 +4,7 @@ const userShema = {
     userID: String,
     library: {
         "type": Array,
-        "default": [],
+        "default": []
     }
 }
 

@@ -5,7 +5,7 @@ module.exports = async (client, oldState, newState) => {
     if (member === guild.members.me) {
         if (!newVoice) {
             client.distube.voices.leave(guild);
-            if (client.manageCooldown("joinVoice", guild.id, 5000)) try { client.distube.voices.join(oldVoice).catch((error) => { }) } catch { };
+            if (client.manageCooldown("joinVoice", guild.id, 5000)) try { client.distube.voices.join(oldVoice).catch((error) => { }) } catch (error) { }
         }
         if (client.manageCooldown("updateVoice", guild.id, client.config.VOICE_UPDATE_COOLDOWN * 1000)) {
             setTimeout(async () => {

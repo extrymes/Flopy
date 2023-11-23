@@ -90,7 +90,7 @@ module.exports = {
         ERROR_UNKNOWN: "An unknown error has occurred",
         HELP_MESSAGE: "Help message",
         HELP_PLAY_SONG: "Join a voice channel and send a song name or a link in $channel.",
-        HELP_SETUP_DASHBOARD: "Use $command command in a channel to setup the dashboard.",
+        HELP_SETUP_DASHBOARD: "Use $command command in a channel to setup the dashboard."
     },
     "fr": {
         DASHBOARD_SONG_NO_PLAYING: "Aucune musique en cours de lecture",
@@ -183,6 +183,6 @@ module.exports = {
         ERROR_UNKNOWN: "Une erreur inconnue s'est produite",
         HELP_MESSAGE: "Message d'aide",
         HELP_PLAY_SONG: "Rejoignez un salon vocal et envoyez le nom d'une musique ou un lien dans $channel.",
-        HELP_SETUP_DASHBOARD: "Utilisez la commande $command dans un salon pour installer le tableau de bord.",
-    },
+        HELP_SETUP_DASHBOARD: "Utilisez la commande $command dans un salon pour installer le tableau de bord."
+    }
 }

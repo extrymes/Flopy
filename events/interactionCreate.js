@@ -18,7 +18,7 @@ module.exports = async (client, interaction) => {
                     try {
                         client.distube.resume(queue);
                         client.editDashboard(guild, queue, lang);
-                    } catch { };
+                    } catch (error) { }
                     interaction.deferUpdate().catch((error) => { });
                 } else client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`);
                 break;
@@ -27,13 +27,13 @@ module.exports = async (client, interaction) => {
                     try {
                         client.distube.pause(queue);
                         client.editDashboard(guild, queue, lang);
-                    } catch { };
+                    } catch (error) { }
                     interaction.deferUpdate().catch((error) => { });
                 } else client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`);
                 break;
             case "stop":
                 if (client.checkVoice(guild, member)) {
-                    try { client.distube.stop(queue) } catch { };
+                    try { client.distube.stop(queue) } catch (error) { }
                     interaction.deferUpdate().catch((error) => { });
                 } else client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`);
                 break;
@@ -42,7 +42,7 @@ module.exports = async (client, interaction) => {
                     try {
                         client.distube.skip(queue).catch((error) => { });
                         if (queue.paused && (queue.songs[1] || queue.autoplay)) client.distube.resume(queue);
-                    } catch { };
+                    } catch (error) { }
                     interaction.deferUpdate().catch((error) => { });
                 } else client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`);
                 break;
@@ -51,7 +51,7 @@ module.exports = async (client, interaction) => {
                     try {
                         client.distube.setRepeatMode(queue, queue.repeatMode === 0 ? 1 : queue.repeatMode === 1 ? 2 : 0);
                         client.editDashboard(guild, queue, lang);
-                    } catch { };
+                    } catch (error) { }
                     interaction.deferUpdate().catch((error) => { });
                 } else client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`);
                 break;
@@ -60,7 +60,7 @@ module.exports = async (client, interaction) => {
                     try {
                         client.distube.setVolume(queue, queue.volume === 50 ? 25 : queue.volume === 25 ? 75 : queue.volume === 75 ? 100 : 50);
                         client.editDashboard(guild, queue, lang);
-                    } catch { };
+                    } catch (error) { }
                     interaction.deferUpdate().catch((error) => { });
                 } else client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`);
                 break;

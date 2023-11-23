@@ -13,7 +13,7 @@ module.exports = async (client, guild) => {
             const queue = client.distube.getQueue(guild);
             const lang = languages[settings.flopy1.language];
             client.editDashboard(guild, queue, lang);
-            try { client.distube.voices.join(voice).catch((error) => { }) } catch { };
+            try { client.distube.voices.join(voice).catch((error) => { }) } catch(error) { }
         }
     }
 }
