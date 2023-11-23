@@ -11,7 +11,7 @@ require("./utils/crash")(client);
 require("./utils/functions")(client);
 
 // Configure client
-client.config = require("./config");
+client.config = require("./admin/config");
 client.dashboards = new Map();
 client.cooldowns = new Map();
 client.queries = new Map();
@@ -23,7 +23,7 @@ client.distube = new DisTube(client, {
     nsfw: client.config.DISTUBE_NSFW,
     savePreviousSongs: client.config.DISTUBE_SAVE_PREVIOUS_SONGS,
     customFilters: client.config.DISTUBE_CUSTOM_FILTERS,
-    youtubeCookie: JSON.parse(fs.readFileSync("ytCookies.json"))
+    youtubeCookie: JSON.parse(fs.readFileSync("./admin/ytCookies.json"))
 });
 
 // Read command files
