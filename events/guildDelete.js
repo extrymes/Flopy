@@ -1,3 +1,3 @@
 module.exports = async (client, guild) => {
-    client.dashboards.delete(guild.id);
+  client.dashboards.delete(guild.id);
 }
