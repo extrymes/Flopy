@@ -52,9 +52,9 @@ for (const file of playerFiles) {
 console.log(`[-] Player: ${playerFiles.length}`);
 
 // Deploy commands
-const rest = new REST({ version: 10 }).setToken(process.env.TOKEN);
+const rest = new REST({ version: 10 }).setToken(process.env.BOT_TOKEN);
 try {
-  rest.put(Routes.applicationCommands(process.env.CLIENT_ID), { body: commands });
+  rest.put(Routes.applicationCommands(process.env.APP_ID), { body: commands });
 } catch (error) {
   console.warn(error);
 }
@@ -69,4 +69,4 @@ mongoose.connect(process.env.MONGO_CONNECTION, {
 }).then(() => console.log("[-] Flopy is connected to the database".green)).catch((error) => console.warn(error));
 
 // Login client
-client.login(process.env.TOKEN);
+client.login(process.env.BOT_TOKEN);
