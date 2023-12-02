@@ -1,4 +1,19 @@
 {
+  "name": "flopy",
+  "version": "3.5",
+  "description": "Discord Music Bot",
+  "author": "Extrymes",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": ">=16.11.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/extrymes/Flopy"
+  },
   "dependencies": {
     "@discordjs/opus": "^0.9.0",
     "@discordjs/voice": "^0.16.0",
