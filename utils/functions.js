@@ -3,68 +3,68 @@ const { Guild, User } = require("../models/index");
 const elements = require("./elements");
 
 module.exports = (client) => {
-  // Create guild in the database
+  // Create guild data
   client.createGuild = async (guild) => {
     const newGuild = new Guild({ guildID: guild.id });
     newGuild.save().then((data) => console.log(`[+] Guild saved: ${data.guildID}`.blue));
   }
 
-  // Get guild in the database
+  // Get guild data
   client.getGuild = async (guild) => {
     const data = await Guild.findOne({ guildID: guild.id });
     return data;
   }
 
-  // Update guild in the database
+  // Update guild data
   client.updateGuild = async (guild, settings) => {
     const data = await client.getGuild(guild);
     return data.updateOne(settings);
   }
 
-  // Create user in the database
+  // Create user data
   client.createUser = async (user) => {
     const newUser = new User({ userID: user.id });
     newUser.save().then((data) => console.log(`[+] User saved: ${data.userID}`.blue));
   }
 
-  // Get user in the database
+  // Get user data
   client.getUser = async (user) => {
     const data = await User.findOne({ userID: user.id });
     return data;
   }
 
-  // Update user in the database
+  // Update user data
   client.updateUser = async (user, settings) => {
     const data = await client.getUser(user);
     return data.updateOne(settings);
   }
 
-  // Delete user in the database
+  // Delete user data
   client.deleteUser = async (user) => {
     const oldUser = await client.getUser(user);
     oldUser.remove().then((data) => console.log(`[+] User removed: ${data.userID}`.blue));
   }
 
-  // Check sendable
+  // Check if message can be sent
   client.checkSendable = (channel, member) => {
     if (channel.viewable && channel.permissionsFor(member).has("SendMessages") && channel.permissionsFor(member).has("EmbedLinks") && Date.now() > member.communicationDisabledUntil) return true;
     return false;
   }
 
-  // Check manager
+  // Check if member is a guild manager
   client.checkManager = (member) => {
     if (member.permissions.has("ManageGuild")) return true;
     return false;
   }
 
-  // Check voice
+  // Check if member is in my voice channel
   client.checkVoice = (guild, member) => {
     const voice = guild.members.me.voice.channel;
     if (voice === member.voice.channel) return true;
     return false;
   }
 
-  // Leave voice
+  // Leave voice channel
   client.leaveVoice = (guild) => {
     client.manageCooldown("joinVoice", guild.id, 1000);
     client.distube.voices.leave(guild);
