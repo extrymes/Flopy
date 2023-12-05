@@ -3,6 +3,6 @@ module.exports = async (client, messages) => {
 
   if (messages.get(client.dashboards.get(guild.id)?.id)) {
     client.dashboards.delete(guild.id);
-    client.leaveVoice(guild);
+    client.leaveVoiceChannel(guild);
   }
 }

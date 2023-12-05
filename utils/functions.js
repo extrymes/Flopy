@@ -4,75 +4,75 @@ const elements = require("./elements");
 
 module.exports = (client) => {
   // Create guild data
-  client.createGuild = async (guild) => {
+  client.createGuildData = async (guild) => {
     const newGuild = new Guild({ guildID: guild.id });
     newGuild.save().then((data) => console.log(`[+] Guild saved: ${data.guildID}`.blue));
   }
 
   // Get guild data
-  client.getGuild = async (guild) => {
+  client.getGuildData = async (guild) => {
     const data = await Guild.findOne({ guildID: guild.id });
     return data;
   }
 
   // Update guild data
-  client.updateGuild = async (guild, settings) => {
-    const data = await client.getGuild(guild);
+  client.updateGuildData = async (guild, settings) => {
+    const data = await client.getGuildData(guild);
     return data.updateOne(settings);
   }
 
   // Create user data
-  client.createUser = async (user) => {
+  client.createUserData = async (user) => {
     const newUser = new User({ userID: user.id });
     newUser.save().then((data) => console.log(`[+] User saved: ${data.userID}`.blue));
   }
 
   // Get user data
-  client.getUser = async (user) => {
+  client.getUserData = async (user) => {
     const data = await User.findOne({ userID: user.id });
     return data;
   }
 
   // Update user data
-  client.updateUser = async (user, settings) => {
-    const data = await client.getUser(user);
+  client.updateUserData = async (user, settings) => {
+    const data = await client.getUserData(user);
     return data.updateOne(settings);
   }
 
   // Delete user data
-  client.deleteUser = async (user) => {
-    const oldUser = await client.getUser(user);
+  client.deleteUserData = async (user) => {
+    const oldUser = await client.getUserData(user);
     oldUser.remove().then((data) => console.log(`[+] User removed: ${data.userID}`.blue));
   }
 
   // Check if message can be sent
-  client.checkSendable = (channel, member) => {
+  client.checkMessageIsSendable = (channel, member) => {
     if (channel.viewable && channel.permissionsFor(member).has("SendMessages") && channel.permissionsFor(member).has("EmbedLinks") && Date.now() > member.communicationDisabledUntil) return true;
     return false;
   }
 
   // Check if member is a guild manager
-  client.checkManager = (member) => {
+  client.checkMemberIsManager = (member) => {
     if (member.permissions.has("ManageGuild")) return true;
     return false;
   }
 
   // Check if member is in my voice channel
-  client.checkVoice = (guild, member) => {
-    const voice = guild.members.me.voice.channel;
-    if (voice === member.voice.channel) return true;
+  client.checkMemberIsInMyVoiceChannel = (guild, member) => {
+    const voiceChannel = guild.members.me.voice.channel;
+    if (voiceChannel === member.voice.channel) return true;
     return false;
   }
 
   // Leave voice channel
-  client.leaveVoice = (guild) => {
+  client.leaveVoiceChannel = (guild) => {
     client.manageCooldown("joinVoice", guild.id, 1000);
     client.distube.voices.leave(guild);
   }
 
   // Send first message
   client.sendFirstMessage = (guild) => {
-    const channel = guild.channels.cache.filter((item) => item.type === ChannelType.GuildText && client.checkSendable(item, guild.members.me)).first();
+    const channel = guild.channels.cache.filter((item) => item.type === ChannelType.GuildText && client.checkMessageIsSendable(item, guild.members.me)).first();
     const firstEmbed = new EmbedBuilder().setTitle("Get ready to listen to music easily!").setDescription(`To get started, use \`/setup\` command in a channel.\nIf you need help, here is the [support server](${elements.INVITE_SUPPORT}).`).setImage(elements.BANNER_FLOPY).setColor(elements.COLOR_FLOPY);
     channel?.send({ embeds: [firstEmbed] }).catch((error) => { });
   }
@@ -138,8 +138,8 @@ module.exports = (client) => {
     channel?.send(dashboard).then((message) => {
       if (message) {
         client.dashboards.set(guild.id, message);
-        client.updateGuild(guild, { flopy1: Object.assign(settings.flopy1, { channel: channel.id, message: message.id }) });
-      } else client.leaveVoice(guild);
+        client.updateGuildData(guild, { flopy1: Object.assign(settings.flopy1, { channel: channel.id, message: message.id }) });
+      } else client.leaveVoiceChannel(guild);
     }).catch((error) => { });
   }
 
@@ -177,7 +177,7 @@ module.exports = (client) => {
 
   // Get error message
   client.getErrorMessage = (error, lang) => {
-    if (error.includes("I do not have permission to join this voice channel") || error.includes("Cannot connect to the voice channel") || error.includes("The voice channel is full")) return `${lang.ERROR_VOICE_UNABLE_JOIN}`;
+    if (error.includes("I do not have permission to join this voice channel") || error.includes("Cannot connect to the voice channel") || error.includes("The voice channel is full")) return `${lang.ERROR_VOICE_CHANNEL_UNABLE_JOIN}`;
     if (error.includes("No result found") || error.includes("Cannot resolve undefined to a Song") || error.includes("search string is mandatory")) return `${lang.ERROR_RESULT_NO_FOUND}`;
     if (error.includes("Video unavailable") || error.includes("This video is unavailable") || error.includes("Premiere will begin shortly")) return `${lang.ERROR_VIDEO_UNAVAILABLE}`;
     if (error.includes("Sign in to confirm your age") || error.includes("Sorry, this content is age-restricted") || error.includes("This video is only available to Music Premium members")) return `${lang.ERROR_VIDEO_RESTRICTED}`;

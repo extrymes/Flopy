@@ -36,7 +36,7 @@ module.exports = {
   run: async (client, interaction, settings, queue, lang) => {
     const { user, options } = interaction;
     const subcommand = options.getSubcommand();
-    const data = await client.getUser(user);
+    const data = await client.getUserData(user);
     const library = data?.library || new Array();
 
     switch (subcommand) {
@@ -57,8 +57,8 @@ module.exports = {
         if (library.length >= client.config.LIBRARY_MAX_LENGTH) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`);
         if (library.find((item) => item.url === playing.url)) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_ALREADY_ADDED : lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`);
         library.push({ name: playing.name, url: playing.url, isPlaylist: isPlaylist });
-        if (!data) await client.createUser(user);
-        setTimeout(() => client.updateUser(user, { library: library }), 1000);
+        if (!data) await client.createUserData(user);
+        setTimeout(() => client.updateUserData(user, { library: library }), 1000);
         client.sendNotification(interaction, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED} (#${library.length})`, true);
         break;
       case "remove":
@@ -66,8 +66,8 @@ module.exports = {
         const item = library[position - 1];
         if (!item) return client.sendErrorNotification(interaction, `${lang.ERROR_ITEM_INVALID_POSITION}`);
         library.splice(position - 1, 1);
-        if (library.length > 0) client.updateUser(user, { library: library });
-        else client.deleteUser(user);
+        if (library.length > 0) client.updateUserData(user, { library: library });
+        else client.deleteUserData(user);
         client.sendNotification(interaction, `${item.isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_REMOVED : lang.MESSAGE_LIBRARY_SONG_REMOVED} (#${position})`, true);
         break;
       default:

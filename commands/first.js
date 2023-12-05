@@ -18,8 +18,8 @@ module.exports = {
     const { guild, channel, member, options } = interaction;
     const query = options.getString("query");
 
-    if (!member.voice.channel) return client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE}`);
-    if (!client.checkVoice(guild, member) && queue) return client.sendErrorNotification(interaction, `${lang.ERROR_USER_MUST_JOIN_VOICE_2}`);
+    if (!member.voice.channel) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_VOICE_CHANNEL}`);
+    if (!client.checkMemberIsInMyVoiceChannel(guild, member) && queue) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
     if (!client.manageCooldown("play", member.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
     await interaction.deferReply().catch((error) => { });
     client.distube.play(member.voice.channel, query, { textChannel: channel, member: member, metadata: interaction, position: 1 }).catch((error) => {

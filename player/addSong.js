@@ -3,7 +3,7 @@ const languages = require("../utils/languages");
 module.exports = async (client, queue, song) => {
   const guild = queue.textChannel.guild;
   const destination = song.metadata || client.dashboards.get(guild.id)?.channel;
-  const settings = await client.getGuild(guild);
+  const settings = await client.getGuildData(guild);
   const lang = languages[settings.flopy1.language];
 
   client.queries.set(song.member.id, song.url);
