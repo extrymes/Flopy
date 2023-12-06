@@ -46,7 +46,8 @@ module.exports = (client) => {
   }
 
   // Check if message can be sent
-  client.checkMessageIsSendable = (channel, member) => {
+  client.checkMessageIsSendable = (guild, channel) => {
+    const member = guild.members.me;
     if (channel.viewable && channel.permissionsFor(member).has("SendMessages") && channel.permissionsFor(member).has("EmbedLinks") && Date.now() > member.communicationDisabledUntil) return true;
     return false;
   }
@@ -72,7 +73,7 @@ module.exports = (client) => {
 
   // Send first message
   client.sendFirstMessage = (guild) => {
-    const channel = guild.channels.cache.filter((item) => item.type === ChannelType.GuildText && client.checkMessageIsSendable(item, guild.members.me)).first();
+    const channel = guild.channels.cache.filter((item) => item.type === ChannelType.GuildText && client.checkMessageIsSendable(guild, item)).first();
     const firstEmbed = new EmbedBuilder().setTitle("Get ready to listen to music easily!").setDescription(`To get started, use \`/setup\` command in a channel.\nIf you need help, here is the [support server](${elements.INVITE_SUPPORT}).`).setImage(elements.BANNER_FLOPY).setColor(elements.COLOR_FLOPY);
     channel?.send({ embeds: [firstEmbed] }).catch((error) => { });
   }
