@@ -5,44 +5,44 @@ const elements = require("./elements");
 module.exports = (client) => {
   // Create guild data
   client.createGuildData = async (guild) => {
-    const newGuild = new Guild({ guildID: guild.id });
-    newGuild.save().then((data) => console.log(`[+] Guild saved: ${data.guildID}`.blue));
+    const guildData = new Guild({ guildID: guild.id });
+    guildData.save().then((data) => console.log(`[+] Guild saved: ${data.guildID}`.blue));
   }
 
   // Get guild data
   client.getGuildData = async (guild) => {
-    const data = await Guild.findOne({ guildID: guild.id });
-    return data;
+    const guildData = await Guild.findOne({ guildID: guild.id });
+    return guildData;
   }
 
   // Update guild data
   client.updateGuildData = async (guild, settings) => {
-    const data = await client.getGuildData(guild);
-    return data.updateOne(settings);
+    const guildData = await client.getGuildData(guild);
+    return guildData.updateOne(settings);
   }
 
   // Create user data
   client.createUserData = async (user) => {
-    const newUser = new User({ userID: user.id });
-    newUser.save().then((data) => console.log(`[+] User saved: ${data.userID}`.blue));
+    const userData = new User({ userID: user.id });
+    userData.save().then((data) => console.log(`[+] User saved: ${data.userID}`.blue));
   }
 
   // Get user data
   client.getUserData = async (user) => {
-    const data = await User.findOne({ userID: user.id });
-    return data;
+    const userData = await User.findOne({ userID: user.id });
+    return userData;
   }
 
   // Update user data
   client.updateUserData = async (user, settings) => {
-    const data = await client.getUserData(user);
-    return data.updateOne(settings);
+    const userData = await client.getUserData(user);
+    return userData.updateOne(settings);
   }
 
   // Delete user data
   client.deleteUserData = async (user) => {
-    const oldUser = await client.getUserData(user);
-    oldUser.remove().then((data) => console.log(`[+] User removed: ${data.userID}`.blue));
+    const userData = await client.getUserData(user);
+    userData.remove().then((data) => console.log(`[+] User removed: ${data.userID}`.blue));
   }
 
   // Check if message can be sent
@@ -73,7 +73,7 @@ module.exports = (client) => {
 
   // Send first message
   client.sendFirstMessage = (guild) => {
-    const channel = guild.channels.cache.filter((item) => item.type === ChannelType.GuildText && client.checkMessageIsSendable(guild, item)).first();
+    const channel = guild.channels.cache.filter((channel) => channel.type === ChannelType.GuildText && client.checkMessageIsSendable(guild, channel)).first();
     const firstEmbed = new EmbedBuilder().setTitle("Get ready to listen to music easily!").setDescription(`To get started, use \`/setup\` command in a channel.\nIf you need help, here is the [support server](${elements.INVITE_SUPPORT}).`).setImage(elements.BANNER_FLOPY).setColor(elements.COLOR_FLOPY);
     channel?.send({ embeds: [firstEmbed] }).catch((error) => { });
   }
