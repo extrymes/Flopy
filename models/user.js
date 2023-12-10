@@ -6,6 +6,6 @@ const userShema = {
     "type": Array,
     "default": []
   }
-}
+};
 
 module.exports = mongoose.model("User", userShema);

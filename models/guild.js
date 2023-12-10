@@ -14,6 +14,6 @@ const guildShema = {
     "type": Object,
     "default": { channel: "", message: "", voice: "", language: "en" }
   }
-}
+};
 
 module.exports = mongoose.model("Guild", guildShema);
