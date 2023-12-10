@@ -33,7 +33,7 @@ module.exports = {
             .setRequired(true)
         )
     ),
-  run: async (client, interaction, settings, queue, lang) => {
+  run: async (client, interaction, guildData, queue, lang) => {
     const { user, options } = interaction;
     const subcommand = options.getSubcommand();
     const userData = await client.getUserData(user);

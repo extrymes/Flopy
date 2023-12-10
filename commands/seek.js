@@ -14,7 +14,7 @@ module.exports = {
       .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_SEEK_OPTION}` })
       .setRequired(true)
     ),
-  run: async (client, interaction, settings, queue, lang) => {
+  run: async (client, interaction, guildData, queue, lang) => {
     const { guild, member, options } = interaction;
     const currentSong = queue?.songs[0];
     const hhmmss = options.getInteger("hhmmss").toString();

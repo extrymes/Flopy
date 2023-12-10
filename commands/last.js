@@ -7,7 +7,7 @@ module.exports = {
     .setDescription(`${languages["en"].COMMAND_LAST_DESCRIPTION}`)
     .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_LAST_DESCRIPTION}` })
     .setDMPermission(false),
-  run: async (client, interaction, settings, queue, lang) => {
+  run: async (client, interaction, guildData, queue, lang) => {
     const { guild, channel, member } = interaction;
 
     if (!member.voice.channel) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_VOICE_CHANNEL}`);

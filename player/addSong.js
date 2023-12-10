@@ -3,8 +3,8 @@ const languages = require("../utils/languages");
 module.exports = async (client, queue, song) => {
   const guild = queue.textChannel.guild;
   const destination = song.metadata || client.dashboards.get(guild.id)?.channel;
-  const settings = await client.getGuildData(guild);
-  const lang = languages[settings.language];
+  const guildData = await client.getGuildData(guild);
+  const lang = languages[guildData.language];
 
   client.queries.set(song.member.id, song.url);
   if (queue.songs.length - 1 > client.config.QUEUE_MAX_LENGTH) queue.songs.splice(queue.songs.indexOf(song) > 1 ? 1 : client.config.QUEUE_MAX_LENGTH + 1, queue.songs.length - 1 - client.config.QUEUE_MAX_LENGTH);

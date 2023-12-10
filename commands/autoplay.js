@@ -7,7 +7,7 @@ module.exports = {
     .setDescription(`${languages["en"].COMMAND_AUTOPLAY_DESCRIPTION}`)
     .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_AUTOPLAY_DESCRIPTION}` })
     .setDMPermission(false),
-  run: async (client, interaction, settings, queue, lang) => {
+  run: async (client, interaction, guildData, queue, lang) => {
     const { guild, member } = interaction;
 
     if (!queue?.songs[0]) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_NO_PLAYING}`);

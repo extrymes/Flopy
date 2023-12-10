@@ -130,9 +130,9 @@ module.exports = (client) => {
   }
 
   // Get dashboard
-  client.getDashboard = async (guild, settings) => {
-    const channel = guild.channels.cache.get(settings.channel);
-    await channel?.messages?.fetch(settings.message).then((message) => {
+  client.getDashboard = async (guild, guildData) => {
+    const channel = guild.channels.cache.get(guildData.channel);
+    await channel?.messages?.fetch(guildData.message).then((message) => {
       if (message) client.dashboards.set(guild.id, message);
     }).catch((error) => { });
   }

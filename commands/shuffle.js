@@ -7,7 +7,7 @@ module.exports = {
     .setDescription(`${languages["en"].COMMAND_SHUFFLE_DESCRIPTION}`)
     .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_SHUFFLE_DESCRIPTION}` })
     .setDMPermission(false),
-  run: async (client, interaction, settings, queue, lang) => {
+  run: async (client, interaction, guildData, queue, lang) => {
     const { guild, member } = interaction;
 
     if (!queue?.songs[1]) return client.sendErrorNotification(interaction, `${lang.ERROR_QUEUE_NO_SONG}`);

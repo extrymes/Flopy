@@ -8,7 +8,7 @@ module.exports = {
     .setDescription(`${languages["en"].COMMAND_INFO_DESCRIPTION}`)
     .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_INFO_DESCRIPTION}` })
     .setDMPermission(false),
-  run: async (client, interaction, settings, queue, lang) => {
+  run: async (client, interaction, guildData, queue, lang) => {
     const member = interaction.member;
     const currentSong = queue?.songs[0];
 

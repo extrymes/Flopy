@@ -11,8 +11,8 @@ module.exports = async (client, oldState, newState) => {
       setTimeout(async () => {
         if (client.dashboards.has(guild.id)) {
           const voiceId = member.voice.channel?.id || "";
-          const settings = await client.getGuildData(guild);
-          if (voiceId !== settings.voice) client.updateGuildData(guild, { voice: voiceId });
+          const guildData = await client.getGuildData(guild);
+          if (voiceId !== guildData.voice) client.updateGuildData(guild, { voice: voiceId });
         } else client.leaveVoiceChannel(guild);
       }, client.config.VOICE_UPDATE_COOLDOWN * 1000);
     }

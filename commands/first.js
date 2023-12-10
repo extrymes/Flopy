@@ -14,7 +14,7 @@ module.exports = {
         .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_FIRST_OPTION}` })
         .setRequired(true)
     ),
-  run: async (client, interaction, settings, queue, lang) => {
+  run: async (client, interaction, guildData, queue, lang) => {
     const { guild, channel, member, options } = interaction;
     const query = options.getString("query");
 

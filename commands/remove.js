@@ -26,7 +26,7 @@ module.exports = {
         .setDescription(`${languages["en"].COMMAND_REMOVE_ALL_DESCRIPTION}`)
         .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_REMOVE_ALL_DESCRIPTION}` })
     ),
-  run: async (client, interaction, settings, queue, lang) => {
+  run: async (client, interaction, guildData, queue, lang) => {
     const { guild, member, options } = interaction;
     const subcommand = options.getSubcommand();
 

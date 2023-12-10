@@ -16,7 +16,7 @@ module.exports = {
         .setRequired(true)
         .setChoices({ name: `${elements.EMOJI_LANG_EN} English`, value: "en" }, { name: `${elements.EMOJI_LANG_FR} Français`, value: "fr" })
     ),
-  run: async (client, interaction, settings, queue, lang) => {
+  run: async (client, interaction, guildData, queue, lang) => {
     const { guild, channel, member, options } = interaction;
     const language = options.getString("language");
 
@@ -24,7 +24,7 @@ module.exports = {
     if (!client.checkMessageIsSendable(guild, channel)) return client.sendErrorNotification(interaction, `${lang.ERROR_DASHBOARD_UNABLE_SETUP}`);
     if (!client.manageCooldown("setup", guild.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
     await interaction.deferReply().catch((error) => { });
-    if (language !== settings.language) await client.updateGuildData(guild, { language: language });
+    if (language !== guildData.language) await client.updateGuildData(guild, { language: language });
     client.sendDashboard(guild, channel, queue, languages[language]);
     interaction.deleteReply().catch((error) => { });
   }

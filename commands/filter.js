@@ -27,7 +27,7 @@ module.exports = {
         .setDescription(`${languages["en"].COMMAND_FILTER_RESET_DESCRIPTION}`)
         .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_FILTER_RESET_DESCRIPTION}` })
     ),
-  run: async (client, interaction, settings, queue, lang) => {
+  run: async (client, interaction, guildData, queue, lang) => {
     const { guild, member, options } = interaction;
     const subcommand = options.getSubcommand();
     const filters = queue?.filters;

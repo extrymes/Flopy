@@ -2,9 +2,9 @@ const languages = require("../utils/languages");
 
 module.exports = async (client, message) => {
   const { guild, channel, member } = message;
-  const settings = await client.getGuildData(guild);
+  const guildData = await client.getGuildData(guild);
   const queue = client.distube.getQueue(guild);
-  const lang = languages[settings.language];
+  const lang = languages[guildData.language];
 
   if (message.author.bot) return;
 
