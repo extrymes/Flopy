@@ -4,7 +4,7 @@ module.exports = async (client, message) => {
   const { guild, channel, member } = message;
   const settings = await client.getGuildData(guild);
   const queue = client.distube.getQueue(guild);
-  const lang = languages[settings?.flopy1?.language];
+  const lang = languages[settings.language];
 
   if (message.author.bot) return;
 

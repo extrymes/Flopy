@@ -37,11 +37,11 @@ module.exports = {
     const { user, options } = interaction;
     const subcommand = options.getSubcommand();
     const userData = await client.getUserData(user);
-    const library = userData?.library || new Array();
+    const library = userData.library;
 
     switch (subcommand) {
       case "play":
-        if (!userData) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_NO_ITEM}`);
+        if (library.length === 0) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_NO_ITEM}`);
         if (!client.manageCooldown("library", user.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
         const items = library.map((item, i) => { return { label: `${i + 1}. ${item.name.length > client.config.SONG_MAX_DISPLAY ? item.name.substr(0, client.config.SONG_MAX_DISPLAY).concat("...") : item.name}`, value: item.url, emoji: item.isPlaylist ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG } });
         const playlistsCount = library.filter((item) => item.isPlaylist).length;
@@ -57,8 +57,7 @@ module.exports = {
         if (library.length >= client.config.LIBRARY_MAX_LENGTH) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`);
         if (library.find((item) => item.url === playing.url)) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_ALREADY_ADDED : lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`);
         library.push({ name: playing.name, url: playing.url, isPlaylist: isPlaylist });
-        if (!userData) await client.createUserData(user);
-        setTimeout(() => client.updateUserData(user, { library: library }), 1000);
+        await client.updateUserData(user, { library: library });
         client.sendNotification(interaction, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED} (#${library.length})`, true);
         break;
       case "remove":
@@ -66,8 +65,7 @@ module.exports = {
         const item = library[position - 1];
         if (!item) return client.sendErrorNotification(interaction, `${lang.ERROR_ITEM_INVALID_POSITION}`);
         library.splice(position - 1, 1);
-        if (library.length > 0) client.updateUserData(user, { library: library });
-        else client.deleteUserData(user);
+        await client.updateUserData(user, { library: library });
         client.sendNotification(interaction, `${item.isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_REMOVED : lang.MESSAGE_LIBRARY_SONG_REMOVED} (#${position})`, true);
         break;
       default:

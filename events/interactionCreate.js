@@ -4,7 +4,7 @@ module.exports = async (client, interaction) => {
   const { guild, channel, member } = interaction;
   const settings = await client.getGuildData(guild);
   const queue = client.distube.getQueue(guild);
-  const lang = languages[settings.flopy1.language];
+  const lang = languages[settings.language];
 
   if (interaction.isCommand()) {
     if (channel === client.dashboards.get(guild.id)?.channel || interaction.commandName === "setup") {

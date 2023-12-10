@@ -4,7 +4,7 @@ module.exports = async (client, queue, playlist) => {
   const guild = queue.textChannel.guild;
   const destination = playlist.metadata || client.dashboards.get(guild.id)?.channel;
   const settings = await client.getGuildData(guild);
-  const lang = languages[settings.flopy1.language];
+  const lang = languages[settings.language];
 
   client.queries.set(playlist.member.id, playlist.url);
   if (queue.songs.length - 1 > client.config.QUEUE_MAX_LENGTH) queue.songs.splice(queue.songs.indexOf(playlist.songs[0]) > 1 ? 1 : client.config.QUEUE_MAX_LENGTH + 1, queue.songs.length - 1 - client.config.QUEUE_MAX_LENGTH);

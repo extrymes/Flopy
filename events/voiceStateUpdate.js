@@ -12,7 +12,7 @@ module.exports = async (client, oldState, newState) => {
         if (client.dashboards.has(guild.id)) {
           const voiceId = member.voice.channel?.id || "";
           const settings = await client.getGuildData(guild);
-          if (voiceId !== settings.flopy1.voice) client.updateGuildData(guild, { flopy1: Object.assign(settings.flopy1, { voice: voiceId }) });
+          if (voiceId !== settings.voice) client.updateGuildData(guild, { voice: voiceId });
         } else client.leaveVoiceChannel(guild);
       }, client.config.VOICE_UPDATE_COOLDOWN * 1000);
     }

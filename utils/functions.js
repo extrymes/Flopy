@@ -5,44 +5,50 @@ const elements = require("./elements");
 module.exports = (client) => {
   // Create guild data
   client.createGuildData = async (guild) => {
-    const guildData = new Guild({ guildID: guild.id });
-    guildData.save().then((data) => console.log(`[+] Guild saved: ${data.guildID}`.blue));
+    const guildData = await Guild.create({ guildID: guild.id });
+    if (!guildData) throw new Error("Error when creating guild data!");
+    console.log(`[+] New guild data: ${guild.id}`.blue);
+    guildData.flopy1.newGuild = true;
+    return guildData.flopy1;
   }
 
   // Get guild data
   client.getGuildData = async (guild) => {
     const guildData = await Guild.findOne({ guildID: guild.id });
-    return guildData;
+    if (!guildData) return client.createGuildData(guild);
+    return guildData.flopy1;
   }
 
   // Update guild data
-  client.updateGuildData = async (guild, settings) => {
+  client.updateGuildData = async (guild, data) => {
     const guildData = await client.getGuildData(guild);
-    return guildData.updateOne(settings);
+    const newGuildData = { flopy1: { ...guildData, ...data } };
+    const result = await Guild.updateOne({ guildID: guild.id }, newGuildData);
+    if (result.modifiedCount === 0) throw new Error("Error when updating guild data!");
+    return true;
   }
 
   // Create user data
   client.createUserData = async (user) => {
-    const userData = new User({ userID: user.id });
-    userData.save().then((data) => console.log(`[+] User saved: ${data.userID}`.blue));
+    const userData = await User.create({ userID: user.id });
+    if (!userData) throw new Error("Error when creating user data!");
+    console.log(`[+] New user data: ${user.id}`.blue);
+    userData.newUser = true;
+    return userData;
   }
 
   // Get user data
   client.getUserData = async (user) => {
     const userData = await User.findOne({ userID: user.id });
+    if (!userData) return client.createUserData(user);
     return userData;
   }
 
   // Update user data
-  client.updateUserData = async (user, settings) => {
-    const userData = await client.getUserData(user);
-    return userData.updateOne(settings);
-  }
-
-  // Delete user data
-  client.deleteUserData = async (user) => {
-    const userData = await client.getUserData(user);
-    userData.remove().then((data) => console.log(`[+] User removed: ${data.userID}`.blue));
+  client.updateUserData = async (user, data) => {
+    const result = await User.updateOne({ userID: user.id }, data);
+    if (result.modifiedCount === 0) throw new Error("Error when updating user data!");
+    return true;
   }
 
   // Check if message can be sent
@@ -125,21 +131,21 @@ module.exports = (client) => {
 
   // Get dashboard
   client.getDashboard = async (guild, settings) => {
-    const channel = guild.channels.cache.get(settings.flopy1.channel);
-    await channel?.messages?.fetch(settings.flopy1.message).then((message) => {
+    const channel = guild.channels.cache.get(settings.channel);
+    await channel?.messages?.fetch(settings.message).then((message) => {
       if (message) client.dashboards.set(guild.id, message);
     }).catch((error) => { });
   }
 
   // Send dashboard
-  client.sendDashboard = (guild, channel, settings, queue, lang) => {
+  client.sendDashboard = (guild, channel, queue, lang) => {
     const dashboard = client.createDashboard(guild, queue, lang);
     client.manageCooldown("leaveVoice", guild.id, 1000);
     client.dashboards.get(guild.id)?.delete().catch((error) => { });
     channel?.send(dashboard).then((message) => {
       if (message) {
         client.dashboards.set(guild.id, message);
-        client.updateGuildData(guild, { flopy1: Object.assign(settings.flopy1, { channel: channel.id, message: message.id }) });
+        client.updateGuildData(guild, { channel: channel.id, message: message.id });
       } else client.leaveVoiceChannel(guild);
     }).catch((error) => { });
   }
