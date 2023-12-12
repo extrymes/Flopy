@@ -25,7 +25,7 @@ module.exports = {
     if (!client.manageCooldown("setup", guild.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
     await interaction.deferReply().catch((error) => { });
     if (language !== guildData.language) await client.updateGuildData(guild, { language: language });
-    client.sendDashboard(guild, channel, queue, languages[language]);
+    client.sendDashboardMessage(guild, channel, queue, languages[language]);
     interaction.deleteReply().catch((error) => { });
   }
 }

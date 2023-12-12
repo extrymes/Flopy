@@ -28,7 +28,7 @@ module.exports = {
     await client.distube.seek(queue, sec);
     if(queue.paused) {
       client.distube.resume(queue);
-      client.editDashboard(guild, queue, lang);
+      client.editDashboardMessage(guild, queue, lang);
     }
     const durationBar = client.createDurationBar(queue);
     client.sendNotification(interaction, `${durationBar}`);

@@ -18,7 +18,7 @@ module.exports = {
     await client.distube.seek(queue, 0);
     if (queue.paused) {
       client.distube.resume(queue);
-      client.editDashboard(guild, queue, lang);
+      client.editDashboardMessage(guild, queue, lang);
     }
     client.sendAdvancedNotification(interaction, `${lang.MESSAGE_SONG_REPLAYED}`, `${currentSong.name}`, currentSong.thumbnail);
   }

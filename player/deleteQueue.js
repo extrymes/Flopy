@@ -5,5 +5,5 @@ module.exports = async (client, queue) => {
   const guildData = await client.getGuildData(guild);
   const lang = languages[guildData.language];
 
-  client.editDashboard(guild, queue, lang);
+  client.editDashboardMessage(guild, queue, lang);
 }

@@ -12,12 +12,12 @@ module.exports = (client) => {
     if (guildData.newGuild) {
       client.sendFirstMessage(guild);
     } else {
-      await client.getDashboard(guild, guildData);
+      await client.getDashboardMessage(guild, guildData);
       if (client.dashboards.has(guild.id)) {
         const voiceChannel = guild.channels.cache.get(guildData.voice);
         const queue = client.distube.getQueue(guild);
         const lang = languages[guildData.language];
-        client.editDashboard(guild, queue, lang);
+        client.editDashboardMessage(guild, queue, lang);
         try { client.distube.voices.join(voiceChannel).catch((error) => { }) } catch (error) { }
       }
     }

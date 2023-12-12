@@ -129,16 +129,16 @@ module.exports = (client) => {
     return { content: dashboardContent, embeds: [dashboardEmbed], components: [dashboardButtons] };
   }
 
-  // Get dashboard
-  client.getDashboard = async (guild, guildData) => {
-    const channel = guild.channels.cache.get(guildData.channel);
-    await channel?.messages?.fetch(guildData.message).then((message) => {
-      if (message) client.dashboards.set(guild.id, message);
+  // Get dashboard message
+  client.getDashboardMessage = async (guild, guildData) => {
+    const dashboardChannel = guild.channels.cache.get(guildData.channel);
+    await dashboardChannel?.messages?.fetch(guildData.message).then((dashboardMessage) => {
+      if (dashboardMessage) client.dashboards.set(guild.id, dashboardMessage);
     }).catch((error) => { });
   }
 
-  // Send dashboard
-  client.sendDashboard = (guild, channel, queue, lang) => {
+  // Send dashboard message
+  client.sendDashboardMessage = (guild, channel, queue, lang) => {
     const dashboard = client.createDashboard(guild, queue, lang);
     client.manageCooldown("leaveVoice", guild.id, 1000);
     client.dashboards.get(guild.id)?.delete().catch((error) => { });
@@ -150,8 +150,8 @@ module.exports = (client) => {
     }).catch((error) => { });
   }
 
-  // Edit dashboard
-  client.editDashboard = (guild, queue, lang) => {
+  // Edit dashboard message
+  client.editDashboardMessage = (guild, queue, lang) => {
     const dashboard = client.createDashboard(guild, queue, lang);
     client.dashboards.get(guild.id)?.edit(dashboard).catch((error) => { });
   }

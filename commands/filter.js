@@ -42,7 +42,7 @@ module.exports = {
         else filters.add(name);
         if (queue.paused) client.distube.resume(queue);
         const filterNames = filters.names.map((filterName, i) => { return `\`${filterName}\`` }).join(", ");
-        client.editDashboard(guild, queue, lang);
+        client.editDashboardMessage(guild, queue, lang);
         client.sendNotification(interaction, `${lang.MESSAGE_FILTERS_ACTIVE} ${filterNames || lang.MESSAGE_FILTERS_NONE}`);
         break;
       case "reset":
@@ -51,7 +51,7 @@ module.exports = {
         if (!client.manageCooldown("filter", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
         filters.clear();
         if (queue.paused) client.distube.resume(queue);
-        client.editDashboard(guild, queue, lang);
+        client.editDashboardMessage(guild, queue, lang);
         client.sendNotification(interaction, `${lang.MESSAGE_FILTERS_ACTIVE} ${lang.MESSAGE_FILTERS_NONE}`);
         break;
       default:

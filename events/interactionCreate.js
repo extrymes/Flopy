@@ -17,7 +17,7 @@ module.exports = async (client, interaction) => {
         if (client.checkMemberIsInMyVoiceChannel(guild, member)) {
           try {
             client.distube.resume(queue);
-            client.editDashboard(guild, queue, lang);
+            client.editDashboardMessage(guild, queue, lang);
           } catch (error) { }
           interaction.deferUpdate().catch((error) => { });
         } else client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
@@ -26,7 +26,7 @@ module.exports = async (client, interaction) => {
         if (client.checkMemberIsInMyVoiceChannel(guild, member)) {
           try {
             client.distube.pause(queue);
-            client.editDashboard(guild, queue, lang);
+            client.editDashboardMessage(guild, queue, lang);
           } catch (error) { }
           interaction.deferUpdate().catch((error) => { });
         } else client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
@@ -50,7 +50,7 @@ module.exports = async (client, interaction) => {
         if (client.checkMemberIsInMyVoiceChannel(guild, member)) {
           try {
             client.distube.setRepeatMode(queue, queue.repeatMode === 0 ? 1 : queue.repeatMode === 1 ? 2 : 0);
-            client.editDashboard(guild, queue, lang);
+            client.editDashboardMessage(guild, queue, lang);
           } catch (error) { }
           interaction.deferUpdate().catch((error) => { });
         } else client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
@@ -59,7 +59,7 @@ module.exports = async (client, interaction) => {
         if (client.checkMemberIsInMyVoiceChannel(guild, member)) {
           try {
             client.distube.setVolume(queue, queue.volume === 50 ? 25 : queue.volume === 25 ? 75 : queue.volume === 75 ? 100 : 50);
-            client.editDashboard(guild, queue, lang);
+            client.editDashboardMessage(guild, queue, lang);
           } catch (error) { }
           interaction.deferUpdate().catch((error) => { });
         } else client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
