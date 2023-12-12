@@ -56,7 +56,7 @@ const rest = new REST({ version: 10 }).setToken(process.env.BOT_TOKEN);
 try {
   rest.put(Routes.applicationCommands(process.env.APP_ID), { body: commands });
 } catch (error) {
-  console.warn(error);
+  console.error(error);
 }
 
 // Connect database
@@ -66,7 +66,7 @@ mongoose.connect(process.env.MONGO_CONNECTION, {
   serverSelectionTimeoutMS: client.config.MONGO_SERVER_SELECTION_TIMEOUT_MS,
   socketTimeoutMS: client.config.MONGO_SOCKET_TIMEOUT_MS,
   family: client.config.MONGO_FAMILY,
-}).then(() => console.log("[-] Flopy is connected to the database".green)).catch((error) => console.warn(error));
+}).then(() => console.log("[-] Flopy is connected to the database".green)).catch((error) => console.error(error));
 
 // Login client
 client.login(process.env.BOT_TOKEN);

@@ -191,7 +191,7 @@ module.exports = (client) => {
     if (error.includes("Unsupported URL") || error.includes("This url is not supported")) return `${lang.ERROR_URL_UNSUPPORTED}`;
     if (error.includes("Invalid URL")) return `${lang.ERROR_URL_INVALID}`;
     if (error.includes("Unknown Playlist")) return `${lang.ERROR_PLAYLIST_UNKNOWN}`;
-    console.warn(error);
+    console.error(error);
     return `${lang.ERROR_UNKNOWN}`;
   }
 }
