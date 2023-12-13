@@ -71,6 +71,15 @@ module.exports = (client) => {
     return false;
   }
 
+  // Check if my voice channel is empty
+  client.checkMyVoiceChannelIsEmpty = (guild) => {
+    const voiceChannel = guild.members.me.voice.channel;
+    if (!voiceChannel) return true;
+    const voiceChannelMembers = voiceChannel.members.filter((member) => !member.user.bot);
+    if (voiceChannelMembers.size === 0) return true;
+    return false;
+  }
+
   // Leave voice channel
   client.leaveVoiceChannel = (guild) => {
     client.manageCooldown("joinVoice", guild.id, 1000);
