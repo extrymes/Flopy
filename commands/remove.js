@@ -36,7 +36,7 @@ module.exports = {
         const song = queue?.songs[position];
         if (!song) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_INVALID_POSITION}`);
         if (!client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
-        if (!client.manageCooldown("remove", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+        if (!client.manageCooldown("removeCommand", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
         queue.songs.splice(position, 1);
         client.editDashboardMessage(guild, queue, lang);
         client.sendAdvancedNotification(interaction, `${lang.MESSAGE_QUEUE_SONG_REMOVED} (#${position})`, `${song.name}`, song.thumbnail);

@@ -68,7 +68,7 @@ module.exports = async (client, interaction) => {
         const url = interaction.values[0];
         if (member.voice.channel) {
           if (client.checkMemberIsInMyVoiceChannel(guild, member) || !queue) {
-            if (client.manageCooldown("play", member.id, 2000)) {
+            if (client.manageCooldown("playQuery", member.id, 2000)) {
               await interaction.deferReply().catch((error) => { });
               client.distube.play(member.voice.channel, url, { textChannel: channel, member: member, metadata: interaction }).catch((error) => {
                 const errorMessage = client.getErrorMessage(error.message, lang);

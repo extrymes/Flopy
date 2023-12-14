@@ -6,9 +6,9 @@ module.exports = async (client, oldState, newState) => {
   if (member === guild.members.me) {
     if (!newVoiceChannel) {
       client.distube.voices.leave(guild);
-      if (client.manageCooldown("joinVoice", guild.id, 5000)) try { client.distube.voices.join(oldVoiceChannel).catch((error) => { }) } catch (error) { }
+      if (client.manageCooldown("joinVoiceChannel", guild.id, 5000)) try { client.distube.voices.join(oldVoiceChannel).catch((error) => { }) } catch (error) { }
     }
-    if (client.manageCooldown("updateVoice", guild.id, client.config.VOICE_UPDATE_COOLDOWN * 1000)) {
+    if (client.manageCooldown("updateVoiceChannel", guild.id, client.config.VOICE_UPDATE_COOLDOWN * 1000)) {
       setTimeout(async () => {
         if (client.dashboards[guild.id]) {
           const voiceId = member.voice.channel?.id || "";

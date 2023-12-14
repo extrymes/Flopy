@@ -82,7 +82,7 @@ module.exports = (client) => {
 
   // Leave voice channel
   client.leaveVoiceChannel = (guild) => {
-    client.manageCooldown("joinVoice", guild.id, 1000);
+    client.manageCooldown("joinVoiceChannel", guild.id, 1000);
     client.distube.voices.leave(guild);
   }
 
@@ -149,7 +149,7 @@ module.exports = (client) => {
   // Send dashboard message
   client.sendDashboardMessage = (guild, channel, queue, lang) => {
     const dashboard = client.createDashboard(guild, queue, lang);
-    client.manageCooldown("leaveVoice", guild.id, 1000);
+    client.manageCooldown("leaveVoiceChannel", guild.id, 1000);
     client.dashboards[guild.id]?.delete().catch((error) => { });
     channel?.send(dashboard).then((message) => {
       if (message) {

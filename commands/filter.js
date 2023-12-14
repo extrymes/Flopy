@@ -37,7 +37,7 @@ module.exports = {
         const name = options.getString("name");
         if (!queue?.songs[0]) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_NO_PLAYING}`);
         if (!client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
-        if (!client.manageCooldown("filter", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+        if (!client.manageCooldown("filterCommand", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
         if (filters.has(name)) filters.remove(name);
         else filters.add(name);
         if (queue.paused) client.distube.resume(queue);
@@ -48,7 +48,7 @@ module.exports = {
       case "reset":
         if (!filters?.size) return client.sendErrorNotification(interaction, `${lang.ERROR_FILTER_NO_ACTIVE}`);
         if (!client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
-        if (!client.manageCooldown("filter", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+        if (!client.manageCooldown("filterCommand", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
         filters.clear();
         if (queue.paused) client.distube.resume(queue);
         client.editDashboardMessage(guild, queue, lang);

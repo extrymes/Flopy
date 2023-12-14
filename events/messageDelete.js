@@ -3,6 +3,6 @@ module.exports = async (client, message) => {
 
   if (message === client.dashboards[guild.id]) {
     delete client.dashboards[guild.id];
-    if (client.manageCooldown("leaveVoice", guild.id, 0)) client.leaveVoiceChannel(guild);
+    if (client.manageCooldown("leaveVoiceChannel", guild.id, 0)) client.leaveVoiceChannel(guild);
   }
 }
