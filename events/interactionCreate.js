@@ -7,7 +7,7 @@ module.exports = async (client, interaction) => {
   const lang = languages[guildData.language];
 
   if (interaction.isCommand()) {
-    if (channel === client.dashboards.get(guild.id)?.channel || interaction.commandName === "setup") {
+    if (channel === client.dashboards[guild.id]?.channel || interaction.commandName === "setup") {
       const command = require(`../commands/${interaction.commandName}`);
       command.run(client, interaction, guildData, queue, lang);
     } else client.sendErrorNotification(interaction, `${lang.ERROR_COMMAND_NOT_USABLE}`);

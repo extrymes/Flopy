@@ -10,7 +10,7 @@ module.exports = async (client, oldState, newState) => {
     }
     if (client.manageCooldown("updateVoice", guild.id, client.config.VOICE_UPDATE_COOLDOWN * 1000)) {
       setTimeout(async () => {
-        if (client.dashboards.has(guild.id)) {
+        if (client.dashboards[guild.id]) {
           const voiceId = member.voice.channel?.id || "";
           const guildData = await client.getGuildData(guild);
           if (voiceId !== guildData.voice) client.updateGuildData(guild, { voice: voiceId });

@@ -8,7 +8,7 @@ module.exports = async (client, message) => {
 
   if (message.author.bot) return;
 
-  if (channel === client.dashboards.get(guild.id)?.channel) {
+  if (channel === client.dashboards[guild.id]?.channel) {
     if (member.voice.channel) {
       if (client.checkMemberIsInMyVoiceChannel(guild, member) || !queue) {
         if (client.manageCooldown("play", member.id, 2000)) {

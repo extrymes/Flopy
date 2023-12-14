@@ -13,7 +13,7 @@ module.exports = (client) => {
       client.sendFirstMessage(guild);
     } else {
       await client.getDashboardMessage(guild, guildData);
-      if (client.dashboards.has(guild.id)) {
+      if (client.dashboards[guild.id]) {
         const voiceChannel = guild.channels.cache.get(guildData.voice);
         const queue = client.distube.getQueue(guild);
         const lang = languages[guildData.language];

@@ -95,7 +95,7 @@ module.exports = (client) => {
 
   // Send help message
   client.sendHelpMessage = (guild, channel, lang) => {
-    const helpEmbed = new EmbedBuilder().setAuthor({ name: `${lang.HELP_MESSAGE}`, iconURL: elements.ICON_FLOPY }).setDescription(`${client.dashboards.has(guild.id) ? lang.HELP_PLAY_SONG.replace("$channel", `${client.dashboards.get(guild.id)?.channel}`) : lang.HELP_SETUP_DASHBOARD.replace("$command", `\`/setup\``)}`).setColor(elements.COLOR_FLOPY);
+    const helpEmbed = new EmbedBuilder().setAuthor({ name: `${lang.HELP_MESSAGE}`, iconURL: elements.ICON_FLOPY }).setDescription(`${client.dashboards[guild.id] ? lang.HELP_PLAY_SONG.replace("$channel", `${client.dashboards[guild.id]?.channel}`) : lang.HELP_SETUP_DASHBOARD.replace("$command", `\`/setup\``)}`).setColor(elements.COLOR_FLOPY);
     channel.send({ embeds: [helpEmbed] }).catch((error) => { });
   }
 
@@ -142,7 +142,7 @@ module.exports = (client) => {
   client.getDashboardMessage = async (guild, guildData) => {
     const dashboardChannel = guild.channels.cache.get(guildData.channel);
     await dashboardChannel?.messages?.fetch(guildData.message).then((dashboardMessage) => {
-      if (dashboardMessage) client.dashboards.set(guild.id, dashboardMessage);
+      if (dashboardMessage) client.dashboards[guild.id] = dashboardMessage;
     }).catch((error) => { });
   }
 
@@ -150,10 +150,10 @@ module.exports = (client) => {
   client.sendDashboardMessage = (guild, channel, queue, lang) => {
     const dashboard = client.createDashboard(guild, queue, lang);
     client.manageCooldown("leaveVoice", guild.id, 1000);
-    client.dashboards.get(guild.id)?.delete().catch((error) => { });
+    client.dashboards[guild.id]?.delete().catch((error) => { });
     channel?.send(dashboard).then((message) => {
       if (message) {
-        client.dashboards.set(guild.id, message);
+        client.dashboards[guild.id] = message;
         client.updateGuildData(guild, { channel: channel.id, message: message.id });
       } else client.leaveVoiceChannel(guild);
     }).catch((error) => { });
@@ -162,15 +162,15 @@ module.exports = (client) => {
   // Edit dashboard message
   client.editDashboardMessage = (guild, queue, lang) => {
     const dashboard = client.createDashboard(guild, queue, lang);
-    client.dashboards.get(guild.id)?.edit(dashboard).catch((error) => { });
+    client.dashboards[guild.id]?.edit(dashboard).catch((error) => { });
   }
 
   // Manage cooldown
   client.manageCooldown = (name, target, time) => {
     const cooldownId = name + target;
-    if (client.cooldowns.has(cooldownId)) return false;
-    client.cooldowns.set(cooldownId, true);
-    setTimeout(() => client.cooldowns.delete(cooldownId), time);
+    if (client.cooldowns[cooldownId]) return false;
+    client.cooldowns[cooldownId] = true;
+    setTimeout(() => delete client.cooldowns[cooldownId], time);
     return true;
   }
 

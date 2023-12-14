@@ -12,9 +12,9 @@ require("./utils/functions")(client);
 
 // Configure client
 client.config = require("./admin/config");
-client.dashboards = new Map();
-client.cooldowns = new Map();
-client.queries = new Map();
+client.dashboards = {};
+client.cooldowns = {};
+client.queries = {};
 client.emptyTimeouts = {};
 client.distube = new DisTube(client, {
   leaveOnFinish: client.config.DISTUBE_LEAVE_ON_FINISH,
