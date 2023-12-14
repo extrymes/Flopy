@@ -2,6 +2,7 @@ module.exports = {
   DASHBOARD_MAX_LIFE: 3600,
   PRESENCE_UPDATE_INTERVAL: 600,
   VOICE_UPDATE_COOLDOWN: 30,
+  VOICE_EMPTY_TIMEOUT: 180,
   LIBRARY_MAX_LENGTH: 10,
   SONG_MAX_DISPLAY: 60,
   QUEUE_MAX_LENGTH: 2000,
@@ -14,8 +15,7 @@ module.exports = {
   MONGO_FAMILY: 4,
   DISTUBE_LEAVE_ON_FINISH: false,
   DISTUBE_LEAVE_ON_STOP: false,
-  DISTUBE_EMIT_ON_EMPTY: true,
-  DISTUBE_EMPTY_COOLDOWN: 300,
+  DISTUBE_LEAVE_ON_EMPTY: false,
   DISTUBE_NSFW: true,
   DISTUBE_SAVE_PREVIOUS_SONGS: false,
   DISTUBE_CUSTOM_FILTERS: { "8d": "apulsator=hz=0.08", "purebass": "bass=g=20,dynaudnorm=f=200,asubboost", "subboost": "asubboost", "fast": "atempo=1.3", "vibrato": "vibrato=f=6.5", "pulsator": "apulsator=hz=1" }

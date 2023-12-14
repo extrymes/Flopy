@@ -15,11 +15,11 @@ client.config = require("./admin/config");
 client.dashboards = new Map();
 client.cooldowns = new Map();
 client.queries = new Map();
+client.emptyTimeouts = {};
 client.distube = new DisTube(client, {
   leaveOnFinish: client.config.DISTUBE_LEAVE_ON_FINISH,
   leaveOnStop: client.config.DISTUBE_LEAVE_ON_STOP,
-  emitOnEmpty: client.config.DISTUBE_EMIT_ON_EMPTY,
-  emptyCooldown: client.config.DISTUBE_EMPTY_COOLDOWN,
+  leaveOnEmpty: client.config.DISTUBE_LEAVE_ON_EMPTY,
   nsfw: client.config.DISTUBE_NSFW,
   savePreviousSongs: client.config.DISTUBE_SAVE_PREVIOUS_SONGS,
   customFilters: client.config.DISTUBE_CUSTOM_FILTERS,

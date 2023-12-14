@@ -1,6 +1,7 @@
 module.exports = async (client, oldState, newState) => {
   const { guild, channel: newVoiceChannel, member } = newState;
   const oldVoiceChannel = oldState.channel;
+  const queue = client.distube.getQueue(guild);
 
   if (member === guild.members.me) {
     if (!newVoiceChannel) {
@@ -15,6 +16,19 @@ module.exports = async (client, oldState, newState) => {
           if (voiceId !== guildData.voice) client.updateGuildData(guild, { voice: voiceId });
         } else client.leaveVoiceChannel(guild);
       }, client.config.VOICE_UPDATE_COOLDOWN * 1000);
+    }
+  }
+  if (queue) {
+    const currentTimeout = client.emptyTimeouts[guild.id];
+    const isEmpty = client.checkMyVoiceChannelIsEmpty(guild);
+    if (!currentTimeout && isEmpty) {
+      client.emptyTimeouts[guild.id] = setTimeout(async () => {
+        delete client.emptyTimeouts[guild.id];
+        try { client.distube.stop(queue) } catch (error) { }
+      }, client.config.VOICE_EMPTY_TIMEOUT * 1000);
+    } else if (currentTimeout && !isEmpty) {
+      clearTimeout(currentTimeout);
+      delete client.emptyTimeouts[guild.id];
     }
   }
 }
