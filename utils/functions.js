@@ -131,8 +131,8 @@ module.exports = (client) => {
   // Create dashboard
   client.createDashboard = (guild, queue, lang) => {
     const currentSong = queue?.songs[0];
-    const formattedSongs = queue?.songs?.slice(1, client.config.QUEUE_MAX_DISPLAY + 1).map((song, i) => { return `**${i + 1}.** ${song.name.length > client.config.SONG_MAX_DISPLAY ? song.name.substr(0, client.config.SONG_MAX_DISPLAY).concat("...") : song.name}` }).reverse().join("\n");
-    const dashboardContent = `**__${lang.DASHBOARD_QUEUE}__**\n${currentSong && queue.songs.length - 1 > client.config.QUEUE_MAX_DISPLAY ? `**+${queue.songs.length - 1 - client.config.QUEUE_MAX_DISPLAY}**\n` : ""}${currentSong ? (formattedSongs || lang.DASHBOARD_QUEUE_NO_SONG) : lang.DASHBOARD_QUEUE_NONE}`;
+    const formattedSongs = queue?.songs?.slice(1, client.config.QUEUE_MAX_LENGTH_DISPLAY + 1).map((song, i) => { return `**${i + 1}.** ${song.name.length > client.config.SONG_NAME_MAX_LENGTH_DISPLAY ? song.name.substr(0, client.config.SONG_NAME_MAX_LENGTH_DISPLAY).concat("...") : song.name}` }).reverse().join("\n");
+    const dashboardContent = `**__${lang.DASHBOARD_QUEUE}__**\n${currentSong && queue.songs.length - 1 > client.config.QUEUE_MAX_LENGTH_DISPLAY ? `**+${queue.songs.length - 1 - client.config.QUEUE_MAX_LENGTH_DISPLAY}**\n` : ""}${currentSong ? (formattedSongs || lang.DASHBOARD_QUEUE_NO_SONG) : lang.DASHBOARD_QUEUE_NONE}`;
     const dashboardEmbed = new EmbedBuilder().setTitle(currentSong ? `[${currentSong.formattedDuration}] ${currentSong.name}` : `${lang.DASHBOARD_SONG_NO_PLAYING}`).setDescription(!currentSong ? `[Flopy](${elements.INVITE_FLOPY}) | [Flopy 2](${elements.INVITE_FLOPY2}) | [Flopy 3](${elements.INVITE_FLOPY3}) | [Support](${elements.INVITE_SUPPORT})` : null).setImage(currentSong ? currentSong.thumbnail : elements.BANNER_DASHBOARD).setFooter(currentSong ? { text: `${lang.DASHBOARD_VOLUME} ${queue.volume}%${queue.repeatMode === 0 ? "" : queue.repeatMode === 1 ? ` | ${lang.DASHBOARD_REPEAT_SONG}` : ` | ${lang.DASHBOARD_REPEAT_QUEUE}`}${queue.autoplay ? ` | ${lang.DASHBOARD_AUTOPLAY_ON}` : ""}${queue.filters.size ? ` | ${lang.DASHBOARD_FILTERS} ${queue.filters.size}` : ""}` } : null).setColor(currentSong ? guild.members.me.displayHexColor.replace("#000000", elements.COLOR_WHITE) : elements.COLOR_FLOPY);
     const dashboardButtons = new ActionRowBuilder().addComponents(currentSong && queue?.playing ? new ButtonBuilder().setCustomId("pause").setStyle(ButtonStyle.Secondary).setEmoji(elements.EMOJI_PAUSE) : new ButtonBuilder().setCustomId("resume").setStyle(ButtonStyle.Primary).setEmoji(elements.EMOJI_PLAY).setDisabled(!currentSong), new ButtonBuilder().setCustomId("stop").setStyle(ButtonStyle.Secondary).setEmoji(elements.EMOJI_STOP).setDisabled(!currentSong), new ButtonBuilder().setCustomId("skip").setStyle(ButtonStyle.Secondary).setEmoji(elements.EMOJI_SKIP).setDisabled(!currentSong), new ButtonBuilder().setCustomId("repeat").setStyle(ButtonStyle.Secondary).setEmoji(elements.EMOJI_REPEAT).setDisabled(!currentSong), new ButtonBuilder().setCustomId("volume").setStyle(ButtonStyle.Secondary).setEmoji(elements.EMOJI_VOLUME).setDisabled(!currentSong));
     return { content: dashboardContent, embeds: [dashboardEmbed], components: [dashboardButtons] };
@@ -177,8 +177,8 @@ module.exports = (client) => {
   // Create duration bar
   client.createDurationBar = (queue) => {
     const currentSong = queue.songs[0];
-    const progress = Math.min(Math.round((queue.currentTime / currentSong.duration) * client.config.BAR_MAX_DISPLAY), client.config.BAR_MAX_DISPLAY);
-    const rest = client.config.BAR_MAX_DISPLAY - progress;
+    const progress = Math.min(Math.round((queue.currentTime / currentSong.duration) * client.config.DURATION_BAR_MAX_LENGTH_DISPLAY), client.config.DURATION_BAR_MAX_LENGTH_DISPLAY);
+    const rest = client.config.DURATION_BAR_MAX_LENGTH_DISPLAY - progress;
     const bar = new Array(progress).fill(elements.SYMBOL_LINE).concat(elements.SYMBOL_CIRCLE).concat(new Array(rest).fill(" ")).join("");
     return `\`${queue.formattedCurrentTime} ${bar} ${currentSong.formattedDuration}\``;
   }
