@@ -9,7 +9,7 @@ module.exports = async (client) => {
   console.log("[!] Checking guilds ...".yellow);
   client.guilds.cache.forEach(async (guild) => {
     const guildData = await client.getGuildData(guild);
-    if (guildData.newGuild) return client.sendFirstMessage(guild);
+    if (guildData.newGuild) return client.sendNewGuildMessage(guild);
     await client.getDashboardMessage(guild, guildData);
     if (!client.dashboards[guild.id]) return;
     const voiceChannel = guild.channels.cache.get(guildData.voice);
