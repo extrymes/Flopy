@@ -24,7 +24,7 @@ module.exports = {
     await interaction.deferReply().catch((error) => { });
     client.distube.play(member.voice.channel, query, { textChannel: channel, member: member, metadata: interaction, position: 1 }).catch((error) => {
       const errorMessage = client.getErrorMessage(error.message, lang);
-      client.sendErrorNotification(interaction, `${errorMessage}`, true);
+      client.sendErrorNotification(interaction, `${errorMessage}`, { editReply: true });
     });
   }
 }

@@ -100,29 +100,30 @@ module.exports = (client) => {
   }
 
   // Send notification
-  client.sendNotification = (destination, title, ephemeral) => {
+  client.sendNotification = (destination, title, options) => {
     const notificationEmbed = new EmbedBuilder().setTitle(`${title}`).setColor(elements.COLOR_FLOPY);
     if (destination.token) {
-      destination.reply({ embeds: [notificationEmbed], ephemeral: ephemeral }).catch((error) => { });
+      if (options?.editReply) destination.editReply({ embeds: [notificationEmbed], ephemeral: options?.ephemeral }).catch((error) => { });
+      else destination.reply({ embeds: [notificationEmbed], ephemeral: options?.ephemeral }).catch((error) => { });
       setTimeout(() => destination.deleteReply().catch((error) => { }), 4000);
     } else destination.send({ embeds: [notificationEmbed] }).then((message) => setTimeout(() => message?.delete().catch((error) => { }), 4000)).catch((error) => { });
   }
 
   // Send advanced notification
-  client.sendAdvancedNotification = (destination, title, description, thumbnail, editReply) => {
+  client.sendAdvancedNotification = (destination, title, description, thumbnail, options) => {
     const notificationEmbed = new EmbedBuilder().setTitle(`${title}`).setDescription(`${description}`).setThumbnail(thumbnail).setColor(elements.COLOR_FLOPY);
     if (destination.token) {
-      if (editReply) destination.editReply({ embeds: [notificationEmbed] }).catch((error) => { });
-      else destination.reply({ embeds: [notificationEmbed] }).catch((error) => { });
+      if (options?.editReply) destination.editReply({ embeds: [notificationEmbed], ephemeral: options?.ephemeral }).catch((error) => { });
+      else destination.reply({ embeds: [notificationEmbed], ephemeral: options?.ephemeral }).catch((error) => { });
       setTimeout(() => destination.deleteReply().catch((error) => { }), 4000);
     } else destination.send({ embeds: [notificationEmbed] }).then((message) => setTimeout(() => message?.delete().catch((error) => { }), 4000)).catch((error) => { });
   }
 
   // Send error notification
-  client.sendErrorNotification = (destination, title, editReply) => {
+  client.sendErrorNotification = (destination, title, options) => {
     const notificationEmbed = new EmbedBuilder().setTitle(`${title}`).setColor(elements.COLOR_GREY);
     if (destination.token) {
-      if (editReply) destination.editReply({ embeds: [notificationEmbed], ephemeral: true }).catch((error) => { });
+      if (options?.editReply) destination.editReply({ embeds: [notificationEmbed], ephemeral: true }).catch((error) => { });
       else destination.reply({ embeds: [notificationEmbed], ephemeral: true }).catch((error) => { });
       setTimeout(() => destination.deleteReply().catch((error) => { }), 4000);
     } else destination.send({ embeds: [notificationEmbed] }).then((message) => setTimeout(() => message?.delete().catch((error) => { }), 4000)).catch((error) => { });

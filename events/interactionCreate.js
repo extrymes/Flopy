@@ -65,7 +65,7 @@ module.exports = async (client, interaction) => {
         await interaction.deferReply().catch((error) => { });
         client.distube.play(member.voice.channel, url, { textChannel: channel, member: member, metadata: interaction }).catch((error) => {
           const errorMessage = client.getErrorMessage(error.message, lang);
-          client.sendErrorNotification(interaction, `${errorMessage}`, true);
+          client.sendErrorNotification(interaction, `${errorMessage}`, { editReply: true });
         });
         break;
       default:

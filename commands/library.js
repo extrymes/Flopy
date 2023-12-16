@@ -58,7 +58,7 @@ module.exports = {
         if (library.find((item) => item.url === playing.url)) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_ALREADY_ADDED : lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`);
         library.push({ name: playing.name, url: playing.url, isPlaylist: isPlaylist });
         await client.updateUserData(user, { library: library });
-        client.sendNotification(interaction, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED} (#${library.length})`, true);
+        client.sendNotification(interaction, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED} (#${library.length})`, { ephemeral: true });
         break;
       case "remove":
         const position = options.getInteger("position");
@@ -66,7 +66,7 @@ module.exports = {
         if (!item) return client.sendErrorNotification(interaction, `${lang.ERROR_ITEM_INVALID_POSITION}`);
         library.splice(position - 1, 1);
         await client.updateUserData(user, { library: library });
-        client.sendNotification(interaction, `${item.isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_REMOVED : lang.MESSAGE_LIBRARY_SONG_REMOVED} (#${position})`, true);
+        client.sendNotification(interaction, `${item.isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_REMOVED : lang.MESSAGE_LIBRARY_SONG_REMOVED} (#${position})`, { ephemeral: true });
         break;
       default:
         client.sendErrorNotification(interaction, `${lang.ERROR_UNKNOWN}`);

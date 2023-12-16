@@ -23,7 +23,7 @@ module.exports = {
     await interaction.deferReply({ ephemeral: true }).catch((error) => { });
     const songs = await client.distube.search(query).catch((error) => {
       const errorMessage = client.getErrorMessage(error.message, lang);
-      client.sendErrorNotification(interaction, `${errorMessage}`, true);
+      client.sendErrorNotification(interaction, `${errorMessage}`, { editReply: true });
     });
     if (!songs) return;
     const formattedSongs = songs.map((song, i) => { return { label: `${i + 1}. ${song.name.length > client.config.SONG_NAME_MAX_LENGTH_DISPLAY ? song.name.substr(0, client.config.SONG_NAME_MAX_LENGTH_DISPLAY).concat("...") : song.name}`, value: song.url } });
