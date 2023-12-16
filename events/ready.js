@@ -1,6 +1,6 @@
 const languages = require("../utils/languages");
 
-module.exports = (client) => {
+module.exports = async (client) => {
   // Status
   console.log(`[-] ${client.user.username} is online`.green);
   setInterval(() => client.user.setPresence({ activities: [{ name: `@${client.user.username}`, type: 2 }], status: "online" }), client.config.PRESENCE_UPDATE_INTERVAL * 1000);
