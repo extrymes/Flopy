@@ -1,3 +1,5 @@
+const config = require("../admin/config");
+
 module.exports = async (client, oldState, newState) => {
   const { guild, channel: newVoiceChannel, member } = newState;
   const oldVoiceChannel = oldState.channel;
@@ -12,14 +14,14 @@ module.exports = async (client, oldState, newState) => {
       // Re-join voice channel
       if (client.manageCooldown("joinVoiceChannel", guild.id, 5000)) try { client.distube.voices.join(oldVoiceChannel).catch((error) => { }) } catch (error) { }
     }
-    if (client.manageCooldown("updateVoiceChannel", guild.id, client.config.VOICE_CHANNEL_UPDATE_COOLDOWN * 1000)) {
+    if (client.manageCooldown("updateVoiceChannel", guild.id, config.VOICE_CHANNEL_UPDATE_COOLDOWN * 1000)) {
       setTimeout(async () => {
         // Leave voice channel if guild dashboard is not in hash
         if (!client.dashboards[guild.id]) return client.leaveVoiceChannel(guild);
         // Update voice channel in database
         const voiceId = member.voice.channel?.id || "";
         if (voiceId !== guildData.voice) client.updateGuildData(guild, { voice: voiceId });
-      }, client.config.VOICE_CHANNEL_UPDATE_COOLDOWN * 1000);
+      }, config.VOICE_CHANNEL_UPDATE_COOLDOWN * 1000);
     }
   }
   if (queue) {
@@ -30,7 +32,7 @@ module.exports = async (client, oldState, newState) => {
       client.emptyTimeouts[guild.id] = setTimeout(async () => {
         delete client.emptyTimeouts[guild.id];
         try { client.distube.stop(queue) } catch (error) { }
-      }, client.config.VOICE_CHANNEL_EMPTY_TIMEOUT * 1000);
+      }, config.VOICE_CHANNEL_EMPTY_TIMEOUT * 1000);
     } else if (currentTimeout && !isEmpty) {
       clearTimeout(currentTimeout);
       delete client.emptyTimeouts[guild.id];

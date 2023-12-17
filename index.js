@@ -3,6 +3,7 @@ const { DisTube } = require("distube");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const colors = require("colors");
+const config = require("./admin/config");
 
 // Create Client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.MessageContent] });
@@ -11,7 +12,6 @@ require("./utils/crash")(client);
 require("./utils/functions")(client);
 
 // Define client properties
-client.config = require("./admin/config");
 client.dashboards = {};
 client.cooldowns = {};
 client.queries = {};
@@ -19,12 +19,12 @@ client.emptyTimeouts = {};
 
 // Create DisTube instance
 client.distube = new DisTube(client, {
-  leaveOnFinish: client.config.DISTUBE_LEAVE_ON_FINISH,
-  leaveOnStop: client.config.DISTUBE_LEAVE_ON_STOP,
-  leaveOnEmpty: client.config.DISTUBE_LEAVE_ON_EMPTY,
-  nsfw: client.config.DISTUBE_NSFW,
-  savePreviousSongs: client.config.DISTUBE_SAVE_PREVIOUS_SONGS,
-  customFilters: client.config.DISTUBE_CUSTOM_FILTERS,
+  leaveOnFinish: config.DISTUBE_LEAVE_ON_FINISH,
+  leaveOnStop: config.DISTUBE_LEAVE_ON_STOP,
+  leaveOnEmpty: config.DISTUBE_LEAVE_ON_EMPTY,
+  nsfw: config.DISTUBE_NSFW,
+  savePreviousSongs: config.DISTUBE_SAVE_PREVIOUS_SONGS,
+  customFilters: config.DISTUBE_CUSTOM_FILTERS,
   youtubeCookie: JSON.parse(fs.readFileSync("./admin/ytCookies.json"))
 });
 
@@ -63,11 +63,11 @@ try {
 
 // Connect database
 mongoose.connect(process.env.MONGO_CONNECTION, {
-  autoIndex: client.config.MONGO_AUTO_INDEX,
-  maxPoolSize: client.config.MONGO_MAX_POOL_SIZE,
-  serverSelectionTimeoutMS: client.config.MONGO_SERVER_SELECTION_TIMEOUT_MS,
-  socketTimeoutMS: client.config.MONGO_SOCKET_TIMEOUT_MS,
-  family: client.config.MONGO_FAMILY,
+  autoIndex: config.MONGO_AUTO_INDEX,
+  maxPoolSize: config.MONGO_MAX_POOL_SIZE,
+  serverSelectionTimeoutMS: config.MONGO_SERVER_SELECTION_TIMEOUT_MS,
+  socketTimeoutMS: config.MONGO_SOCKET_TIMEOUT_MS,
+  family: config.MONGO_FAMILY,
 }).then(() => console.log("[-] Flopy is connected to the database".green)).catch((error) => console.error(error));
 
 // Login client

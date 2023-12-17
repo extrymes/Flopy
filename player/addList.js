@@ -1,3 +1,4 @@
+const config = require("../admin/config");
 const languages = require("../utils/languages");
 
 module.exports = async (client, queue, playlist) => {
@@ -10,7 +11,7 @@ module.exports = async (client, queue, playlist) => {
   // Update member last query
   client.queries[playlist.member.id] = playlist.url;
   // Remove excess songs from queue if limit is reached
-  if (songs.length - 1 > client.config.QUEUE_MAX_LENGTH) songs.splice(songs.indexOf(playlist.songs[0]) > 1 ? 1 : client.config.QUEUE_MAX_LENGTH + 1, songs.length - 1 - client.config.QUEUE_MAX_LENGTH);
+  if (songs.length - 1 > config.QUEUE_MAX_LENGTH) songs.splice(songs.indexOf(playlist.songs[0]) > 1 ? 1 : config.QUEUE_MAX_LENGTH + 1, songs.length - 1 - config.QUEUE_MAX_LENGTH);
   // Send advanced notification and update dashboard message
   if (songs[0] === playlist.songs[0]) return setTimeout(() => client.sendAdvancedNotification(destination, `${lang.MESSAGE_PLAYLIST_PLAYING}`, `${playlist.name}`, playlist.thumbnail, { editReply: true }), 1000);
   client.editDashboardMessage(guild, queue, lang);

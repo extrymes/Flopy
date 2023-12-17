@@ -1,8 +1,9 @@
+const config = require("../admin/config");
 const languages = require("../utils/languages");
 
 module.exports = async (client) => {
   // Update presence in interval
-  setInterval(() => client.user.setPresence({ activities: [{ name: `@${client.user.username}`, type: 2 }], status: "online" }), client.config.PRESENCE_UPDATE_INTERVAL * 1000);
+  setInterval(() => client.user.setPresence({ activities: [{ name: `@${client.user.username}`, type: 2 }], status: "online" }), config.PRESENCE_UPDATE_INTERVAL * 1000);
   console.log(`[-] ${client.user.username} is online`.green);
 
   // Browse all guilds (search for new guilds, retrieve data, update dashboard messages, and join voice channels)
