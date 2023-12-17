@@ -3,14 +3,19 @@ module.exports = async (client, oldState, newState) => {
   const oldVoiceChannel = oldState.channel;
   const queue = client.distube.getQueue(guild);
 
+  // Check if member is Flopy
   if (member === guild.members.me) {
     if (!newVoiceChannel) {
+      // Force leave voice channel (Distube issue)
       client.distube.voices.leave(guild);
+      // Re-join voice channel
       if (client.manageCooldown("joinVoiceChannel", guild.id, 5000)) try { client.distube.voices.join(oldVoiceChannel).catch((error) => { }) } catch (error) { }
     }
     if (client.manageCooldown("updateVoiceChannel", guild.id, client.config.VOICE_CHANNEL_UPDATE_COOLDOWN * 1000)) {
       setTimeout(async () => {
+        // Leave voice channel if guild dashboard is not in hash
         if (client.dashboards[guild.id]) {
+          // Update voice channel in database
           const voiceId = member.voice.channel?.id || "";
           const guildData = await client.getGuildData(guild);
           if (voiceId !== guildData.voice) client.updateGuildData(guild, { voice: voiceId });
@@ -19,6 +24,7 @@ module.exports = async (client, oldState, newState) => {
     }
   }
   if (queue) {
+    // Leave voice channel after timeout when it is empty
     const currentTimeout = client.emptyTimeouts[guild.id];
     const isEmpty = client.checkMyVoiceChannelIsEmpty(guild);
     if (!currentTimeout && isEmpty) {

@@ -15,11 +15,14 @@ module.exports = {
     if (!client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
     if (currentSong.isLive) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
     if (!client.manageCooldown("replayCommand", guild.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+    // Replay current song
     await client.distube.seek(queue, 0);
+    // Resume and update dashboard message if queue is paused
     if (queue.paused) {
       client.distube.resume(queue);
       client.editDashboardMessage(guild, queue, lang);
     }
+    // Send advanced notification
     client.sendAdvancedNotification(interaction, `${lang.MESSAGE_SONG_REPLAYED}`, `${currentSong.name}`, currentSong.thumbnail);
   }
 }

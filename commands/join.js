@@ -15,6 +15,7 @@ module.exports = {
     if (client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_VOICE_CHANNEL_ALREADY_JOINED}`);
     if (!client.checkMyVoiceChannelIsEmpty(guild) && queue) return client.sendErrorNotification(interaction, `${lang.ERROR_VOICE_CHANNEL_UNABLE_JOIN}`);
     if (!client.manageCooldown("joinCommand", member.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+    // Join voice channel and send notification
     await interaction.deferReply().catch((error) => { });
     try {
       await client.distube.voices.join(voiceChannel);

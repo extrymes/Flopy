@@ -20,6 +20,7 @@ module.exports = {
     const query = options.getString("query");
 
     if (!client.manageCooldown("searchCommand", member.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+    // Search query and send results
     await interaction.deferReply({ ephemeral: true }).catch((error) => { });
     const songs = await client.distube.search(query).catch((error) => {
       const errorMessage = client.getErrorMessage(error.message, lang);

@@ -25,11 +25,14 @@ module.exports = {
     const sec = client.convertHHMMSSToSeconds(hhmmss);
     if(sec > currentSong.duration) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_TIME_GREATER}`);
     if(!client.manageCooldown("seekCommand", guild.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+    // Seek in current song
     await client.distube.seek(queue, sec);
+    // Resume and update dashboard message if queue is paused
     if(queue.paused) {
       client.distube.resume(queue);
       client.editDashboardMessage(guild, queue, lang);
     }
+    // Create and send duration bar
     const durationBar = client.createDurationBar(queue);
     client.sendNotification(interaction, `${durationBar}`);
   }

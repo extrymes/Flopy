@@ -4,18 +4,20 @@ const mongoose = require("mongoose");
 const fs = require("fs");
 const colors = require("colors");
 
-// Create client
+// Create Client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.MessageContent] });
 require("dotenv").config();
 require("./utils/crash")(client);
 require("./utils/functions")(client);
 
-// Configure client
+// Define client properties
 client.config = require("./admin/config");
 client.dashboards = {};
 client.cooldowns = {};
 client.queries = {};
 client.emptyTimeouts = {};
+
+// Create DisTube instance
 client.distube = new DisTube(client, {
   leaveOnFinish: client.config.DISTUBE_LEAVE_ON_FINISH,
   leaveOnStop: client.config.DISTUBE_LEAVE_ON_STOP,

@@ -6,5 +6,6 @@ module.exports = async (client, queue) => {
   const guildData = await client.getGuildData(guild);
   const lang = languages[guildData.language];
 
+  // Send error notification
   if(channel) client.sendErrorNotification(channel, `${lang.ERROR_VOICE_CHANNEL_DISCONNECTED}`);
 }

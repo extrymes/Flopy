@@ -5,6 +5,7 @@ module.exports = async (client, channel, error) => {
   const guildData = await client.getGuildData(guild);
   const lang = languages[guildData.language];
 
+  // Send error notification
   const errorMessage = client.getErrorMessage(error.message, lang);
   client.sendErrorNotification(channel, `${errorMessage}`);
 }

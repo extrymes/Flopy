@@ -5,5 +5,6 @@ module.exports = async (client, queue) => {
   const guildData = await client.getGuildData(guild);
   const lang = languages[guildData.language];
 
+  // Uodate dashboard message
   client.editDashboardMessage(guild, queue, lang);
 }

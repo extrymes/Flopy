@@ -3,7 +3,7 @@ const { Guild, User } = require("../models/index");
 const elements = require("./elements");
 
 module.exports = (client) => {
-  // Create guild data
+  // Create guild data in database
   client.createGuildData = async (guild) => {
     const guildData = await Guild.create({ guildID: guild.id });
     if (!guildData) throw new Error("Error when creating guild data!");
@@ -12,14 +12,14 @@ module.exports = (client) => {
     return guildData.flopy1;
   }
 
-  // Get guild data
+  // Get guild data in database
   client.getGuildData = async (guild) => {
     const guildData = await Guild.findOne({ guildID: guild.id });
     if (!guildData) return client.createGuildData(guild);
     return guildData.flopy1;
   }
 
-  // Update guild data
+  // Update guild data in database
   client.updateGuildData = async (guild, data) => {
     const guildData = await client.getGuildData(guild);
     const newGuildData = { flopy1: { ...guildData, ...data } };
@@ -28,7 +28,7 @@ module.exports = (client) => {
     return true;
   }
 
-  // Create user data
+  // Create user data in database
   client.createUserData = async (user) => {
     const userData = await User.create({ userID: user.id });
     if (!userData) throw new Error("Error when creating user data!");
@@ -37,14 +37,14 @@ module.exports = (client) => {
     return userData;
   }
 
-  // Get user data
+  // Get user data in database
   client.getUserData = async (user) => {
     const userData = await User.findOne({ userID: user.id });
     if (!userData) return client.createUserData(user);
     return userData;
   }
 
-  // Update user data
+  // Update user data in database
   client.updateUserData = async (user, data) => {
     const result = await User.updateOne({ userID: user.id }, data);
     if (result.modifiedCount === 0) throw new Error("Error when updating user data!");

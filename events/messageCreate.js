@@ -8,16 +8,19 @@ module.exports = async (client, message) => {
 
   if (message.author.bot) return;
   if (channel !== client.dashboards[guild.id]?.channel) {
+    // Send help message if Flopy is mentioned
     if (message.mentions.users.first() === client.user && client.manageCooldown("sendHelpMessage", member.id, 4000)) client.sendHelpMessage(guild, channel, lang);
     return;
   }
   if (!member.voice.channel) return client.sendErrorNotification(channel, `${lang.ERROR_MEMBER_MUST_JOIN_VOICE_CHANNEL}`);
   if (!client.checkMemberIsInMyVoiceChannel(guild, member) && queue) return  client.sendErrorNotification(channel, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
   if (!client.manageCooldown("playQuery", member.id, 2000)) return client.sendErrorNotification(channel, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+  // Play or add query to the queue
   await channel.sendTyping().catch((error) => { });
   client.distube.play(member.voice.channel, message.content, { textChannel: channel, member: member }).catch((error) => {
     const errorMessage = client.getErrorMessage(error.message, lang);
     client.sendErrorNotification(channel, `${errorMessage}`);
   });
+  // Delete message
   message.delete().catch((error) => { });
 }
