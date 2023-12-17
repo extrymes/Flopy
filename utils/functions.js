@@ -90,12 +90,12 @@ module.exports = (client) => {
   client.sendNewGuildMessage = (guild) => {
     const channel = guild.channels.cache.find((channel) => channel.type === ChannelType.GuildText && client.checkMessageIsSendable(guild, channel));
     const firstEmbed = new EmbedBuilder().setTitle("Get ready to listen to music easily!").setDescription(`To get started, use \`/setup\` command in a channel.\nIf you need help, here is the [support server](${elements.INVITE_SUPPORT}).`).setImage(elements.BANNER_FLOPY).setColor(elements.COLOR_FLOPY);
-    channel?.send({ embeds: [firstEmbed] }).catch((error) => { });
+    if (channel) channel.send({ embeds: [firstEmbed] }).catch((error) => { });
   }
 
   // Send help message
   client.sendHelpMessage = (guild, channel, lang) => {
-    const helpEmbed = new EmbedBuilder().setAuthor({ name: `${lang.HELP_MESSAGE}`, iconURL: elements.ICON_FLOPY }).setDescription(`${client.dashboards[guild.id] ? lang.HELP_PLAY_SONG.replace("$channel", `${client.dashboards[guild.id]?.channel}`) : lang.HELP_SETUP_DASHBOARD.replace("$command", `\`/setup\``)}`).setColor(elements.COLOR_FLOPY);
+    const helpEmbed = new EmbedBuilder().setAuthor({ name: `${lang.HELP_MESSAGE}`, iconURL: elements.ICON_FLOPY }).setDescription(`${client.dashboards[guild.id] ? lang.HELP_PLAY_SONG.replace("$channel", `${client.dashboards[guild.id].channel}`) : lang.HELP_SETUP_DASHBOARD.replace("$command", `\`/setup\``)}`).setColor(elements.COLOR_FLOPY);
     channel.send({ embeds: [helpEmbed] }).catch((error) => { });
   }
 
@@ -139,9 +139,8 @@ module.exports = (client) => {
   // Get dashboard message
   client.getDashboardMessage = async (guild, guildData) => {
     const dashboardChannel = guild.channels.cache.get(guildData.channel);
-    await dashboardChannel?.messages?.fetch(guildData.message).then((dashboardMessage) => {
-      if (dashboardMessage) client.dashboards[guild.id] = dashboardMessage;
-    }).catch((error) => { });
+    const dashboardMessage = await dashboardChannel.messages.fetch(guildData.message);
+    client.dashboards[guild.id] = dashboardMessage;
   }
 
   // Send dashboard message

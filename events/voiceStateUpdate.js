@@ -1,6 +1,7 @@
 module.exports = async (client, oldState, newState) => {
   const { guild, channel: newVoiceChannel, member } = newState;
   const oldVoiceChannel = oldState.channel;
+  const guildData = await client.getGuildData(guild);
   const queue = client.distube.getQueue(guild);
 
   // Check if member is Flopy
@@ -17,7 +18,6 @@ module.exports = async (client, oldState, newState) => {
         if (!client.dashboards[guild.id]) return client.leaveVoiceChannel(guild);
         // Update voice channel in database
         const voiceId = member.voice.channel?.id || "";
-        const guildData = await client.getGuildData(guild);
         if (voiceId !== guildData.voice) client.updateGuildData(guild, { voice: voiceId });
       }, client.config.VOICE_CHANNEL_UPDATE_COOLDOWN * 1000);
     }

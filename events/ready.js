@@ -2,11 +2,11 @@ const languages = require("../utils/languages");
 
 module.exports = async (client) => {
   // Update presence in interval
-  console.log(`[-] ${client.user.username} is online`.green);
   setInterval(() => client.user.setPresence({ activities: [{ name: `@${client.user.username}`, type: 2 }], status: "online" }), client.config.PRESENCE_UPDATE_INTERVAL * 1000);
+  console.log(`[-] ${client.user.username} is online`.green);
 
   // Browse all guilds (search for new guilds, retrieve data, update dashboard messages, and join voice channels)
-  console.log("[!] Checking guilds ...".yellow);
+  console.log("[!] Browse all guilds...".yellow);
   client.guilds.cache.forEach(async (guild) => {
     const guildData = await client.getGuildData(guild);
     if (guildData.newGuild) return client.sendNewGuildMessage(guild);

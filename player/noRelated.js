@@ -2,10 +2,10 @@ const languages = require("../utils/languages");
 
 module.exports = async (client, queue) => {
   const guild = queue.textChannel.guild;
-  const channel = client.dashboards[guild.id]?.channel;
+  const channel = queue.textChannel;
   const guildData = await client.getGuildData(guild);
   const lang = languages[guildData.language];
 
   // Send error notification
-  if (channel) client.sendErrorNotification(channel, `${lang.ERROR_SONG_NO_RELATED_FOUND}`);
+  client.sendErrorNotification(channel, `${lang.ERROR_SONG_NO_RELATED_FOUND}`);
 }
