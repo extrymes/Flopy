@@ -19,7 +19,7 @@ module.exports = async (client, oldState, newState) => {
         // Leave voice channel if guild dashboard is not in hash
         if (!client.dashboards[guild.id]) return client.leaveVoiceChannel(guild);
         // Update voice channel in database
-        const voiceId = member.voice.channel?.id || "";
+        const voiceId = member.voice.channel?.id || null;
         if (voiceId !== guildData.voice) client.updateGuildData(guild, { voice: voiceId });
       }, config.VOICE_CHANNEL_UPDATE_COOLDOWN * 1000);
     }
