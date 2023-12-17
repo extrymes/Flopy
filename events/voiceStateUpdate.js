@@ -14,12 +14,11 @@ module.exports = async (client, oldState, newState) => {
     if (client.manageCooldown("updateVoiceChannel", guild.id, client.config.VOICE_CHANNEL_UPDATE_COOLDOWN * 1000)) {
       setTimeout(async () => {
         // Leave voice channel if guild dashboard is not in hash
-        if (client.dashboards[guild.id]) {
-          // Update voice channel in database
-          const voiceId = member.voice.channel?.id || "";
-          const guildData = await client.getGuildData(guild);
-          if (voiceId !== guildData.voice) client.updateGuildData(guild, { voice: voiceId });
-        } else client.leaveVoiceChannel(guild);
+        if (!client.dashboards[guild.id]) return client.leaveVoiceChannel(guild);
+        // Update voice channel in database
+        const voiceId = member.voice.channel?.id || "";
+        const guildData = await client.getGuildData(guild);
+        if (voiceId !== guildData.voice) client.updateGuildData(guild, { voice: voiceId });
       }, client.config.VOICE_CHANNEL_UPDATE_COOLDOWN * 1000);
     }
   }
