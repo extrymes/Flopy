@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const userShema = {
+const userSchema = {
   userID: String,
   library: {
     "type": Array,
@@ -8,4 +8,4 @@ const userShema = {
   }
 };
 
-module.exports = mongoose.model("User", userShema);
+module.exports = mongoose.model("User", userSchema);

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const guildShema = {
+const guildSchema = {
   guildID: String,
   flopy1: {
     "type": Object,
@@ -16,4 +16,4 @@ const guildShema = {
   }
 };
 
-module.exports = mongoose.model("Guild", guildShema);
+module.exports = mongoose.model("Guild", guildSchema);
