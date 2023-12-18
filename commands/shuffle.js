@@ -13,10 +13,16 @@ module.exports = {
     if (!queue?.songs[1]) return client.sendErrorNotification(interaction, `${lang.ERROR_QUEUE_NO_SONG}`);
     if (!client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
     if (!client.manageCooldown("shuffleCommand", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
-    // Shuffle queue
-    await client.distube.shuffle(queue);
-    // Update dashboard message and send notification
-    client.editDashboardMessage(guild, queue, lang);
-    client.sendNotification(interaction, `${lang.MESSAGE_QUEUE_SHUFFLED}`);
+    await interaction.deferReply().catch((error) => { });
+    try {
+      // Shuffle queue
+      await client.distube.shuffle(queue);
+      // Update dashboard message and send notification
+      client.editDashboardMessage(guild, queue, lang);
+      client.sendNotification(interaction, `${lang.MESSAGE_QUEUE_SHUFFLED}`, { editReply: true });
+    } catch (error) {
+      const errorMessage = client.getErrorMessage(error.message, lang);
+      client.sendErrorNotification(interaction, `${errorMessage}`, { editReply: true });
+    }
   }
 }

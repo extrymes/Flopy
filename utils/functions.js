@@ -145,16 +145,13 @@ module.exports = (client) => {
   }
 
   // Send dashboard message
-  client.sendDashboardMessage = (guild, channel, queue, lang) => {
+  client.sendDashboardMessage = async (guild, channel, queue, lang) => {
     const dashboard = client.createDashboard(guild, queue, lang);
     client.manageCooldown("leaveVoiceChannel", guild.id, 1000);
     client.dashboards[guild.id]?.delete().catch((error) => { });
-    channel.send(dashboard).then((message) => {
-      if (message) {
-        client.dashboards[guild.id] = message;
-        client.updateGuildData(guild, { channel: channel.id, message: message.id });
-      } else client.leaveVoiceChannel(guild);
-    }).catch((error) => { });
+    const message = await channel.send(dashboard);
+    await client.updateGuildData(guild, { channel: channel.id, message: message.id });
+    client.dashboards[guild.id] = message;
   }
 
   // Edit dashboard message

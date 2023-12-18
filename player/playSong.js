@@ -11,5 +11,13 @@ module.exports = async (client, queue, song) => {
   if (queue.paused) client.distube.resume(queue);
   // Check whether to send a new dashboard message
   if (Date.now() - client.dashboards[guild.id]?.createdTimestamp < config.DASHBOARD_MESSAGE_MAX_LIFE * 1000) client.editDashboardMessage(guild, queue, lang);
-  else client.sendDashboardMessage(guild, channel, queue, lang);
+  else {
+    try {
+      await client.sendDashboardMessage(guild, channel, queue, lang);
+    } catch (error) {
+      const errorMessage = client.getErrorMessage(error.message, lang);
+      client.sendErrorNotification(channel, `${errorMessage}`);
+      client.leaveVoiceChannel(guild);
+    }
+  }
 }

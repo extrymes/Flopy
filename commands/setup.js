@@ -24,9 +24,15 @@ module.exports = {
     if (!client.checkMessageIsSendable(guild, channel)) return client.sendErrorNotification(interaction, `${lang.ERROR_DASHBOARD_UNABLE_SETUP}`);
     if (!client.manageCooldown("setupCommand", guild.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
     // Update language in database and send a new dashboard message
-    await interaction.deferReply().catch((error) => { });
-    if (language !== guildData.language) await client.updateGuildData(guild, { language: language });
-    client.sendDashboardMessage(guild, channel, queue, languages[language]);
-    interaction.deleteReply().catch((error) => { });
+    await interaction.deferReply({ ephemeral: true }).catch((error) => { });
+    try {
+      if (language !== guildData.language) await client.updateGuildData(guild, { language: language });
+      await client.sendDashboardMessage(guild, channel, queue, languages[language]);
+      interaction.deleteReply().catch((error) => { });
+    } catch (error) {
+      const errorMessage = client.getErrorMessage(error.message, lang);
+      client.sendErrorNotification(interaction, `${errorMessage}`, { editReply: true });
+      client.leaveVoiceChannel(guild);
+    }
   }
 }

@@ -17,10 +17,12 @@ module.exports = async (client, message) => {
   if (!client.manageCooldown("playQuery", member.id, 2000)) return client.sendErrorNotification(channel, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
   // Play or add query to the queue
   await channel.sendTyping().catch((error) => { });
-  client.distube.play(member.voice.channel, message.content, { textChannel: channel, member: member }).catch((error) => {
+  try {
+    await client.distube.play(member.voice.channel, message.content, { textChannel: channel, member: member });
+  } catch (error) {
     const errorMessage = client.getErrorMessage(error.message, lang);
     client.sendErrorNotification(channel, `${errorMessage}`);
-  });
+  }
   // Delete message
   message.delete().catch((error) => { });
 }

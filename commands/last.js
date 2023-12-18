@@ -15,9 +15,11 @@ module.exports = {
     if (!client.manageCooldown("playQuery", member.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
     // Play or add member last query to the queue
     await interaction.deferReply().catch((error) => { });
-    client.distube.play(member.voice.channel, client.queries[member.id], { textChannel: channel, member: member, metadata: interaction }).catch((error) => {
+    try {
+      await client.distube.play(member.voice.channel, client.queries[member.id], { textChannel: channel, member: member, metadata: interaction });
+    } catch (error) {
       const errorMessage = client.getErrorMessage(error.message, lang);
       client.sendErrorNotification(interaction, `${errorMessage}`, { editReply: true });
-    });
+    }
   }
 }
