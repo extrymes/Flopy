@@ -72,7 +72,7 @@ module.exports = async (client, interaction) => {
       if (!member.voice.channel) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_VOICE_CHANNEL}`);
       if (!client.checkMemberIsInMyVoiceChannel(guild, member) && queue) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
       if (!client.manageCooldown("playQuery", member.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
-      // Play or add item to the queue
+      // Play or add item to the queue using url
       await interaction.deferReply().catch((error) => { });
       try {
         await client.distube.play(member.voice.channel, url, { textChannel: channel, member: member, metadata: interaction });

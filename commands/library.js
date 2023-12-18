@@ -44,11 +44,12 @@ module.exports = {
       case "play":
         if (library.length === 0) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_NO_ITEM}`);
         if (!client.manageCooldown("libraryCommand", user.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
-        // Send library
+        // Create library embed and menu
         const items = library.map((item, i) => { return { label: `${i + 1}. ${item.name.length > config.SONG_NAME_MAX_LENGTH_DISPLAY ? item.name.substr(0, config.SONG_NAME_MAX_LENGTH_DISPLAY).concat("...") : item.name}`, value: item.url, emoji: item.isPlaylist ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG } });
         const playlistsCount = library.filter((item) => item.isPlaylist).length;
         const libraryEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_LIBRARY_TITLE}`, iconURL: elements.ICON_FLOPY }).setThumbnail(user.displayAvatarURL().replace("gif", "png")).addFields({ name: `${lang.MESSAGE_LIBRARY_NAME}`, value: `${user.username}`, inline: true }, { name: `${lang.MESSAGE_LIBRARY_SONGS}`, value: `${library.length - playlistsCount}`, inline: true }, { name: `${lang.MESSAGE_LIBRARY_PLAYLISTS}`, value: `${playlistsCount}`, inline: true }).setColor(elements.COLOR_FLOPY);
         const libraryMenu = new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId("play").setOptions(items));
+        // Send library and then delete reply
         interaction.reply({ embeds: [libraryEmbed], components: [libraryMenu], ephemeral: true }).catch((error) => { });
         setTimeout(() => interaction.deleteReply().catch((error) => { }), 60000);
         break;
@@ -58,10 +59,11 @@ module.exports = {
         const isPlaylist = playing.url.includes("playlist");
         if (library.length >= config.LIBRARY_MAX_LENGTH) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`);
         if (library.find((item) => item.url === playing.url)) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_ALREADY_ADDED : lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`);
-        // Add item to library and update user data in database
+        // Add item to library
         library.push({ name: playing.name, url: playing.url, isPlaylist: isPlaylist });
         await interaction.deferReply({ ephemeral: true }).catch((error) => { });
         try {
+          // Update user data in database
           await client.updateUserData(user, { library: library });
           // Send notification
           client.sendNotification(interaction, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED} (#${library.length})`, { editReply: true, ephemeral: true });
@@ -74,10 +76,11 @@ module.exports = {
         const position = options.getInteger("position");
         const item = library[position - 1];
         if (!item) return client.sendErrorNotification(interaction, `${lang.ERROR_ITEM_INVALID_POSITION}`);
-        // Remove item from library and update user data in database
+        // Remove item from library
         library.splice(position - 1, 1);
         await interaction.deferReply({ ephemeral: true }).catch((error) => { });
         try {
+          // Update user data in database
           await client.updateUserData(user, { library: library });
           // Send notification
           client.sendNotification(interaction, `${item.isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_REMOVED : lang.MESSAGE_LIBRARY_SONG_REMOVED} (#${position})`, { editReply: true, ephemeral: true });

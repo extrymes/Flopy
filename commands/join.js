@@ -15,10 +15,11 @@ module.exports = {
     if (client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_VOICE_CHANNEL_ALREADY_JOINED}`);
     if (!client.checkMyVoiceChannelIsEmpty(guild) && queue) return client.sendErrorNotification(interaction, `${lang.ERROR_VOICE_CHANNEL_UNABLE_JOIN}`);
     if (!client.manageCooldown("joinCommand", member.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
-    // Join voice channel and send notification
     await interaction.deferReply().catch((error) => { });
     try {
+      // Join voice channel
       await client.distube.voices.join(voiceChannel);
+      // Send notification
       client.sendNotification(interaction, `${lang.MESSAGE_VOICE_CHANNEL_JOINED}`, { editReply: true });
     } catch (error) {
       const errorMessage = client.getErrorMessage(error.message, lang);

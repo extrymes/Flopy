@@ -19,7 +19,7 @@ module.exports = {
     try {
       // Replay current song
       await client.distube.seek(queue, 0);
-      // Resume and update dashboard message if queue is paused
+      // Resume queue and update dashboard message if paused
       if (queue.paused) {
         client.distube.resume(queue);
         client.editDashboardMessage(guild, queue, lang);

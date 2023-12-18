@@ -29,13 +29,14 @@ module.exports = {
     try {
       // Seek in current song
       await client.distube.seek(queue, sec);
-      // Resume and update dashboard message if queue is paused
+      // Resume queue and update dashboard message if paused
       if(queue.paused) {
         client.distube.resume(queue);
         client.editDashboardMessage(guild, queue, lang);
       }
-      // Create and send duration bar
+      // Create duration bar
       const durationBar = client.createDurationBar(queue);
+      // Send notification
       client.sendNotification(interaction, `${durationBar}`, { editReply: true });
     } catch (error) {
       const errorMessage = client.getErrorMessage(error.message, lang);

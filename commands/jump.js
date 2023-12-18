@@ -24,8 +24,9 @@ module.exports = {
     if (!client.manageCooldown("jumpCommand", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
     await interaction.deferReply().catch((error) => { });
     try {
-      // Jump to position and resume queue if paused
+      // Jump to position
       await client.distube.jump(queue, position);
+      // Resume queue if paused
       if (queue.paused) client.distube.resume(queue);
       // Send advanced notification
       client.sendAdvancedNotification(interaction, `${lang.MESSAGE_SONG_SKIPPED.replace("$position", `#${position}`)}`, `${song.name}`, song.thumbnail, { editReply: true });

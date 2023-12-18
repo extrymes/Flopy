@@ -60,8 +60,9 @@ module.exports = {
         if (!client.manageCooldown("filterCommand", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
         await interaction.deferReply().catch((error) => { });
         try {
-          // Clear filters and resume queue if paused
+          // Clear filters
           await filters.clear();
+          // Resume queue if paused
           if (queue.paused) client.distube.resume(queue);
           // Update dashboard message and send notification
           client.editDashboardMessage(guild, queue, lang);

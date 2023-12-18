@@ -23,10 +23,11 @@ module.exports = {
     if (volume < 1 || volume > 100) return client.sendErrorNotification(interaction, `${lang.ERROR_VOLUME_INVALID_PERCENTAGE}`);
     if (volume === queue.volume) return client.sendErrorNotification(interaction, `${lang.ERROR_VOLUME_ALREADY_SET.replace("$volume", `\`${volume}%\``)}`);
     if (!client.manageCooldown("volumeCommand", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
-    // Set volume, update dashboard message and send notification
     await interaction.deferReply().catch((error) => { });
     try {
+      // Set volume percentage
       await client.distube.setVolume(queue, volume);
+      // Update dashboard message and send notification
       client.editDashboardMessage(guild, queue, lang);
       client.sendNotification(interaction, `${lang.MESSAGE_VOLUME_SET.replace("$volume", `\`${volume}%\``)}`, { editReply: true });
     } catch (error) {
