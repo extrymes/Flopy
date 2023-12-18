@@ -10,7 +10,7 @@ module.exports = async (client, queue, song) => {
   // Resume queue if paused
   if (queue.paused) client.distube.resume(queue);
   // Update or send new dashboard message if its maximum lifetime is reached
-  if (Date.now() - client.dashboards[guild.id]?.createdTimestamp < config.DASHBOARD_MESSAGE_MAX_LIFE * 1000) client.editDashboardMessage(guild, queue, lang);
+  if (Date.now() - client.dashboards[guild.id]?.createdTimestamp < config.DASHBOARD_MESSAGE_MAX_LIFETIME * 1000) client.editDashboardMessage(guild, queue, lang);
   else {
     try {
       await client.sendDashboardMessage(guild, channel, queue, lang);

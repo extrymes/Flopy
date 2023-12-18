@@ -1,5 +1,5 @@
 module.exports = {
-  DASHBOARD_MESSAGE_MAX_LIFE: 3600, // Time in seconds to send a new dashboard message
+  DASHBOARD_MESSAGE_MAX_LIFETIME: 3600, // Time in seconds to send a new dashboard message
   PRESENCE_UPDATE_INTERVAL: 600, // Interval in seconds to update the presence
   VOICE_CHANNEL_UPDATE_COOLDOWN: 30, // Time in seconds to update the voice channel in database
   VOICE_CHANNEL_EMPTY_TIMEOUT: 180, // Time in seconds before leaving the voice channel when it is empty
