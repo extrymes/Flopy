@@ -43,7 +43,7 @@ module.exports = {
     switch (subcommand) {
       case "play":
         if (library.length === 0) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_NO_ITEM}`);
-        if (!client.manageCooldown("libraryCommand", user.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+        if (!client.handleCooldown("libraryCommand", user.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
         // Create library embed and menu
         const items = library.map((item, i) => { return { label: `${i + 1}. ${item.name.length > config.SONG_NAME_MAX_LENGTH_DISPLAY ? item.name.substr(0, config.SONG_NAME_MAX_LENGTH_DISPLAY).concat("...") : item.name}`, value: item.url, emoji: item.isPlaylist ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG } });
         const playlistsCount = library.filter((item) => item.isPlaylist).length;

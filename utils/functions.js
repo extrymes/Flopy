@@ -83,7 +83,7 @@ module.exports = (client) => {
 
   // Leave voice channel
   client.leaveVoiceChannel = (guild) => {
-    client.manageCooldown("joinVoiceChannel", guild.id, 1000);
+    client.handleCooldown("joinVoiceChannel", guild.id, 1000);
     client.distube.voices.leave(guild);
   }
 
@@ -147,21 +147,21 @@ module.exports = (client) => {
   // Send dashboard message
   client.sendDashboardMessage = async (guild, channel, queue, lang) => {
     const dashboard = client.createDashboard(guild, queue, lang);
-    client.manageCooldown("leaveVoiceChannel", guild.id, 1000);
+    client.handleCooldown("leaveVoiceChannel", guild.id, 1000);
     client.dashboards[guild.id]?.delete().catch((error) => { });
     const message = await channel.send(dashboard);
     await client.updateGuildData(guild, { channel: channel.id, message: message.id });
     client.dashboards[guild.id] = message;
   }
 
-  // Edit dashboard message
-  client.editDashboardMessage = (guild, queue, lang) => {
+  // Update dashboard message
+  client.updateDashboardMessage = (guild, queue, lang) => {
     const dashboard = client.createDashboard(guild, queue, lang);
     client.dashboards[guild.id]?.edit(dashboard).catch((error) => { });
   }
 
-  // Manage cooldown
-  client.manageCooldown = (name, target, time) => {
+  // Handle cooldown
+  client.handleCooldown = (name, target, time) => {
     const cooldownId = name + target;
     if (client.cooldowns[cooldownId]) return false;
     client.cooldowns[cooldownId] = true;

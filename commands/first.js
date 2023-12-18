@@ -20,7 +20,7 @@ module.exports = {
 
     if (!member.voice.channel) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_VOICE_CHANNEL}`);
     if (!client.checkMemberIsInMyVoiceChannel(guild, member) && queue) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
-    if (!client.manageCooldown("playQuery", member.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+    if (!client.handleCooldown("playQuery", member.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
     await interaction.deferReply().catch((error) => { });
     try {
       // Play or add item to the queue at position 1 using query

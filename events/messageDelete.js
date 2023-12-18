@@ -4,5 +4,5 @@ module.exports = async (client, message) => {
   if (message !== client.dashboards[guild.id]) return;
   // Remove guild dashboard from hash and leave voice channel
   delete client.dashboards[guild.id];
-  if (client.manageCooldown("leaveVoiceChannel", guild.id, 0)) client.leaveVoiceChannel(guild);
+  if (client.handleCooldown("leaveVoiceChannel", guild.id, 0)) client.leaveVoiceChannel(guild);
 }

@@ -20,7 +20,7 @@ module.exports = {
     const { member, options } = interaction;
     const query = options.getString("query");
 
-    if (!client.manageCooldown("searchCommand", member.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+    if (!client.handleCooldown("searchCommand", member.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
     await interaction.deferReply({ ephemeral: true }).catch((error) => { });
     try {
       // Search for songs using query

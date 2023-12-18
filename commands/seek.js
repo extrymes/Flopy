@@ -24,7 +24,7 @@ module.exports = {
     if(currentSong.isLive) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
     const sec = client.convertHHMMSSToSeconds(hhmmss);
     if(sec > currentSong.duration) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_TIME_GREATER}`);
-    if(!client.manageCooldown("seekCommand", guild.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+    if(!client.handleCooldown("seekCommand", guild.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
     await interaction.deferReply().catch((error) => { });
     try {
       // Seek in current song
@@ -32,7 +32,7 @@ module.exports = {
       // Resume queue and update dashboard message if paused
       if(queue.paused) {
         client.distube.resume(queue);
-        client.editDashboardMessage(guild, queue, lang);
+        client.updateDashboardMessage(guild, queue, lang);
       }
       // Create duration bar
       const durationBar = client.createDurationBar(queue);

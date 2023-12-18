@@ -13,7 +13,7 @@ module.exports = {
     const currentSong = queue?.songs[0];
 
     if (!currentSong) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_NO_PLAYING}`);
-    if (!client.manageCooldown("infoCommand", member.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+    if (!client.handleCooldown("infoCommand", member.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
     // Create duration bar
     const durationBar = client.createDurationBar(queue);
     // Create info embed

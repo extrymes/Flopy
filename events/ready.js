@@ -16,7 +16,7 @@ module.exports = async (client) => {
       const voiceChannel = guild.channels.cache.get(guildData.voice);
       const queue = client.distube.getQueue(guild);
       const lang = languages[guildData.language];
-      client.editDashboardMessage(guild, queue, lang);
+      client.updateDashboardMessage(guild, queue, lang);
       await client.distube.voices.join(voiceChannel);
     } catch (error) { }
   });

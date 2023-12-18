@@ -19,7 +19,7 @@ module.exports = async (client, interaction) => {
       // Resume queue and update dashboard message
       try {
         await client.distube.resume(queue);
-        client.editDashboardMessage(guild, queue, lang);
+        client.updateDashboardMessage(guild, queue, lang);
       } catch (error) { }
       interaction.deferUpdate().catch((error) => { });
       break;
@@ -28,7 +28,7 @@ module.exports = async (client, interaction) => {
       // Pause queue and update dashboard message
       try {
         await client.distube.pause(queue);
-        client.editDashboardMessage(guild, queue, lang);
+        client.updateDashboardMessage(guild, queue, lang);
       } catch (error) { }
       interaction.deferUpdate().catch((error) => { });
       break;
@@ -54,7 +54,7 @@ module.exports = async (client, interaction) => {
       // Switch repeat mode and update dashboard message
       try {
         await client.distube.setRepeatMode(queue, queue.repeatMode === 0 ? 1 : queue.repeatMode === 1 ? 2 : 0);
-        client.editDashboardMessage(guild, queue, lang);
+        client.updateDashboardMessage(guild, queue, lang);
       } catch (error) { }
       interaction.deferUpdate().catch((error) => { });
       break;
@@ -63,7 +63,7 @@ module.exports = async (client, interaction) => {
       // Switch volume and update dashboard message
       try {
         await client.distube.setVolume(queue, queue.volume === 50 ? 25 : queue.volume === 25 ? 75 : queue.volume === 75 ? 100 : 50);
-        client.editDashboardMessage(guild, queue, lang);
+        client.updateDashboardMessage(guild, queue, lang);
       } catch (error) { }
       interaction.deferUpdate().catch((error) => { });
       break;
@@ -71,7 +71,7 @@ module.exports = async (client, interaction) => {
       const url = interaction.values[0];
       if (!member.voice.channel) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_VOICE_CHANNEL}`);
       if (!client.checkMemberIsInMyVoiceChannel(guild, member) && queue) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
-      if (!client.manageCooldown("playQuery", member.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+      if (!client.handleCooldown("playQuery", member.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
       // Play or add item to the queue using url
       await interaction.deferReply().catch((error) => { });
       try {

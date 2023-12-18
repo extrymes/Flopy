@@ -12,13 +12,13 @@ module.exports = async (client, oldState, newState) => {
       // Force leave voice channel (Distube issue)
       client.distube.voices.leave(guild);
       // Re-join voice channel
-      if (client.manageCooldown("joinVoiceChannel", guild.id, 5000)) {
+      if (client.handleCooldown("joinVoiceChannel", guild.id, 5000)) {
         try {
           await client.distube.voices.join(oldVoiceChannel);
         } catch (error) { }
       }
     }
-    if (client.manageCooldown("updateVoiceChannel", guild.id, config.VOICE_CHANNEL_UPDATE_COOLDOWN * 1000)) {
+    if (client.handleCooldown("updateVoiceChannel", guild.id, config.VOICE_CHANNEL_UPDATE_COOLDOWN * 1000)) {
       setTimeout(async () => {
         // Leave voice channel if guild dashboard is not in hash
         if (!client.dashboards[guild.id]) return client.leaveVoiceChannel(guild);
