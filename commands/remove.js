@@ -35,7 +35,7 @@ module.exports = {
       case "song":
         const position = options.getInteger("position");
         const song = songs[position];
-        if (!song) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_INVALID_POSITION}`);
+        if (!song || position === 0) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_INVALID_POSITION}`);
         if (!client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
         if (!client.handleCooldown("removeCommand", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
         // Remove song from queue
