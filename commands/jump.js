@@ -17,15 +17,14 @@ module.exports = {
   run: async (client, interaction, guildData, queue, lang) => {
     const { guild, member, options } = interaction;
     const position = options.getInteger("position");
-    const song = queue?.songs[position];
 
-    if (!song) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_INVALID_POSITION}`);
+    if (!queue?.songs[position]) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_INVALID_POSITION}`);
     if (!client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
     if (!client.handleCooldown("jumpCommand", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
     await interaction.deferReply().catch((error) => { });
     try {
       // Jump to position
-      await client.distube.jump(queue, position);
+      const song = await client.distube.jump(queue, position);
       // Resume queue if paused
       if (queue.paused) client.distube.resume(queue);
       // Send advanced notification
