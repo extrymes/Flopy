@@ -60,13 +60,13 @@ module.exports = {
         if (library.length >= config.LIBRARY_MAX_LENGTH) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`);
         if (library.find((item) => item.url === playing.url)) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_ALREADY_ADDED : lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`);
         // Add item to library
-        library.push({ name: playing.name, url: playing.url, isPlaylist: isPlaylist });
+        library.push({ name: playing.name, thumbnail: playing.thumbnail, url: playing.url, isPlaylist: isPlaylist });
         await interaction.deferReply({ ephemeral: true }).catch((error) => { });
         try {
           // Update user data in database
           await client.updateUserData(user, { library: library });
-          // Send notification
-          client.sendNotification(interaction, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED} (#${library.length})`, { editReply: true, ephemeral: true });
+          // Send advanced notification
+          client.sendAdvancedNotification(interaction, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED} (#${library.length})`, `${playing.name}`, playing.thumbnail, { editReply: true, ephemeral: true });
         } catch (error) {
           const errorMessage = client.getErrorMessage(error.message, lang);
           client.sendErrorNotification(interaction, `${errorMessage}`, { editReply: true });
@@ -82,8 +82,8 @@ module.exports = {
         try {
           // Update user data in database
           await client.updateUserData(user, { library: library });
-          // Send notification
-          client.sendNotification(interaction, `${item.isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_REMOVED : lang.MESSAGE_LIBRARY_SONG_REMOVED} (#${position})`, { editReply: true, ephemeral: true });
+          // Send advanced notification
+          client.sendAdvancedNotification(interaction, `${item.isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_REMOVED : lang.MESSAGE_LIBRARY_SONG_REMOVED} (#${position})`, `${item.name}`, item.thumbnail, { editReply: true, ephemeral: true });
         } catch (error) {
           const errorMessage = client.getErrorMessage(error.message, lang);
           client.sendErrorNotification(interaction, `${errorMessage}`, { editReply: true });
