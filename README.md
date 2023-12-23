@@ -35,14 +35,16 @@ Make sure you have Node.js and FFmpeg installed before proceeding.
 npm install
 ```
 ### ⚙️ Configuration
-- Create `.env` file in the root directory and put the following content (replace values with your own data):
-```env
-APP_ID = "<app_id>"
-BOT_TOKEN = "<bot_token>"
-MONGO_CONNECTION = "mongodb+srv://<username>:<password>@<cluster_name>.mongodb.net/?retryWrites=true&w=majority"
-```
+These keys must be present in the `.env` file or declared as environment variables:
+- `APP_ID`: The Discord application ID
+- `BOT_TOKEN`: The Discord bot token
+- `MONGO_CONNECTION`: The MongoDB connection string
+
 Take a look at [MongoDB Manual](https://mongodb.com/docs/manual/reference/connection-string/) for more details about connection strings.
-- *Paste your Youtube cookies into `admin/ytCookies.json` (optional)*
+
+Optional: You can paste your Youtube cookies into `admin/ytCookies.json`
+> [!NOTE]
+> Cookies prevent Youtube rate limiting (429 Error) and are able to play videos accessible via your account, including age-restricted videos, exclusive member videos, premium videos, private videos and many more.
 #### 🍪 How to get cookies
 1. Install [EditThisCookie](https://editthiscookie.com/) extension on your browser
 2. Go to Youtube
