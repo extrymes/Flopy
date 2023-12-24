@@ -15,7 +15,6 @@ require("./utils/functions")(client);
 client.dashboards = {};
 client.cooldowns = {};
 client.queries = {};
-client.emptyTimeouts = {};
 
 // Create DisTube instance
 client.distube = new DisTube(client, {

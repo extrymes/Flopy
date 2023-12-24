@@ -1,4 +1,5 @@
 const config = require("../admin/config");
+const emptyTimeouts = {};
 
 module.exports = async (client, oldState, newState) => {
   const { guild, channel: newVoiceChannel, member } = newState;
@@ -34,18 +35,18 @@ module.exports = async (client, oldState, newState) => {
   }
   if (queue) {
     // Leave voice channel after timeout when it is empty
-    const currentTimeout = client.emptyTimeouts[guild.id];
+    const currentTimeout = emptyTimeouts[guild.id];
     const isEmpty = client.checkMyVoiceChannelIsEmpty(guild);
     if (!currentTimeout && isEmpty) {
-      client.emptyTimeouts[guild.id] = setTimeout(async () => {
-        delete client.emptyTimeouts[guild.id];
+      emptyTimeouts[guild.id] = setTimeout(async () => {
+        delete emptyTimeouts[guild.id];
         try {
           await client.distube.stop(queue);
         } catch (error) { }
       }, config.VOICE_CHANNEL_EMPTY_TIMEOUT * 1000);
     } else if (currentTimeout && !isEmpty) {
       clearTimeout(currentTimeout);
-      delete client.emptyTimeouts[guild.id];
+      delete emptyTimeouts[guild.id];
     }
   }
 }
