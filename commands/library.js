@@ -66,7 +66,7 @@ module.exports = {
           // Update user data in database
           await client.updateUserData(user, { library: library });
           // Send advanced notification
-          client.sendAdvancedNotification(interaction, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED} (#${library.length})`, `${playing.name}`, playing.thumbnail, { editReply: true, ephemeral: true });
+          client.sendAdvancedNotification(interaction, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED} (#${library.length})`, `${playing.name}`, playing.thumbnail, { editReply: true });
         } catch (error) {
           const errorMessage = client.getErrorMessage(error.message, lang);
           client.sendErrorNotification(interaction, `${errorMessage}`, { editReply: true });
@@ -83,7 +83,7 @@ module.exports = {
           // Update user data in database
           await client.updateUserData(user, { library: library });
           // Send advanced notification
-          client.sendAdvancedNotification(interaction, `${item.isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_REMOVED : lang.MESSAGE_LIBRARY_SONG_REMOVED} (#${position})`, `${item.name}`, item.thumbnail, { editReply: true, ephemeral: true });
+          client.sendAdvancedNotification(interaction, `${item.isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_REMOVED : lang.MESSAGE_LIBRARY_SONG_REMOVED} (#${position})`, `${item.name}`, item.thumbnail, { editReply: true });
         } catch (error) {
           const errorMessage = client.getErrorMessage(error.message, lang);
           client.sendErrorNotification(interaction, `${errorMessage}`, { editReply: true });

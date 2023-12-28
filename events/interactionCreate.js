@@ -16,8 +16,8 @@ module.exports = async (client, interaction) => {
   switch (interaction.customId) {
     case "resume":
       if (!client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
-      // Resume queue and update dashboard message
       try {
+        // Resume queue and update dashboard message
         await client.distube.resume(queue);
         client.updateDashboardMessage(guild, queue, lang);
       } catch (error) { }
@@ -25,8 +25,8 @@ module.exports = async (client, interaction) => {
       break;
     case "pause":
       if (!client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
-      // Pause queue and update dashboard message
       try {
+        // Pause queue and update dashboard message
         await client.distube.pause(queue);
         client.updateDashboardMessage(guild, queue, lang);
       } catch (error) { }
@@ -34,16 +34,16 @@ module.exports = async (client, interaction) => {
       break;
     case "stop":
       if (!client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
-      // Stop queue
       try {
+        // Stop queue
         await client.distube.stop(queue);
       } catch (error) { }
       interaction.deferUpdate().catch((error) => { });
       break;
     case "skip":
       if (!client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
-      // Skip to next song and resume queue if paused
       try {
+        // Skip to next song and resume queue if paused
         await client.distube.skip(queue);
         if (queue.paused) client.distube.resume(queue);
       } catch (error) { }
@@ -51,8 +51,8 @@ module.exports = async (client, interaction) => {
       break;
     case "repeat":
       if (!client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
-      // Switch repeat mode and update dashboard message
       try {
+        // Switch repeat mode and update dashboard message
         await client.distube.setRepeatMode(queue, queue.repeatMode === 0 ? 1 : queue.repeatMode === 1 ? 2 : 0);
         client.updateDashboardMessage(guild, queue, lang);
       } catch (error) { }
@@ -60,8 +60,8 @@ module.exports = async (client, interaction) => {
       break;
     case "volume":
       if (!client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
-      // Switch volume and update dashboard message
       try {
+        // Switch volume and update dashboard message
         await client.distube.setVolume(queue, queue.volume === 50 ? 25 : queue.volume === 25 ? 75 : queue.volume === 75 ? 100 : 50);
         client.updateDashboardMessage(guild, queue, lang);
       } catch (error) { }

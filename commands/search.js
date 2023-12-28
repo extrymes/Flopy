@@ -31,7 +31,7 @@ module.exports = {
       const searchEmbed = new EmbedBuilder().setAuthor({ name: `${firstSong.name}`, url: firstSong.url, iconURL: elements.ICON_FLOPY }).setThumbnail(firstSong.thumbnail).addFields({ name: `**${lang.MESSAGE_SONG_AUTHOR}**`, value: `${firstSong.uploader.name}`, inline: true }, { name: `**${lang.MESSAGE_SONG_VIEWS}**`, value: `${firstSong.views.toString().replace(/(.)(?=(\d{3})+$)/g, "$1,")}`, inline: true }).setColor(elements.COLOR_FLOPY);
       const searchMenu = new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId("play").setOptions(formattedSongs));
       // Send search results and then delete reply
-      interaction.editReply({ embeds: [searchEmbed], components: [searchMenu], ephemeral: true }).catch((error) => { });
+      interaction.editReply({ embeds: [searchEmbed], components: [searchMenu] }).catch((error) => { });
       setTimeout(() => interaction.deleteReply().catch((error) => { }), 60000);
     } catch (error) {
       const errorMessage = client.getErrorMessage(error.message, lang);
