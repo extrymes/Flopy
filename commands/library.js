@@ -21,19 +21,6 @@ module.exports = {
         .setName("add")
         .setDescription(`${languages["en"].COMMAND_LIBRARY_ADD_DESCRIPTION}`)
         .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_LIBRARY_ADD_DESCRIPTION}` })
-    )
-    .addSubcommand((subcommand) =>
-      subcommand
-        .setName("remove")
-        .setDescription(`${languages["en"].COMMAND_LIBRARY_REMOVE_DESCRIPTION}`)
-        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_LIBRARY_REMOVE_DESCRIPTION}` })
-        .addIntegerOption(option =>
-          option
-            .setName("position")
-            .setDescription(`${languages["en"].COMMAND_LIBRARY_REMOVE_OPTION}`)
-            .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_LIBRARY_REMOVE_OPTION}` })
-            .setRequired(true)
-        )
     ),
   run: async (client, interaction, guildData, queue, lang) => {
     const { user, options } = interaction;
@@ -77,23 +64,6 @@ module.exports = {
           await client.updateUserData(user, { library: library });
           // Send advanced notification
           client.sendAdvancedNotification(interaction, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED} (#${library.length})`, `${playing.name}`, playing.thumbnail, { editReply: true });
-        } catch (error) {
-          const errorMessage = client.getErrorMessage(error.message, lang);
-          client.sendErrorNotification(interaction, `${errorMessage}`, { editReply: true });
-        }
-        break;
-      case "remove":
-        const position = options.getInteger("position");
-        const item = library[position - 1];
-        if (!item) return client.sendErrorNotification(interaction, `${lang.ERROR_ITEM_INVALID_POSITION}`);
-        // Remove item from library
-        library.splice(position - 1, 1);
-        await interaction.deferReply({ ephemeral: true }).catch((error) => { });
-        try {
-          // Update user data in database
-          await client.updateUserData(user, { library: library });
-          // Send advanced notification
-          client.sendAdvancedNotification(interaction, `${item.isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_REMOVED : lang.MESSAGE_LIBRARY_SONG_REMOVED} (#${position})`, `${item.name}`, item.thumbnail, { editReply: true });
         } catch (error) {
           const errorMessage = client.getErrorMessage(error.message, lang);
           client.sendErrorNotification(interaction, `${errorMessage}`, { editReply: true });
