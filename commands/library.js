@@ -1,7 +1,8 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const config = require("../admin/config");
 const elements = require("../utils/elements");
 const languages = require("../utils/languages");
+const selections = {};
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -11,9 +12,9 @@ module.exports = {
     .setDMPermission(false)
     .addSubcommand((subcommand) =>
       subcommand
-        .setName("play")
-        .setDescription(`${languages["en"].COMMAND_LIBRARY_PLAY_DESCRIPTION}`)
-        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_LIBRARY_PLAY_DESCRIPTION}` })
+        .setName("view")
+        .setDescription(`${languages["en"].COMMAND_LIBRARY_VIEW_DESCRIPTION}`)
+        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_LIBRARY_VIEW_DESCRIPTION}` })
     )
     .addSubcommand((subcommand) =>
       subcommand
@@ -41,17 +42,26 @@ module.exports = {
     const library = userData.library;
 
     switch (subcommand) {
-      case "play":
+      case "view":
         if (library.length === 0) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_NO_ITEM}`);
         if (!client.handleCooldown("libraryCommand", user.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
-        // Create library embed and menu
-        const items = library.map((item, i) => { return { label: `${i + 1}. ${item.name.length > config.SONG_NAME_MAX_LENGTH_DISPLAY ? item.name.substr(0, config.SONG_NAME_MAX_LENGTH_DISPLAY).concat("...") : item.name}`, value: item.url, emoji: item.isPlaylist ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG } });
-        const playlistsCount = library.filter((item) => item.isPlaylist).length;
-        const libraryEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_LIBRARY_TITLE}`, iconURL: elements.ICON_FLOPY }).setThumbnail(user.displayAvatarURL().replace("gif", "png")).addFields({ name: `${lang.MESSAGE_LIBRARY_NAME}`, value: `${user.username}`, inline: true }, { name: `${lang.MESSAGE_LIBRARY_SONGS}`, value: `${library.length - playlistsCount}`, inline: true }, { name: `${lang.MESSAGE_LIBRARY_PLAYLISTS}`, value: `${playlistsCount}`, inline: true }).setColor(elements.COLOR_FLOPY);
-        const libraryMenu = new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId("play").setOptions(items));
-        // Send library and then delete reply
-        interaction.reply({ embeds: [libraryEmbed], components: [libraryMenu], ephemeral: true }).catch((error) => { });
-        setTimeout(() => interaction.deleteReply().catch((error) => { }), 60000);
+        await interaction.deferReply({ ephemeral: true }).catch((error) => { });
+        try {
+          // Update response
+          const response = await module.exports.updateResponse(interaction, lang, library, library[0]);
+          selections[response.id] = library[0];
+          // Create collector
+          const collector = response.createMessageComponentCollector({ time: 120000 });
+          // Collect subinteractions
+          collector.on("collect", (subinteraction) => module.exports.subrun(client, interaction, subinteraction));
+          collector.on("end", (collected) => {
+            interaction.deleteReply().catch((error) => { });
+            delete selections[response.id];
+          });
+        } catch (error) {
+          const errorMessage = client.getErrorMessage(error.message, lang);
+          client.sendErrorNotification(interaction, `${errorMessage}`, { editReply: true });
+        }
         break;
       case "add":
         const playing = queue?.songs[0]?.playlist || queue?.songs[0];
@@ -60,7 +70,7 @@ module.exports = {
         if (library.length >= config.LIBRARY_MAX_LENGTH) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`);
         if (library.find((item) => item.url === playing.url)) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_ALREADY_ADDED : lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`);
         // Add item to library
-        library.push({ name: playing.name, thumbnail: playing.thumbnail, url: playing.url, isPlaylist: isPlaylist });
+        library.push({ name: playing.name, author: playing.uploader?.name, thumbnail: playing.thumbnail, url: playing.url, isPlaylist: isPlaylist });
         await interaction.deferReply({ ephemeral: true }).catch((error) => { });
         try {
           // Update user data in database
@@ -89,8 +99,64 @@ module.exports = {
           client.sendErrorNotification(interaction, `${errorMessage}`, { editReply: true });
         }
         break;
-      default:
-        client.sendErrorNotification(interaction, `${lang.ERROR_UNKNOWN}`);
     }
+  },
+  subrun: async (client, interaction, subinteraction) => {
+    const { guild, channel, message, member } = subinteraction;
+    const guildData = await client.getGuildData(guild);
+    const userData = await client.getUserData(member);
+    const queue = client.distube.getQueue(guild);
+    const lang = languages[guildData.language];
+    const library = userData.library;
+    const selectedItem = selections[message.id];
+
+    switch (subinteraction.customId) {
+      case "select":
+        const value = Number(subinteraction.values[0]);
+        // Update response
+        await module.exports.updateResponse(interaction, lang, library, library[value]);
+        selections[message.id] = library[value];
+        subinteraction.deferUpdate().catch((error) => { });
+        break;
+      case "play":
+        if (!member.voice.channel) return client.sendErrorNotification(subinteraction, `${lang.ERROR_MEMBER_MUST_JOIN_VOICE_CHANNEL}`);
+        if (!client.checkMemberIsInMyVoiceChannel(guild, member) && queue) return client.sendErrorNotification(subinteraction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
+        if (!client.handleCooldown("playQuery", member.id, 2000)) return client.sendErrorNotification(subinteraction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+        await subinteraction.deferReply().catch((error) => { });
+        try {
+          // Play or add item to the queue using selected item url
+          await client.distube.play(member.voice.channel, selectedItem.url, { textChannel: channel, member: member, metadata: subinteraction });
+        } catch (error) {
+          const errorMessage = client.getErrorMessage(error.message, lang);
+          client.sendErrorNotification(subinteraction, `${errorMessage}`, { editReply: true });
+        }
+        break;
+      case "remove":
+        const position = library.findIndex((item) => item.url === selectedItem.url);
+        if (position === -1) return client.sendErrorNotification(subinteraction, `${selectedItem.isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_NOT_FOUND : lang.ERROR_LIBRARY_SONG_NOT_FOUND}`);
+        // Remove item from library
+        library.splice(position, 1);
+        try {
+          // Update user data in database
+          await client.updateUserData(member, { library: library });
+          if (library.length === 0) return interaction.deleteReply().catch((error) => { });
+          // Update response
+          await module.exports.updateResponse(interaction, lang, library, library[0]);
+          selections[message.id] = library[0];
+          subinteraction.deferUpdate().catch((error) => { });
+        } catch (error) {
+          const errorMessage = client.getErrorMessage(error.message, lang);
+          client.sendErrorNotification(subinteraction, `${errorMessage}`);
+        }
+        break;
+    }
+  },
+  updateResponse: async (interaction, lang, items, selectedItem) => {
+    const options = items.map((item, i) => { return { label: `${i + 1}. ${item.name.length > config.SONG_NAME_MAX_LENGTH_DISPLAY ? item.name.substr(0, config.SONG_NAME_MAX_LENGTH_DISPLAY).concat("...") : item.name}`, description: `${item.author || "-"}`, emoji: item.isPlaylist ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG, value: `${i}`, default: item === selectedItem } });
+    const libraryEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_LIBRARY_TITLE}`, iconURL: interaction.user.displayAvatarURL({ forceStatic: true }) }).addFields({ name: `**${lang.MESSAGE_SONG_TITLE}**`, value: `[${selectedItem.name}](${selectedItem.url})`, inline: true }, { name: `**${lang.MESSAGE_SONG_AUTHOR}**`, value: `${selectedItem.author || "-"}`, inline: true }).setThumbnail(selectedItem.thumbnail).setColor(elements.COLOR_FLOPY);
+    const libraryMenu = new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId("select").setOptions(options));
+    const libraryButtons = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("play").setStyle(ButtonStyle.Primary).setLabel(`${lang.BUTTON_PLAY}`), new ButtonBuilder().setCustomId("remove").setStyle(ButtonStyle.Danger).setLabel(`${lang.BUTTON_LIBRARY_REMOVE_ITEM}`));
+    const response = interaction.editReply({ embeds: [libraryEmbed], components: [libraryMenu, libraryButtons] });
+    return response;
   }
 }
