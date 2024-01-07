@@ -31,7 +31,7 @@ module.exports = {
     COMMAND_REMOVE_SONG_OPTION: "The song's position in the queue.",
     COMMAND_REMOVE_ALL_DESCRIPTION: "Clear the queue.",
     COMMAND_REPLAY_DESCRIPTION: "Replay the current song.",
-    COMMAND_SEARCH_DESCRIPTION: "Search and select a song to add to the queue.",
+    COMMAND_SEARCH_DESCRIPTION: "Search and interact with results.",
     COMMAND_SEARCH_OPTION: "The song, the artist, the lyrics, and more.",
     COMMAND_SEEK_DESCRIPTION: "Seek a specific time in the current song.",
     COMMAND_SEEK_OPTION: "The time in the song (hours, minutes, seconds).",
@@ -61,6 +61,7 @@ module.exports = {
     MESSAGE_LIBRARY_TITLE: "Your library",
     MESSAGE_LIBRARY_SONG_ADDED: "Song added to your library",
     MESSAGE_LIBRARY_PLAYLIST_ADDED: "Playlist added to your library",
+    MESSAGE_SEARCH_TITLE: "Search results",
     MESSAGE_VOLUME_SET: "Volume set to $percentage",
     MESSAGE_VOICE_CHANNEL_JOINED: "Voice channel joined",
     MESSAGE_DASHBOARD_INSTALLED: "Dashboard installed in this channel",
@@ -98,6 +99,7 @@ module.exports = {
     HELP_PLAY_SONG: "Join a voice channel and send a song name or a link in $channel.",
     HELP_SETUP_DASHBOARD: "Use $command command in a channel to setup the dashboard.",
     BUTTON_PLAY: "Play",
+    BUTTON_LIBRARY_ADD_ITEM: "Add to your library",
     BUTTON_LIBRARY_REMOVE_ITEM: "Remove from your library"
   },
   "fr": {
@@ -132,7 +134,7 @@ module.exports = {
     COMMAND_REMOVE_SONG_OPTION: "La position de la musique dans la file d'attente.",
     COMMAND_REMOVE_ALL_DESCRIPTION: "Vider la file d'attente.",
     COMMAND_REPLAY_DESCRIPTION: "Rejouer la musique en cours de lecture.",
-    COMMAND_SEARCH_DESCRIPTION: "Chercher et sélectionner une musique à ajouter à la file d'attente.",
+    COMMAND_SEARCH_DESCRIPTION: "Rechercher et intéragir avec les résultats.",
     COMMAND_SEARCH_OPTION: "La musique, l'artiste, les paroles, etc.",
     COMMAND_SEEK_DESCRIPTION: "Aller à un moment spécifique dans la musique en cours de lecture.",
     COMMAND_SEEK_OPTION: "Le moment dans la musique (heures, minutes, secondes).",
@@ -162,6 +164,7 @@ module.exports = {
     MESSAGE_LIBRARY_TITLE: "Votre bibliothèque",
     MESSAGE_LIBRARY_SONG_ADDED: "Musique ajoutée à votre bibliothèque",
     MESSAGE_LIBRARY_PLAYLIST_ADDED: "Playlist ajoutée à votre bibliothèque",
+    MESSAGE_SEARCH_TITLE: "Résultats de recherche",
     MESSAGE_VOLUME_SET: "Volume réglé à $percentage",
     MESSAGE_VOICE_CHANNEL_JOINED: "Salon vocal rejoint",
     MESSAGE_DASHBOARD_INSTALLED: "Tableau de bord installé dans ce salon",
@@ -199,6 +202,7 @@ module.exports = {
     HELP_PLAY_SONG: "Rejoignez un salon vocal et envoyez le nom d'une musique ou un lien dans $channel.",
     HELP_SETUP_DASHBOARD: "Utilisez la commande $command dans un salon pour installer le tableau de bord.",
     BUTTON_PLAY: "Jouer",
+    BUTTON_LIBRARY_ADD_ITEM: "Ajouter à votre bibliothèque",
     BUTTON_LIBRARY_REMOVE_ITEM: "Supprimer de votre bibliothèque"
   }
 }
