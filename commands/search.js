@@ -27,7 +27,8 @@ module.exports = {
       // Search for results
       const results = await client.distube.search(query);
       // Update response
-      const response = await module.exports.updateResponse(interaction, lang, results, results[0]);
+      await module.exports.updateResponse(interaction, lang, results, results[0]);
+      const response = await interaction.fetchReply();
       selections[response.id] = results[0];
       // Create collector
       const collector = response.createMessageComponentCollector({ time: 120000 });
@@ -52,10 +53,15 @@ module.exports = {
     switch (subinteraction.customId) {
       case "select":
         const value = Number(subinteraction.values[0]);
-        // Update response
-        await module.exports.updateResponse(interaction, lang, results, results[value]);
-        selections[message.id] = results[value];
-        subinteraction.deferUpdate().catch((error) => { });
+        try {
+          // Update response
+          await module.exports.updateResponse(interaction, lang, results, results[value]);
+          selections[message.id] = results[value];
+          subinteraction.deferUpdate().catch((error) => { });
+        } catch (error) {
+          const errorMessage = client.getErrorMessage(error.message, lang);
+          client.sendErrorNotification(subinteraction, `${errorMessage}`);
+        }
         break;
       case "play":
         if (!member.voice.channel) return client.sendErrorNotification(subinteraction, `${lang.ERROR_MEMBER_MUST_JOIN_VOICE_CHANNEL}`);
@@ -73,8 +79,8 @@ module.exports = {
       case "add":
         const userData = await client.getUserData(member);
         const library = userData.library;
-        if (library.length >= config.LIBRARY_MAX_LENGTH) return client.sendErrorNotification(subinteraction, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`);
         if (library.find((item) => item.url === selectedResult.url)) return client.sendErrorNotification(subinteraction, `${lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`);
+        if (library.length >= config.LIBRARY_MAX_LENGTH) return client.sendErrorNotification(subinteraction, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`);
         // Add item to library
         library.push({ name: selectedResult.name, author: selectedResult.uploader?.name, thumbnail: selectedResult.thumbnail, url: selectedResult.url, isPlaylist: false });
         await subinteraction.deferReply({ ephemeral: true }).catch((error) => { });
@@ -95,7 +101,6 @@ module.exports = {
     const searchEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_SEARCH_TITLE}`, iconURL: elements.ICON_FLOPY }).addFields({ name: `**${lang.MESSAGE_SONG_TITLE}**`, value: `[${selectedResult.name}](${selectedResult.url})` }, { name: `**${lang.MESSAGE_SONG_AUTHOR}**`, value: `${selectedResult.uploader?.name || "-"}`, inline: true }, { name: `**${lang.MESSAGE_SONG_VIEWS}**`, value: `${selectedResult.views.toString().replace(/(.)(?=(\d{3})+$)/g, "$1,")}`, inline: true }, { name: `**${lang.MESSAGE_SONG_DURATION}**`, value: `${selectedResult.formattedDuration}`, inline: true }).setThumbnail(selectedResult.thumbnail).setColor(elements.COLOR_FLOPY);
     const searchMenu = new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId("select").setOptions(options));
     const searchButtons = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("play").setStyle(ButtonStyle.Primary).setLabel(`${lang.BUTTON_PLAY}`), new ButtonBuilder().setCustomId("add").setStyle(ButtonStyle.Success).setLabel(`${lang.BUTTON_LIBRARY_ADD_ITEM}`));
-    const response = await interaction.editReply({ embeds: [searchEmbed], components: [searchMenu, searchButtons] });
-    return response;
+    await interaction.editReply({ embeds: [searchEmbed], components: [searchMenu, searchButtons] });
   }
 }

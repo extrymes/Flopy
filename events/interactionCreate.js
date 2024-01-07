@@ -67,21 +67,5 @@ module.exports = async (client, interaction) => {
       } catch (error) { }
       interaction.deferUpdate().catch((error) => { });
       break;
-    case "play":
-      const url = interaction.values[0];
-      if (!member.voice.channel) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_VOICE_CHANNEL}`);
-      if (!client.checkMemberIsInMyVoiceChannel(guild, member) && queue) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
-      if (!client.handleCooldown("playQuery", member.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
-      // Play or add item to the queue using url
-      await interaction.deferReply().catch((error) => { });
-      try {
-        await client.distube.play(member.voice.channel, url, { textChannel: channel, member: member, metadata: interaction });
-      } catch (error) {
-        const errorMessage = client.getErrorMessage(error.message, lang);
-        client.sendErrorNotification(interaction, `${errorMessage}`, { editReply: true });
-      }
-      break;
-    default:
-      client.sendErrorNotification(interaction, `${lang.ERROR_UNKNOWN}`);
   }
 }
