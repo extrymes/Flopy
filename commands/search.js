@@ -16,16 +16,25 @@ module.exports = {
         .setDescription(`${languages["en"].COMMAND_SEARCH_OPTION}`)
         .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_SEARCH_OPTION}` })
         .setRequired(true)
+    )
+    .addStringOption((option) =>
+      option
+        .setName("type")
+        .setDescription(`${languages["en"].COMMAND_SEARCH_OPTION_TYPE}`)
+        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_SEARCH_OPTION_TYPE}` })
+        .setChoices({ name: "Song (default)", value: "video" }, { name: "Playlist", value: "playlist" })
+        .setRequired(false)
     ),
   run: async (client, interaction, guildData, queue, lang) => {
     const { member, options } = interaction;
     const query = options.getString("query");
+    const type = options.getString("type") || "video";
 
     if (!client.handleCooldown("searchCommand", member.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
     await interaction.deferReply({ ephemeral: true }).catch((error) => { });
     try {
-      // Search for results
-      const results = await client.distube.search(query);
+      // Search for results using query and type
+      const results = await client.distube.search(query, { type: type });
       // Update response
       await module.exports.updateResponse(interaction, lang, results, results[0]);
       const response = await interaction.fetchReply();
@@ -79,16 +88,17 @@ module.exports = {
       case "add":
         const userData = await client.getUserData(member);
         const library = userData.library;
-        if (library.find((item) => item.url === selectedResult.url)) return client.sendErrorNotification(subinteraction, `${lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`);
+        const isPlaylist = selectedResult.type === "playlist";
+        if (library.find((item) => item.url === selectedResult.url)) return client.sendErrorNotification(subinteraction, `${isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_ALREADY_ADDED : lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`);
         if (library.length >= config.LIBRARY_MAX_LENGTH) return client.sendErrorNotification(subinteraction, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`);
         // Add item to library
-        library.push({ name: selectedResult.name, author: selectedResult.uploader?.name, thumbnail: selectedResult.thumbnail, url: selectedResult.url, isPlaylist: false });
+        library.push({ name: selectedResult.name, author: selectedResult.uploader?.name, thumbnail: selectedResult.thumbnail, url: selectedResult.url, isPlaylist: isPlaylist });
         await subinteraction.deferReply({ ephemeral: true }).catch((error) => { });
         try {
           // Update user data in database
           await client.updateUserData(member, { library: library });
           // Send advanced notification
-          client.sendAdvancedNotification(subinteraction, `${lang.MESSAGE_LIBRARY_SONG_ADDED} (#${library.length})`, `${selectedResult.name}`, selectedResult.thumbnail, { editReply: true });
+          client.sendAdvancedNotification(subinteraction, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED} (#${library.length})`, `${selectedResult.name}`, selectedResult.thumbnail, { editReply: true });
         } catch (error) {
           const errorMessage = client.getErrorMessage(error.message, lang);
           client.sendErrorNotification(subinteraction, `${errorMessage}`, { editReply: true });
@@ -97,8 +107,9 @@ module.exports = {
     }
   },
   updateResponse: async (interaction, lang, results, selectedResult) => {
-    const options = results.map((song, i) => { return { label: `${i + 1}. ${song.name.length > config.SONG_NAME_MAX_LENGTH_DISPLAY ? song.name.substr(0, config.SONG_NAME_MAX_LENGTH_DISPLAY).concat("...") : song.name}`, description: `${song.uploader?.name || "-"}`, emoji: elements.EMOJI_SONG, value: `${i}`, default: song === selectedResult } });
-    const searchEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_SEARCH_TITLE}`, iconURL: elements.ICON_FLOPY }).addFields({ name: `**${lang.MESSAGE_SONG_TITLE}**`, value: `[${selectedResult.name}](${selectedResult.url})` }, { name: `**${lang.MESSAGE_SONG_AUTHOR}**`, value: `${selectedResult.uploader?.name || "-"}`, inline: true }, { name: `**${lang.MESSAGE_SONG_VIEWS}**`, value: `${selectedResult.views.toString().replace(/(.)(?=(\d{3})+$)/g, "$1,")}`, inline: true }, { name: `**${lang.MESSAGE_SONG_DURATION}**`, value: `${selectedResult.formattedDuration}`, inline: true }).setThumbnail(selectedResult.thumbnail).setColor(elements.COLOR_FLOPY);
+    const emoji = selectedResult.type === "playlist" ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG;
+    const options = results.map((song, i) => { return { label: `${i + 1}. ${song.name.length > config.SONG_NAME_MAX_LENGTH_DISPLAY ? song.name.substr(0, config.SONG_NAME_MAX_LENGTH_DISPLAY).concat("...") : song.name}`, description: `${song.uploader?.name || "-"}`, emoji: emoji, value: `${i}`, default: song === selectedResult } });
+    const searchEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_SEARCH_TITLE}`, iconURL: elements.ICON_FLOPY }).addFields({ name: `**${lang.MESSAGE_SONG_TITLE}**`, value: `[${selectedResult.name}](${selectedResult.url})` }, { name: `**${lang.MESSAGE_SONG_AUTHOR}**`, value: `${selectedResult.uploader?.name || "-"}`, inline: true }, { name: `**${lang.MESSAGE_SONG_VIEWS}**`, value: `${selectedResult.views?.toString()?.replace(/(.)(?=(\d{3})+$)/g, "$1,") || "-"}`, inline: true }, { name: `**${lang.MESSAGE_SONG_DURATION}**`, value: `${selectedResult.formattedDuration || "-"}`, inline: true }).setThumbnail(selectedResult.thumbnail).setColor(elements.COLOR_FLOPY);
     const searchMenu = new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId("select").setOptions(options));
     const searchButtons = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("play").setStyle(ButtonStyle.Primary).setLabel(`${lang.BUTTON_PLAY}`), new ButtonBuilder().setCustomId("add").setStyle(ButtonStyle.Success).setLabel(`${lang.BUTTON_LIBRARY_ADD_ITEM}`));
     await interaction.editReply({ embeds: [searchEmbed], components: [searchMenu, searchButtons] });
