@@ -15,8 +15,8 @@ module.exports = {
         .addStringOption((option) =>
           option
             .setName("name")
-            .setDescription(`${languages["en"].COMMAND_FILTER_TOGGLE_OPTION}`)
-            .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_FILTER_TOGGLE_OPTION}` })
+            .setDescription(`${languages["en"].COMMAND_FILTER_TOGGLE_OPTION_NAME}`)
+            .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_FILTER_TOGGLE_OPTION_NAME}` })
             .setRequired(true)
             .setChoices({ name: "3d", value: "3d" }, { name: "8d", value: "8d" }, { name: "bassboost", value: "bassboost" }, { name: "subboost", value: "subboost" }, { name: "purebass", value: "purebass" }, { name: "nightcore", value: "nightcore" }, { name: "vaporwave", value: "vaporwave" }, { name: "phaser", value: "phaser" }, { name: "tremolo", value: "tremolo" }, { name: "vibrato", value: "vibrato" }, { name: "pulsator", value: "pulsator" }, { name: "earwax", value: "earwax" }, { name: "echo", value: "echo" }, { name: "fast", value: "fast" }, { name: "flanger", value: "flanger" }, { name: "gate", value: "gate" }, { name: "haas", value: "haas" }, { name: "mcompand", value: "mcompand" })
         )

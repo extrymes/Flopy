@@ -10,8 +10,8 @@ module.exports = {
     .addStringOption((option) =>
       option
         .setName("query")
-        .setDescription(`${languages["en"].COMMAND_FIRST_OPTION}`)
-        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_FIRST_OPTION}` })
+        .setDescription(`${languages["en"].COMMAND_FIRST_OPTION_QUERY}`)
+        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_FIRST_OPTION_QUERY}` })
         .setRequired(true)
     ),
   run: async (client, interaction, guildData, queue, lang) => {

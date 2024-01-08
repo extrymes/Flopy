@@ -15,8 +15,8 @@ module.exports = {
         .addIntegerOption(option =>
           option
             .setName("position")
-            .setDescription(`${languages["en"].COMMAND_REMOVE_SONG_OPTION}`)
-            .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_REMOVE_SONG_OPTION}` })
+            .setDescription(`${languages["en"].COMMAND_REMOVE_SONG_OPTION_POSITION}`)
+            .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_REMOVE_SONG_OPTION_POSITION}` })
             .setRequired(true)
         )
     )

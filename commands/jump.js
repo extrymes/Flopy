@@ -10,8 +10,8 @@ module.exports = {
     .addIntegerOption((option) =>
       option
         .setName("position")
-        .setDescription(`${languages["en"].COMMAND_JUMP_OPTION}`)
-        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_JUMP_OPTION}` })
+        .setDescription(`${languages["en"].COMMAND_JUMP_OPTION_POSITION}`)
+        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_JUMP_OPTION_POSITION}` })
         .setRequired(true)
     ),
   run: async (client, interaction, guildData, queue, lang) => {

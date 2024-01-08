@@ -17,7 +17,7 @@ module.exports = {
     // Create duration bar
     const durationBar = client.createDurationBar(queue);
     // Create info embed
-    const infoEmbed = new EmbedBuilder().setAuthor({ name: `${currentSong.name}`, url: currentSong.url, iconURL: elements.ICON_FLOPY }).setThumbnail(currentSong.thumbnail).addFields({ name: `**${lang.MESSAGE_SONG_AUTHOR}**`, value: `${currentSong.uploader?.name || "-"}`, inline: true }, { name: `**${lang.MESSAGE_SONG_VIEWS}**`, value: `${currentSong.views.toString().replace(/(.)(?=(\d{3})+$)/g, "$1,")}`, inline: true }, { name: `**${lang.MESSAGE_SONG_LIKES}**`, value: `${currentSong.likes.toString().replace(/(.)(?=(\d{3})+$)/g, "$1,")}`, inline: true }, { name: `**${lang.MESSAGE_SONG_DURATION}**`, value: `${durationBar}` }).setColor(elements.COLOR_FLOPY);
+    const infoEmbed = new EmbedBuilder().setAuthor({ name: `${currentSong.name}`, url: currentSong.url, iconURL: elements.ICON_FLOPY }).setThumbnail(currentSong.thumbnail).addFields({ name: `**${lang.MESSAGE_ITEM_AUTHOR}**`, value: `${currentSong.uploader?.name || "-"}`, inline: true }, { name: `**${lang.MESSAGE_ITEM_VIEWS}**`, value: `${currentSong.views.toString().replace(/(.)(?=(\d{3})+$)/g, "$1,")}`, inline: true }, { name: `**${lang.MESSAGE_ITEM_LIKES}**`, value: `${currentSong.likes.toString().replace(/(.)(?=(\d{3})+$)/g, "$1,")}`, inline: true }, { name: `**${lang.MESSAGE_ITEM_DURATION}**`, value: `${durationBar}` }).setColor(elements.COLOR_FLOPY);
     // Send song informaton and then delete reply
     interaction.reply({ embeds: [infoEmbed], ephemeral: true }).catch(error => { });
     setTimeout(() => interaction.deleteReply().catch((error) => { }), 60000);

@@ -10,8 +10,8 @@ module.exports = {
     .addIntegerOption((option) =>
       option
         .setName("percentage")
-        .setDescription(`${languages["en"].COMMAND_VOLUME_OPTION}`)
-        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_VOLUME_OPTION}` })
+        .setDescription(`${languages["en"].COMMAND_VOLUME_OPTION_PERCENTAGE}`)
+        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_VOLUME_OPTION_PERCENTAGE}` })
         .setRequired(true)
     ),
   run: async (client, interaction, guildData, queue, lang) => {

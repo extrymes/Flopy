@@ -10,8 +10,8 @@ module.exports = {
     .addIntegerOption((option) =>
       option
       .setName("hhmmss")
-      .setDescription(`${languages["en"].COMMAND_SEEK_OPTION}`)
-      .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_SEEK_OPTION}` })
+      .setDescription(`${languages["en"].COMMAND_SEEK_OPTION_TIME}`)
+      .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_SEEK_OPTION_TIME}` })
       .setRequired(true)
     ),
   run: async (client, interaction, guildData, queue, lang) => {

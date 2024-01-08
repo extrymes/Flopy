@@ -13,8 +13,8 @@ module.exports = {
     .addStringOption((option) =>
       option
         .setName("query")
-        .setDescription(`${languages["en"].COMMAND_SEARCH_OPTION}`)
-        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_SEARCH_OPTION}` })
+        .setDescription(`${languages["en"].COMMAND_SEARCH_OPTION_QUERY}`)
+        .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_SEARCH_OPTION_QUERY}` })
         .setRequired(true)
     )
     .addStringOption((option) =>
@@ -108,10 +108,10 @@ module.exports = {
   },
   updateResponse: async (interaction, lang, results, selectedResult) => {
     const emoji = selectedResult.type === "playlist" ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG;
-    const options = results.map((song, i) => { return { label: `${i + 1}. ${song.name.length > config.SONG_NAME_MAX_LENGTH_DISPLAY ? song.name.substr(0, config.SONG_NAME_MAX_LENGTH_DISPLAY).concat("...") : song.name}`, description: `${song.uploader?.name || "-"}`, emoji: emoji, value: `${i}`, default: song === selectedResult } });
-    const searchEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_SEARCH_TITLE}`, iconURL: elements.ICON_FLOPY }).addFields({ name: `**${lang.MESSAGE_SONG_TITLE}**`, value: `[${selectedResult.name}](${selectedResult.url})` }, { name: `**${lang.MESSAGE_SONG_AUTHOR}**`, value: `${selectedResult.uploader?.name || "-"}`, inline: true }, { name: `**${lang.MESSAGE_SONG_VIEWS}**`, value: `${selectedResult.views?.toString()?.replace(/(.)(?=(\d{3})+$)/g, "$1,") || "-"}`, inline: true }, { name: `**${lang.MESSAGE_SONG_DURATION}**`, value: `${selectedResult.formattedDuration || "-"}`, inline: true }).setThumbnail(selectedResult.thumbnail).setColor(elements.COLOR_FLOPY);
+    const options = results.map((result, i) => { return { label: `${i + 1}. ${result.name.length > config.SONG_NAME_MAX_LENGTH_DISPLAY ? result.name.substr(0, config.SONG_NAME_MAX_LENGTH_DISPLAY).concat("...") : result.name}`, description: `${result.uploader?.name || "-"}`, emoji: emoji, value: `${i}`, default: result === selectedResult } });
+    const searchEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_SEARCH_TITLE}`, iconURL: elements.ICON_FLOPY }).addFields({ name: `**${lang.MESSAGE_ITEM_TITLE}**`, value: `[${selectedResult.name}](${selectedResult.url})` }, { name: `**${lang.MESSAGE_ITEM_AUTHOR}**`, value: `${selectedResult.uploader?.name || "-"}`, inline: true }, { name: `**${lang.MESSAGE_ITEM_VIEWS}**`, value: `${selectedResult.views?.toString()?.replace(/(.)(?=(\d{3})+$)/g, "$1,") || "-"}`, inline: true }, { name: `**${lang.MESSAGE_ITEM_DURATION}**`, value: `${selectedResult.formattedDuration || "-"}`, inline: true }).setThumbnail(selectedResult.thumbnail).setColor(elements.COLOR_FLOPY);
     const searchMenu = new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId("select").setOptions(options));
-    const searchButtons = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("play").setStyle(ButtonStyle.Primary).setLabel(`${lang.BUTTON_PLAY}`), new ButtonBuilder().setCustomId("add").setStyle(ButtonStyle.Success).setLabel(`${lang.BUTTON_LIBRARY_ADD_ITEM}`));
+    const searchButtons = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("play").setStyle(ButtonStyle.Primary).setLabel(`${lang.BUTTON_PLAY}`), new ButtonBuilder().setCustomId("add").setStyle(ButtonStyle.Success).setLabel(`${lang.BUTTON_LIBRARY_ADD}`));
     await interaction.editReply({ embeds: [searchEmbed], components: [searchMenu, searchButtons] });
   }
 }
