@@ -50,7 +50,7 @@ module.exports = {
           const response = await interaction.fetchReply();
           selections[response.id] = library[0];
           // Create collector
-          const collector = response.createMessageComponentCollector({ time: 120000 });
+          const collector = response.createMessageComponentCollector({ time: config.SUBINTERACTION_COLLECTOR_TIMEOUT * 1000 });
           // Collect subinteractions
           collector.on("collect", (subinteraction) => module.exports.subrun(client, interaction, subinteraction));
           collector.on("end", (collected) => {

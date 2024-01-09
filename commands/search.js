@@ -37,13 +37,13 @@ module.exports = {
     await interaction.deferReply({ ephemeral: true }).catch((error) => { });
     try {
       // Search for results using query and type
-      const results = await client.distube.search(query, { type: type });
+      const results = await client.distube.search(query, { limit: config.DISTUBE_SEARCH_MAX_RESULTS, type: type });
       // Update response
       await module.exports.updateResponse(interaction, lang, results, results[0]);
       const response = await interaction.fetchReply();
       selections[response.id] = results[0];
       // Create collector
-      const collector = response.createMessageComponentCollector({ time: 120000 });
+      const collector = response.createMessageComponentCollector({ time: config.SUBINTERACTION_COLLECTOR_TIMEOUT * 1000 });
       // Collect subinteractions
       collector.on("collect", async (subinteraction) => module.exports.subrun(client, interaction, subinteraction, results));
       collector.on("end", (collected) => {
