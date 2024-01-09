@@ -13,8 +13,8 @@ module.exports = {
         .setName("language")
         .setDescription(`${languages["en"].COMMAND_SETUP_OPTION_LANGUAGE}`)
         .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_SETUP_OPTION_LANGUAGE}` })
-        .setRequired(true)
         .setChoices({ name: `${elements.EMOJI_LANG_EN} English`, value: "en" }, { name: `${elements.EMOJI_LANG_FR} Français`, value: "fr" })
+        .setRequired(true)
     ),
   run: async (client, interaction, guildData, queue, lang) => {
     const { guild, channel, member, options } = interaction;

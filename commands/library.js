@@ -140,6 +140,7 @@ module.exports = {
     }
   },
   updateResponse: async (interaction, lang, items, selectedItem) => {
+    // Update library embed, menu and buttons
     const options = items.map((item, i) => { return { label: `${i + 1}. ${item.name.length > config.SONG_NAME_MAX_LENGTH_DISPLAY ? item.name.substr(0, config.SONG_NAME_MAX_LENGTH_DISPLAY).concat("...") : item.name}`, description: `${item.author || "-"}`, emoji: item.isPlaylist ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG, value: `${i}`, default: item === selectedItem } });
     const libraryEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_LIBRARY_TITLE} (${items.length}/${config.LIBRARY_MAX_LENGTH})`, iconURL: interaction.user.displayAvatarURL({ forceStatic: true }) }).addFields({ name: `**${lang.MESSAGE_ITEM_TITLE}**`, value: `[${selectedItem.name}](${selectedItem.url})` }, { name: `**${lang.MESSAGE_ITEM_AUTHOR}**`, value: `${selectedItem.author || "-"}`, inline: true }, { name: `**${lang.MESSAGE_ITEM_TYPE}**`, value: `${selectedItem.isPlaylist ? lang.MESSAGE_ITEM_TYPE_PLAYLIST : lang.MESSAGE_ITEM_TYPE_SONG}`, inline: true }).setThumbnail(selectedItem.thumbnail).setColor(elements.COLOR_FLOPY);
     const libraryMenu = new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId("select").setOptions(options));
