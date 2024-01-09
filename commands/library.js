@@ -26,7 +26,10 @@ module.exports = {
             .setName("type")
             .setDescription(`${languages["en"].COMMAND_LIBRARY_ADD_OPTION_TYPE}`)
             .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_LIBRARY_ADD_OPTION_TYPE}` })
-            .setChoices({ name: "Song (default)", value: "video" }, { name: "Playlist", value: "playlist" })
+            .setChoices(
+              { name: `${languages["en"].COMMAND_LIBRARY_ADD_OPTION_TYPE_CHOICE_SONG}`, name_localizations: { "fr": `${languages["fr"].COMMAND_LIBRARY_ADD_OPTION_TYPE_CHOICE_SONG}` }, value: "video" },
+              { name: `${languages["en"].COMMAND_LIBRARY_ADD_OPTION_TYPE_CHOICE_PLAYLIST}`, name_localizations: { "fr": `${languages["fr"].COMMAND_LIBRARY_ADD_OPTION_TYPE_CHOICE_PLAYLIST}` }, value: "playlist" }
+            )
             .setRequired(false)
         )
     ),
