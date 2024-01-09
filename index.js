@@ -14,7 +14,6 @@ require("./utils/functions")(client);
 // Define client properties
 client.dashboards = {};
 client.cooldowns = {};
-client.queries = {};
 
 // Create DisTube instance
 client.distube = new DisTube(client, {

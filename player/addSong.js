@@ -8,8 +8,6 @@ module.exports = async (client, queue, song) => {
   const lang = languages[guildData.language];
   const songs = queue.songs;
 
-  // Update member last query
-  client.queries[song.member.id] = song.url;
   // Remove excess songs from queue if limit is reached
   if (songs.length - 1 > config.QUEUE_MAX_LENGTH) songs.splice(songs.indexOf(song) > 1 ? 1 : config.QUEUE_MAX_LENGTH + 1, songs.length - 1 - config.QUEUE_MAX_LENGTH);
   // Send advanced notification and update dashboard message
