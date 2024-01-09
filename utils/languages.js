@@ -16,7 +16,7 @@ module.exports = {
     COMMAND_FILTER_RESET_DESCRIPTION: "Reset active filters.",
     COMMAND_FIRST_DESCRIPTION: "Add an item to the beginning of the queue.",
     COMMAND_FIRST_OPTION_QUERY: "The song name or a link.",
-    COMMAND_INFO_DESCRIPTION: "Show information about the current song.",
+    COMMAND_INFO_DESCRIPTION: "Display information about the current song.",
     COMMAND_JOIN_DESCRIPTION: "Join your voice channel.",
     COMMAND_JUMP_DESCRIPTION: "Jump to a specific song in the queue.",
     COMMAND_JUMP_OPTION_POSITION: "The song's position in the queue.",
