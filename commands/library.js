@@ -21,6 +21,14 @@ module.exports = {
         .setName("add")
         .setDescription(`${languages["en"].COMMAND_LIBRARY_ADD_DESCRIPTION}`)
         .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_LIBRARY_ADD_DESCRIPTION}` })
+        .addStringOption((option) => 
+          option
+            .setName("type")
+            .setDescription(`${languages["en"].COMMAND_LIBRARY_ADD_OPTION_TYPE}`)
+            .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_LIBRARY_ADD_OPTION_TYPE}` })
+            .setChoices({ name: "Song (default)", value: "video" }, { name: "Playlist", value: "playlist" })
+            .setRequired(false)
+        )
     ),
   run: async (client, interaction, guildData, queue, lang) => {
     const { user, options } = interaction;
@@ -52,9 +60,10 @@ module.exports = {
         }
         break;
       case "add":
-        const playing = queue?.songs[0]?.playlist || queue?.songs[0];
-        if (!playing) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_NO_PLAYING}`);
-        const isPlaylist = playing.url.includes("playlist");
+        const type = options.getString("type") || "video";
+        const isPlaylist = type === "playlist";
+        const playing = isPlaylist ? queue?.songs[0]?.playlist : queue?.songs[0];
+        if (!playing) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_PLAYLIST_NO_PLAYING : lang.ERROR_SONG_NO_PLAYING}`);
         if (library.find((item) => item.url === playing.url)) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_ALREADY_ADDED : lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`);
         if (library.length >= config.LIBRARY_MAX_LENGTH) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`);
         // Add item to library
