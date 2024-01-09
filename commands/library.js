@@ -65,18 +65,18 @@ module.exports = {
       case "add":
         const type = options.getString("type") || "video";
         const isPlaylist = type === "playlist";
-        const playing = isPlaylist ? queue?.songs[0]?.playlist : queue?.songs[0];
-        if (!playing) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_PLAYLIST_NO_PLAYING : lang.ERROR_SONG_NO_PLAYING}`);
-        if (library.find((item) => item.url === playing.url)) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_ALREADY_ADDED : lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`);
+        const currentItem = isPlaylist ? queue?.songs[0]?.playlist : queue?.songs[0];
+        if (!currentItem) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_PLAYLIST_NO_PLAYING : lang.ERROR_SONG_NO_PLAYING}`);
+        if (library.find((item) => item.url === currentItem.url)) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_ALREADY_ADDED : lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`);
         if (library.length >= config.LIBRARY_MAX_LENGTH) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`);
         // Add item to library
-        library.push({ name: playing.name, author: playing.uploader?.name, thumbnail: playing.thumbnail, url: playing.url, isPlaylist: isPlaylist });
+        library.push({ name: currentItem.name, author: currentItem.uploader?.name, thumbnail: currentItem.thumbnail, url: currentItem.url, isPlaylist: isPlaylist });
         await interaction.deferReply({ ephemeral: true }).catch((error) => { });
         try {
           // Update user data in database
           await client.updateUserData(user, { library: library });
           // Send advanced notification
-          client.sendAdvancedNotification(interaction, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED} (#${library.length})`, `${playing.name}`, playing.thumbnail, { editReply: true });
+          client.sendAdvancedNotification(interaction, `${isPlaylist ? lang.MESSAGE_LIBRARY_PLAYLIST_ADDED : lang.MESSAGE_LIBRARY_SONG_ADDED} (#${library.length})`, `${currentItem.name}`, currentItem.thumbnail, { editReply: true });
         } catch (error) {
           const errorMessage = client.getErrorMessage(error.message, lang);
           client.sendErrorNotification(interaction, `${errorMessage}`, { editReply: true });
@@ -141,7 +141,7 @@ module.exports = {
   },
   updateResponse: async (interaction, lang, items, selectedItem) => {
     // Update library embed, menu and buttons
-    const options = items.map((item, i) => { return { label: `${i + 1}. ${item.name.length > config.SONG_NAME_MAX_LENGTH_DISPLAY ? item.name.substr(0, config.SONG_NAME_MAX_LENGTH_DISPLAY).concat("...") : item.name}`, description: `${item.author || "-"}`, emoji: item.isPlaylist ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG, value: `${i}`, default: item === selectedItem } });
+    const options = items.map((item, i) => { return { label: `${i + 1}. ${item.name.length > config.ITEM_NAME_MAX_LENGTH_DISPLAY ? item.name.substr(0, config.ITEM_NAME_MAX_LENGTH_DISPLAY).concat("...") : item.name}`, description: `${item.author || "-"}`, emoji: item.isPlaylist ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG, value: `${i}`, default: item === selectedItem } });
     const libraryEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_LIBRARY_TITLE} (${items.length}/${config.LIBRARY_MAX_LENGTH})`, iconURL: interaction.user.displayAvatarURL({ forceStatic: true }) }).addFields({ name: `**${lang.MESSAGE_ITEM_TITLE}**`, value: `[${selectedItem.name}](${selectedItem.url})` }, { name: `**${lang.MESSAGE_ITEM_AUTHOR}**`, value: `${selectedItem.author || "-"}`, inline: true }, { name: `**${lang.MESSAGE_ITEM_TYPE}**`, value: `${selectedItem.isPlaylist ? lang.MESSAGE_ITEM_TYPE_PLAYLIST : lang.MESSAGE_ITEM_TYPE_SONG}`, inline: true }).setThumbnail(selectedItem.thumbnail).setColor(elements.COLOR_FLOPY);
     const libraryMenu = new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId("select").setOptions(options));
     const libraryButtons = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("play").setStyle(ButtonStyle.Primary).setLabel(`${lang.BUTTON_PLAY}`), new ButtonBuilder().setCustomId("remove").setStyle(ButtonStyle.Danger).setLabel(`${lang.BUTTON_LIBRARY_REMOVE}`));

@@ -5,7 +5,7 @@ module.exports = {
   VOICE_CHANNEL_EMPTY_TIMEOUT: 180, // Time in seconds before leaving the voice channel when it is empty
   SUBINTERACTION_COLLECTOR_TIMEOUT: 120, // Time in seconds before collector ends
   LIBRARY_MAX_LENGTH: 20, // Max. number of items in library
-  SONG_NAME_MAX_LENGTH_DISPLAY: 60, // Max. number of characters to display in song name
+  ITEM_NAME_MAX_LENGTH_DISPLAY: 60, // Max. number of characters to display in song name
   QUEUE_MAX_LENGTH: 2000, // Max. number of songs in queue
   QUEUE_MAX_LENGTH_DISPLAY: 25, // Max. number of songs to display in queue
   DURATION_BAR_MAX_LENGTH_DISPLAY: 20, // Max. number of characters to display in duration bar
