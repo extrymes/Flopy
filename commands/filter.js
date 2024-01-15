@@ -72,8 +72,6 @@ module.exports = {
           client.sendErrorNotification(interaction, `${errorMessage}`, { editReply: true });
         }
         break;
-      default:
-        client.sendErrorNotification(interaction, `${lang.ERROR_UNKNOWN}`);
     }
   }
 }

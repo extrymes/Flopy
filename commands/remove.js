@@ -53,8 +53,6 @@ module.exports = {
         client.updateDashboardMessage(guild, queue, lang);
         client.sendNotification(interaction, `${lang.MESSAGE_QUEUE_CLEARED}`);
         break;
-      default:
-        client.sendErrorNotification(interaction, `${lang.ERROR_UNKNOWN}`);
     }
   }
 }
