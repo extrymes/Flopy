@@ -17,8 +17,8 @@ A Discord Music Bot that supports Youtube and is easy to use with its clean dash
 - Multi-language support (English & French)
 
 ## 📦 Dependencies
-- [Node.js](https://nodejs.org/en) v16.11.0 or higher
-- [FFmpeg](https://ffmpeg.org/)
+- [Node.js](https://nodejs.org) v16.11.0 or higher
+- [FFmpeg](https://ffmpeg.org)
 - [discord.js](https://discord.js.org) v14
 - [distube](https://distube.js.org) v4
 - [@discordjs/opus](https://github.com/discordjs/opus)
@@ -40,13 +40,13 @@ These keys must be present in the `.env` file or declared as environment variabl
 - `BOT_TOKEN`: The Discord bot token
 - `MONGO_CONNECTION`: The MongoDB connection string
 
-Take a look at [MongoDB Manual](https://mongodb.com/docs/manual/reference/connection-string/) for more details about connection strings.
+Take a look at [MongoDB Manual](https://mongodb.com/docs/manual/reference/connection-string) for more details about connection strings.
 
 Optional: You can paste your Youtube cookies into `admin/ytCookies.json`
 > [!NOTE]
 > Cookies prevent Youtube rate limiting (429 Error) and are able to play videos accessible via your account, including age-restricted videos, exclusive member videos, premium videos, private videos and many more.
 #### 🍪 How to get cookies
-1. Install [EditThisCookie](https://editthiscookie.com/) extension on your browser
+1. Install [EditThisCookie](https://editthiscookie.com) extension on your browser
 2. Go to Youtube
 3. Log in to your account
 4. Click on the extension icon and click "Export" icon
