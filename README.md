@@ -27,14 +27,13 @@ A Discord Music Bot that supports Youtube and is easy to use with its clean dash
 - [node-mongodb-native](https://github.com/mongodb/node-mongodb-native)
 - [mongoose](https://github.com/Automattic/mongoose)
 
-## 🚀 Getting Started
-### 🛠️ Installation
+## 🛠️ Installation
 Make sure you have Node.js and FFmpeg installed before proceeding.
 - Run this to install packages:
 ```bash
 npm install
 ```
-### ⚙️ Configuration
+## ⚙️ Configuration
 These keys must be present in the `.env` file or declared as environment variables:
 - `APP_ID`: The Discord application ID
 - `BOT_TOKEN`: The Discord bot token
@@ -45,20 +44,21 @@ Take a look at [MongoDB Manual](https://mongodb.com/docs/manual/reference/connec
 Optional: You can paste your Youtube cookies into `admin/ytCookies.json`
 > [!NOTE]
 > Cookies prevent Youtube rate limiting (429 Error) and are able to play videos accessible via your account, including age-restricted videos, exclusive member videos, premium videos, private videos and many more.
-#### 🍪 How to get cookies
+### 🍪 How to get cookies
 1. Install [EditThisCookie](https://editthiscookie.com) extension on your browser
 2. Go to Youtube
 3. Log in to your account
 4. Click on the extension icon and click "Export" icon
 5. Your cookies will be added to your clipboard
-### 🔥 Launch
+## 🔥 Launch
 ```bash
 node index.js
 ```
-### 📝 Usage
+## 🚀 Getting Started
 1. Add Flopy to your server
 2. Use `/setup` command in a channel
 3. Join a voice channel and send a song name or a link
 4. Listen
 
+## 📸 Showcase
 ![exemple](https://i.imgur.com/4DFXmxF.png)
