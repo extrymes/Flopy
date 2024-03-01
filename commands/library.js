@@ -27,8 +27,8 @@ module.exports = {
             .setDescription(`${languages["en"].COMMAND_LIBRARY_ADD_OPTION_TYPE}`)
             .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_LIBRARY_ADD_OPTION_TYPE}` })
             .setChoices(
-              { name: `${languages["en"].COMMAND_LIBRARY_ADD_OPTION_TYPE_CHOICE_SONG}`, name_localizations: { "fr": `${languages["fr"].COMMAND_LIBRARY_ADD_OPTION_TYPE_CHOICE_SONG}` }, value: "video" },
-              { name: `${languages["en"].COMMAND_LIBRARY_ADD_OPTION_TYPE_CHOICE_PLAYLIST}`, name_localizations: { "fr": `${languages["fr"].COMMAND_LIBRARY_ADD_OPTION_TYPE_CHOICE_PLAYLIST}` }, value: "playlist" }
+              { name: `${languages["en"].ITEM_SONG} (${languages["en"].OPTION_DEFAULT})`, name_localizations: { "fr": `${languages["fr"].ITEM_SONG} (${languages["fr"].OPTION_DEFAULT})` }, value: "video" },
+              { name: `${languages["en"].ITEM_PLAYLIST}`, name_localizations: { "fr": `${languages["fr"].ITEM_PLAYLIST}` }, value: "playlist" }
             )
             .setRequired(false)
         )
@@ -142,7 +142,7 @@ module.exports = {
   updateResponse: async (interaction, lang, items, selectedItem) => {
     // Update library embed, menu and buttons
     const options = items.map((item, i) => { return { label: `${i + 1}. ${item.name.length > config.ITEM_NAME_MAX_LENGTH_DISPLAY ? item.name.substr(0, config.ITEM_NAME_MAX_LENGTH_DISPLAY).concat("...") : item.name}`, description: `${item.author || "-"}`, emoji: item.isPlaylist ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG, value: `${i}`, default: item === selectedItem } });
-    const libraryEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_LIBRARY_TITLE} (${items.length}/${config.LIBRARY_MAX_LENGTH})`, iconURL: interaction.user.displayAvatarURL({ forceStatic: true }) }).addFields({ name: `**${lang.MESSAGE_ITEM_TITLE}**`, value: `[${selectedItem.name}](${selectedItem.url})` }, { name: `**${lang.MESSAGE_ITEM_AUTHOR}**`, value: `${selectedItem.author || "-"}`, inline: true }, { name: `**${lang.MESSAGE_ITEM_TYPE}**`, value: `${selectedItem.isPlaylist ? lang.MESSAGE_ITEM_TYPE_PLAYLIST : lang.MESSAGE_ITEM_TYPE_SONG}`, inline: true }).setThumbnail(selectedItem.thumbnail).setColor(elements.COLOR_FLOPY);
+    const libraryEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_LIBRARY_TITLE} (${items.length}/${config.LIBRARY_MAX_LENGTH})`, iconURL: interaction.user.displayAvatarURL({ forceStatic: true }) }).addFields({ name: `**${lang.MESSAGE_ITEM_TITLE}**`, value: `[${selectedItem.name}](${selectedItem.url})` }, { name: `**${lang.MESSAGE_ITEM_AUTHOR}**`, value: `${selectedItem.author || "-"}`, inline: true }, { name: `**${lang.MESSAGE_ITEM_TYPE}**`, value: `${selectedItem.isPlaylist ? lang.ITEM_PLAYLIST : lang.ITEM_SONG}`, inline: true }).setThumbnail(selectedItem.thumbnail).setColor(elements.COLOR_FLOPY);
     const libraryMenu = new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId("select").setOptions(options));
     const libraryButtons = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("play").setStyle(ButtonStyle.Primary).setLabel(`${lang.BUTTON_PLAY}`), new ButtonBuilder().setCustomId("remove").setStyle(ButtonStyle.Danger).setLabel(`${lang.BUTTON_LIBRARY_REMOVE}`));
     await interaction.editReply({ embeds: [libraryEmbed], components: [libraryMenu, libraryButtons] });

@@ -24,8 +24,6 @@ module.exports = {
     COMMAND_LIBRARY_VIEW_DESCRIPTION: "Display your library and interact with items.",
     COMMAND_LIBRARY_ADD_DESCRIPTION: "Add the currently playing item to your library.",
     COMMAND_LIBRARY_ADD_OPTION_TYPE: "The item type to be added to your library.",
-    COMMAND_LIBRARY_ADD_OPTION_TYPE_CHOICE_SONG: "Song (default)",
-    COMMAND_LIBRARY_ADD_OPTION_TYPE_CHOICE_PLAYLIST: "Playlist",
     COMMAND_REMOVE_DESCRIPTION: "Manage the queue.",
     COMMAND_REMOVE_SONG_DESCRIPTION: "Remove a specific song from the queue.",
     COMMAND_REMOVE_SONG_OPTION_POSITION: "The song's position in the queue.",
@@ -34,8 +32,6 @@ module.exports = {
     COMMAND_SEARCH_DESCRIPTION: "Search and interact with results.",
     COMMAND_SEARCH_OPTION_QUERY: "The song, the artist, the lyrics, and more.",
     COMMAND_SEARCH_OPTION_TYPE: "The search result type.",
-    COMMAND_SEARCH_OPTION_TYPE_CHOICE_SONG: "Song (default)",
-    COMMAND_SEARCH_OPTION_TYPE_CHOICE_PLAYLIST: "Playlist",
     COMMAND_SEEK_DESCRIPTION: "Seek a specific time in the current song.",
     COMMAND_SEEK_OPTION_TIME: "The time in the song (hours, minutes, seconds).",
     COMMAND_SETUP_DESCRIPTION: "Setup the dashboard in this channel.",
@@ -60,8 +56,6 @@ module.exports = {
     MESSAGE_ITEM_LENGTH: "Length",
     MESSAGE_ITEM_LENGTH_SONGS: "song(s)",
     MESSAGE_ITEM_TYPE: "Type",
-    MESSAGE_ITEM_TYPE_SONG: "Song",
-    MESSAGE_ITEM_TYPE_PLAYLIST: "Playlist",
     MESSAGE_AUTOPLAY_ENABLED: "Autoplay enabled",
     MESSAGE_AUTOPLAY_DISABLED: "Autoplay disabled",
     MESSAGE_FILTERS_ACTIVE: "Active filters:",
@@ -109,7 +103,10 @@ module.exports = {
     HELP_SETUP_DASHBOARD: "Use $command command in a channel to setup the dashboard.",
     BUTTON_PLAY: "Play",
     BUTTON_LIBRARY_ADD: "Add to your library",
-    BUTTON_LIBRARY_REMOVE: "Remove from your library"
+    BUTTON_LIBRARY_REMOVE: "Remove from your library",
+    ITEM_SONG: "Song",
+    ITEM_PLAYLIST: "Playlist",
+    OPTION_DEFAULT: "Default"
   },
   "fr": {
     DASHBOARD_SONG_NO_PLAYING: "Aucune musique en cours de lecture",
@@ -136,8 +133,6 @@ module.exports = {
     COMMAND_LIBRARY_VIEW_DESCRIPTION: "Afficher votre bibliothèque et intéragir avec les éléments.",
     COMMAND_LIBRARY_ADD_DESCRIPTION: "Ajouter l'élément en cours de lecture à votre bibliothèque.",
     COMMAND_LIBRARY_ADD_OPTION_TYPE: "Le type d'élément à ajouter votre bibliothèque.",
-    COMMAND_LIBRARY_ADD_OPTION_TYPE_CHOICE_SONG: "Musique (par défaut)",
-    COMMAND_LIBRARY_ADD_OPTION_TYPE_CHOICE_PLAYLIST: "Playlist",
     COMMAND_REMOVE_DESCRIPTION: "Gérer la file d'attente.",
     COMMAND_REMOVE_SONG_DESCRIPTION: "Retirer une musique spécifique de la file d'attente.",
     COMMAND_REMOVE_SONG_OPTION_POSITION: "La position de la musique dans la file d'attente.",
@@ -146,8 +141,6 @@ module.exports = {
     COMMAND_SEARCH_DESCRIPTION: "Rechercher et intéragir avec les résultats.",
     COMMAND_SEARCH_OPTION_QUERY: "La musique, l'artiste, les paroles, etc.",
     COMMAND_SEARCH_OPTION_TYPE: "Le type de résultat de recherche.",
-    COMMAND_SEARCH_OPTION_TYPE_CHOICE_SONG: "Musique (par défaut)",
-    COMMAND_SEARCH_OPTION_TYPE_CHOICE_PLAYLIST: "Playlist",
     COMMAND_SEEK_DESCRIPTION: "Aller à un moment spécifique dans la musique en cours de lecture.",
     COMMAND_SEEK_OPTION_TIME: "Le moment dans la musique (heures, minutes, secondes).",
     COMMAND_SETUP_DESCRIPTION: "Installer le tableau de bord dans ce salon.",
@@ -172,8 +165,6 @@ module.exports = {
     MESSAGE_ITEM_LENGTH: "Longueur",
     MESSAGE_ITEM_LENGTH_SONGS: "musique(s)",
     MESSAGE_ITEM_TYPE: "Type",
-    MESSAGE_ITEM_TYPE_SONG: "Musique",
-    MESSAGE_ITEM_TYPE_PLAYLIST: "Playlist",
     MESSAGE_AUTOPLAY_ENABLED: "Lecture automatique activée",
     MESSAGE_AUTOPLAY_DISABLED: "Lecture automatique désactivée",
     MESSAGE_FILTERS_ACTIVE: "Filtres actifs :",
@@ -221,6 +212,9 @@ module.exports = {
     HELP_SETUP_DASHBOARD: "Utilisez la commande $command dans un salon pour installer le tableau de bord.",
     BUTTON_PLAY: "Jouer",
     BUTTON_LIBRARY_ADD: "Ajouter à votre bibliothèque",
-    BUTTON_LIBRARY_REMOVE: "Supprimer de votre bibliothèque"
+    BUTTON_LIBRARY_REMOVE: "Supprimer de votre bibliothèque",
+    ITEM_SONG: "Musique",
+    ITEM_PLAYLIST: "Playlist",
+    OPTION_DEFAULT: "Par défaut"
   }
 }

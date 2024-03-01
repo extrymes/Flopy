@@ -23,8 +23,8 @@ module.exports = {
         .setDescription(`${languages["en"].COMMAND_SEARCH_OPTION_TYPE}`)
         .setDescriptionLocalizations({ "fr": `${languages["fr"].COMMAND_SEARCH_OPTION_TYPE}` })
         .setChoices(
-          { name: `${languages["en"].COMMAND_SEARCH_OPTION_TYPE_CHOICE_SONG}`, name_localizations: { "fr": `${languages["fr"].COMMAND_SEARCH_OPTION_TYPE_CHOICE_SONG}` }, value: "video" },
-          { name: `${languages["en"].COMMAND_SEARCH_OPTION_TYPE_CHOICE_PLAYLIST}`, name_localizations: { "fr": `${languages["fr"].COMMAND_SEARCH_OPTION_TYPE_CHOICE_PLAYLIST}` }, value: "playlist" }
+          { name: `${languages["en"].ITEM_SONG} (${languages["en"].OPTION_DEFAULT})`, name_localizations: { "fr": `${languages["fr"].ITEM_SONG} (${languages["fr"].OPTION_DEFAULT})` }, value: "video" },
+          { name: `${languages["en"].ITEM_PLAYLIST}`, name_localizations: { "fr": `${languages["fr"].ITEM_PLAYLIST}` }, value: "playlist" }
         )
         .setRequired(false)
     ),
