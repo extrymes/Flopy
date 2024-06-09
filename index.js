@@ -1,5 +1,6 @@
 const { Client, GatewayIntentBits, REST, Routes } = require("discord.js");
 const { DisTube } = require("distube");
+const { YouTubePlugin } = require("@distube/youtube");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const colors = require("colors");
@@ -17,6 +18,7 @@ client.cooldowns = {};
 
 // Create DisTube instance
 client.distube = new DisTube(client, {
+	plugins: [new YouTubePlugin()],
 	nsfw: config.DISTUBE_NSFW,
 	savePreviousSongs: config.DISTUBE_SAVE_PREVIOUS_SONGS,
 	customFilters: config.DISTUBE_CUSTOM_FILTERS
