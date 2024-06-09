@@ -14,9 +14,6 @@ module.exports = {
 	MONGO_SERVER_SELECTION_TIMEOUT_MS: 5000, // Time in milliseconds to find a server to send an operation before failing
 	MONGO_SOCKET_TIMEOUT_MS: 45000, // Time in milliseconds before killing a socket due to inactivity
 	MONGO_FAMILY: 4, // Internet protocol version (4: IPv4, 6: IPv6, 0: both)
-	DISTUBE_LEAVE_ON_FINISH: false, // Leave the voice channel when queue ends
-	DISTUBE_LEAVE_ON_STOP: false, // Leave the voice channel when queue is stopped
-	DISTUBE_LEAVE_ON_EMPTY: false, // Leave the voice channel when it is empty
 	DISTUBE_SEARCH_MAX_RESULTS: 20, // Max. number of search results
 	DISTUBE_NSFW: true, // Play age-restricted content
 	DISTUBE_SAVE_PREVIOUS_SONGS: false, // Save previous songs in queue

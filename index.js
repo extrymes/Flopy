@@ -17,13 +17,9 @@ client.cooldowns = {};
 
 // Create DisTube instance
 client.distube = new DisTube(client, {
-	leaveOnFinish: config.DISTUBE_LEAVE_ON_FINISH,
-	leaveOnStop: config.DISTUBE_LEAVE_ON_STOP,
-	leaveOnEmpty: config.DISTUBE_LEAVE_ON_EMPTY,
 	nsfw: config.DISTUBE_NSFW,
 	savePreviousSongs: config.DISTUBE_SAVE_PREVIOUS_SONGS,
-	customFilters: config.DISTUBE_CUSTOM_FILTERS,
-	youtubeCookie: JSON.parse(fs.readFileSync("./admin/ytCookies.json"))
+	customFilters: config.DISTUBE_CUSTOM_FILTERS
 });
 
 // Read command files
