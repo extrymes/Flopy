@@ -193,6 +193,7 @@ module.exports = (client) => {
 		if (error.includes("No result found") || error.includes("Cannot resolve undefined to a Song") || error.includes("search string is mandatory")) return `${lang.ERROR_RESULT_NO_FOUND}`;
 		if (error.includes("Video unavailable") || error.includes("This video is unavailable") || error.includes("Premiere will begin shortly")) return `${lang.ERROR_VIDEO_UNAVAILABLE}`;
 		if (error.includes("Sign in to confirm your age") || error.includes("Sorry, this content is age-restricted") || error.includes("This video is only available to Music Premium members")) return `${lang.ERROR_VIDEO_RESTRICTED}`;
+		if (error.includes("Sign in to confirm you’re not a bot")) return `${lang.ERROR_COOKIES_INVALID}`;
 		if (error.includes("Unsupported URL") || error.includes("This url is not supported")) return `${lang.ERROR_URL_UNSUPPORTED}`;
 		if (error.includes("Invalid URL")) return `${lang.ERROR_URL_INVALID}`;
 		if (error.includes("Unknown Playlist")) return `${lang.ERROR_PLAYLIST_UNKNOWN}`;
