@@ -18,7 +18,7 @@ client.cooldowns = {};
 
 // Create DisTube instance
 client.distube = new DisTube(client, {
-	plugins: [new YouTubePlugin()],
+	plugins: [new YouTubePlugin({ cookies: JSON.parse(fs.readFileSync("./admin/ytCookies.json")) })],
 	nsfw: config.DISTUBE_NSFW,
 	savePreviousSongs: config.DISTUBE_SAVE_PREVIOUS_SONGS,
 	customFilters: config.DISTUBE_CUSTOM_FILTERS
