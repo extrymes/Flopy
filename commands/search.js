@@ -37,7 +37,7 @@ module.exports = {
 		await interaction.deferReply({ ephemeral: true }).catch((error) => { });
 		try {
 			// Search for results using query and type
-			const results = await client.distube.search(query, { limit: config.DISTUBE_SEARCH_MAX_RESULTS, type: type });
+			const results = await client.youtubePlugin.search(query, { limit: config.DISTUBE_SEARCH_MAX_RESULTS, type: type });
 			// Update response
 			await module.exports.updateResponse(interaction, lang, results, results[0]);
 			const response = await interaction.fetchReply();

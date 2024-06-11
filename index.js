@@ -16,9 +16,14 @@ require("./utils/functions")(client);
 client.dashboards = {};
 client.cooldowns = {};
 
+// Create YoutubePlugin instance
+client.youtubePlugin = new YouTubePlugin({
+	cookies: JSON.parse(fs.readFileSync("./admin/ytCookies.json"))
+});
+
 // Create DisTube instance
 client.distube = new DisTube(client, {
-	plugins: [new YouTubePlugin({ cookies: JSON.parse(fs.readFileSync("./admin/ytCookies.json")) })],
+	plugins: [client.youtubePlugin],
 	nsfw: config.DISTUBE_NSFW,
 	savePreviousSongs: config.DISTUBE_SAVE_PREVIOUS_SONGS,
 	customFilters: config.DISTUBE_CUSTOM_FILTERS
