@@ -1,6 +1,6 @@
 const languages = require("../utils/languages");
 
-module.exports = async (client, queue) => {
+module.exports = async (client, queue, error) => {
 	const guild = queue.textChannel.guild;
 	const channel = queue.textChannel;
 	const guildData = await client.getGuildData(guild);
