@@ -65,7 +65,7 @@ module.exports = {
 			case "add":
 				const type = options.getString("type") || "video";
 				const isPlaylist = type === "playlist";
-				const currentItem = isPlaylist ? queue?.songs[0]?.playlist : queue?.songs[0];
+				const currentItem = isPlaylist ? queue?.songs[0]?.playlist : queue?.songs[0]?.stream?.song || queue?.songs[0];
 				if (!currentItem) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_PLAYLIST_NO_PLAYING : lang.ERROR_SONG_NO_PLAYING}`);
 				if (library.find((item) => item.url === currentItem.url)) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_ALREADY_ADDED : lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`);
 				if (library.length >= config.LIBRARY_MAX_LENGTH) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`);

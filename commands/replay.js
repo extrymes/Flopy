@@ -9,7 +9,7 @@ module.exports = {
 		.setDMPermission(false),
 	run: async (client, interaction, guildData, queue, lang) => {
 		const { guild, member } = interaction;
-		const currentSong = queue?.songs[0];
+		const currentSong = queue?.songs[0]?.stream?.song || queue?.songs[0];
 
 		if (!currentSong) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_NO_PLAYING}`);
 		if (!client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);

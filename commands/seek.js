@@ -16,7 +16,7 @@ module.exports = {
 		),
 	run: async (client, interaction, guildData, queue, lang) => {
 		const { guild, member, options } = interaction;
-		const currentSong = queue?.songs[0];
+		const currentSong = queue?.songs[0]?.stream?.song || queue?.songs[0];
 		const hhmmss = options.getInteger("hhmmss").toString();
 
 		if(!currentSong) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_NO_PLAYING}`);
@@ -35,7 +35,7 @@ module.exports = {
 				client.updateDashboardMessage(guild, queue, lang);
 			}
 			// Create duration bar
-			const durationBar = client.createDurationBar(queue);
+			const durationBar = client.createDurationBar(queue, currentSong);
 			// Send notification
 			client.sendNotification(interaction, `${durationBar}`, { editReply: true });
 		} catch (error) {

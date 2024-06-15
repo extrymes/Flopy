@@ -130,7 +130,7 @@ module.exports = (client) => {
 	// Create dashboard
 	client.createDashboard = (guild, queue, lang) => {
 		const songs = queue?.songs || [];
-		const currentSong = songs[0];
+		const currentSong = songs[0]?.stream?.song || songs[0];
 		const formattedSongs = songs.slice(1, config.QUEUE_MAX_LENGTH_DISPLAY + 1).map((song, i) => { return `**${i + 1}.** ${song.name.length > config.ITEM_NAME_MAX_LENGTH_DISPLAY ? song.name.substr(0, config.ITEM_NAME_MAX_LENGTH_DISPLAY).concat("...") : song.name}` }).reverse().join("\n");
 		const dashboardContent = `**__${lang.DASHBOARD_QUEUE}__**\n${currentSong ? `${songs.length - 1 > config.QUEUE_MAX_LENGTH_DISPLAY ? `**+${songs.length - 1 - config.QUEUE_MAX_LENGTH_DISPLAY}**\n` : ""}${formattedSongs || lang.DASHBOARD_QUEUE_NO_SONG}` : lang.DASHBOARD_QUEUE_NONE}`;
 		const dashboardEmbed = new EmbedBuilder().setTitle(currentSong ? `[${currentSong.formattedDuration}] ${currentSong.name}` : `${lang.DASHBOARD_SONG_NO_PLAYING}`).setDescription(!currentSong ? `[Flopy](${elements.INVITE_FLOPY}) | [Flopy 2](${elements.INVITE_FLOPY2}) | [Flopy 3](${elements.INVITE_FLOPY3}) | [Support](${elements.INVITE_SUPPORT})` : null).setImage(currentSong ? currentSong.thumbnail : elements.BANNER_DASHBOARD).setFooter(currentSong ? { text: `${lang.DASHBOARD_VOLUME} ${queue.volume}%${queue.repeatMode === 1 ? ` | ${lang.DASHBOARD_REPEAT_SONG}` : queue.repeatMode === 2 ? ` | ${lang.DASHBOARD_REPEAT_QUEUE}` : ""}${queue.autoplay ? ` | ${lang.DASHBOARD_AUTOPLAY_ON}` : ""}${queue.filters.size > 0 ? ` | ${lang.DASHBOARD_FILTERS} ${queue.filters.size}` : ""}` } : null).setColor(currentSong ? guild.members.me.displayHexColor.replace("#000000", elements.COLOR_WHITE) : elements.COLOR_FLOPY);
@@ -171,12 +171,11 @@ module.exports = (client) => {
 	}
 
 	// Create duration bar
-	client.createDurationBar = (queue) => {
-		const currentSong = queue.songs[0];
-		const progress = Math.min(Math.round((queue.currentTime / currentSong.duration) * config.DURATION_BAR_MAX_LENGTH_DISPLAY), config.DURATION_BAR_MAX_LENGTH_DISPLAY);
+	client.createDurationBar = (queue, song) => {
+		const progress = Math.min(Math.round((queue.currentTime / song.duration) * config.DURATION_BAR_MAX_LENGTH_DISPLAY), config.DURATION_BAR_MAX_LENGTH_DISPLAY);
 		const rest = config.DURATION_BAR_MAX_LENGTH_DISPLAY - progress;
 		const bar = new Array(progress).fill(elements.SYMBOL_LINE).concat(elements.SYMBOL_CIRCLE).concat(new Array(rest).fill(" ")).join("");
-		return `\`${queue.formattedCurrentTime} ${bar} ${currentSong.formattedDuration}\``;
+		return `\`${queue.formattedCurrentTime} ${bar} ${song.formattedDuration}\``;
 	}
 
 	// Convert HHMMSS to seconds
