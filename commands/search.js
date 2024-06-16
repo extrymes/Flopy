@@ -82,7 +82,7 @@ module.exports = {
 				await subinteraction.deferReply().catch((error) => { });
 				try {
 					// Play or add item to the queue using selected song
-					await client.distube.play(member.voice.channel, selectedResult, { textChannel: channel, member: member, metadata: subinteraction });
+					await client.distube.play(member.voice.channel, selectedResult, { textChannel: channel, member: member, metadata: { playing: queue?.playing, interaction: subinteraction } });
 				} catch (error) {
 					const errorMessage = client.getErrorMessage(error.message, lang);
 					client.sendErrorNotification(subinteraction, `${errorMessage}`, { editReply: true });

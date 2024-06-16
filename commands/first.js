@@ -24,7 +24,7 @@ module.exports = {
 		await interaction.deferReply().catch((error) => { });
 		try {
 			// Play or add item to the queue at position 1 using query
-			await client.distube.play(member.voice.channel, query, { textChannel: channel, member: member, metadata: interaction, position: 1 });
+			await client.distube.play(member.voice.channel, query, { textChannel: channel, member: member, metadata: { playing: queue?.playing, interaction: interaction }, position: 1 });
 		} catch (error) {
 			const errorMessage = client.getErrorMessage(error.message, lang);
 			client.sendErrorNotification(interaction, `${errorMessage}`, { editReply: true });

@@ -20,7 +20,7 @@ module.exports = async (client, message) => {
 	await channel.sendTyping().catch((error) => { });
 	try {
 		// Play or add item to the queue using message content
-		await client.distube.play(member.voice.channel, message.content, { textChannel: channel, member: member });
+		await client.distube.play(member.voice.channel, message.content, { textChannel: channel, member: member, metadata: { playing: queue?.playing } });
 	} catch (error) {
 		const errorMessage = client.getErrorMessage(error.message, lang);
 		client.sendErrorNotification(channel, `${errorMessage}`);
