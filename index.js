@@ -2,6 +2,7 @@ const { Client, GatewayIntentBits, REST, Routes } = require("discord.js");
 const { DisTube } = require("distube");
 const { YouTubePlugin } = require("@distube/youtube");
 const { SpotifyPlugin } = require("@distube/spotify");
+const { TidalPlugin } = require("distube-tidal");
 const mongoose = require("mongoose");
 const fs = require("fs");
 const colors = require("colors");
@@ -24,7 +25,7 @@ client.youtubePlugin = new YouTubePlugin({
 
 // Create DisTube instance
 client.distube = new DisTube(client, {
-	plugins: [client.youtubePlugin, new SpotifyPlugin()],
+	plugins: [client.youtubePlugin, new SpotifyPlugin(), new TidalPlugin()],
 	nsfw: config.DISTUBE_NSFW,
 	savePreviousSongs: config.DISTUBE_SAVE_PREVIOUS_SONGS,
 	customFilters: config.DISTUBE_CUSTOM_FILTERS
