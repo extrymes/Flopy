@@ -194,6 +194,7 @@ module.exports = (client) => {
 		if (error.includes("Sign in to confirm your age") || error.includes("Sorry, this content is age-restricted") || error.includes("This video is only available to Music Premium members")) return `${lang.ERROR_VIDEO_RESTRICTED}`;
 		if (error.includes("Sign in to confirm you’re not a bot")) return `${lang.ERROR_COOKIES_INVALID}`;
 		if (error.includes("Unsupported URL") || error.includes("This url is not supported")) return `${lang.ERROR_URL_UNSUPPORTED}`;
+		if (error.includes("Invalid track ID")) return `${lang.ERROR_SONG_INVALID_ID}`;
 		if (error.includes("Invalid URL")) return `${lang.ERROR_URL_INVALID}`;
 		if (error.includes("Unknown Playlist")) return `${lang.ERROR_PLAYLIST_UNKNOWN}`;
 		console.error(error);
