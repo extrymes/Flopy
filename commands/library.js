@@ -41,8 +41,10 @@ module.exports = {
 
 		switch (subcommand) {
 			case "view":
-				if (library.length === 0) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_NO_ITEM}`);
-				if (!client.handleCooldown("libraryCommand", user.id, 4000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+				if (library.length === 0)
+					return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_NO_ITEM}`);
+				if (!client.handleCooldown("libraryCommand", user.id, 4000))
+					return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
 				await interaction.deferReply({ ephemeral: true }).catch((error) => { });
 				try {
 					// Update response
@@ -66,9 +68,12 @@ module.exports = {
 				const type = options.getString("type") || "video";
 				const isPlaylist = type === "playlist";
 				const currentItem = isPlaylist ? queue?.songs[0]?.playlist : queue?.songs[0]?.stream?.song || queue?.songs[0];
-				if (!currentItem) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_PLAYLIST_NO_PLAYING : lang.ERROR_SONG_NO_PLAYING}`);
-				if (library.find((item) => item.url === currentItem.url)) return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_ALREADY_ADDED : lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`);
-				if (library.length >= config.LIBRARY_MAX_LENGTH) return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`);
+				if (!currentItem)
+					return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_PLAYLIST_NO_PLAYING : lang.ERROR_SONG_NO_PLAYING}`);
+				if (library.find((item) => item.url === currentItem.url))
+					return client.sendErrorNotification(interaction, `${isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_ALREADY_ADDED : lang.ERROR_LIBRARY_SONG_ALREADY_ADDED}`);
+				if (library.length >= config.LIBRARY_MAX_LENGTH)
+					return client.sendErrorNotification(interaction, `${lang.ERROR_LIBRARY_LIMIT_REACHED}`);
 				// Add item to library
 				library.push({ name: currentItem.name, author: currentItem.uploader?.name, thumbnail: currentItem.thumbnail, url: currentItem.url, isPlaylist: isPlaylist });
 				await interaction.deferReply({ ephemeral: true }).catch((error) => { });
@@ -107,9 +112,12 @@ module.exports = {
 				}
 				break;
 			case "play":
-				if (!member.voice.channel) return client.sendErrorNotification(subinteraction, `${lang.ERROR_MEMBER_MUST_JOIN_VOICE_CHANNEL}`);
-				if (!client.checkMemberIsInMyVoiceChannel(guild, member) && queue) return client.sendErrorNotification(subinteraction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
-				if (!client.handleCooldown("playQuery", member.id, 2000)) return client.sendErrorNotification(subinteraction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+				if (!member.voice.channel)
+					return client.sendErrorNotification(subinteraction, `${lang.ERROR_MEMBER_MUST_JOIN_VOICE_CHANNEL}`);
+				if (!client.checkMemberIsInMyVoiceChannel(guild, member) && queue)
+					return client.sendErrorNotification(subinteraction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
+				if (!client.handleCooldown("playQuery", member.id, 2000))
+					return client.sendErrorNotification(subinteraction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
 				await subinteraction.deferReply().catch((error) => { });
 				try {
 					// Play or add item to the queue using selected item url
@@ -121,13 +129,15 @@ module.exports = {
 				break;
 			case "remove":
 				const position = library.findIndex((item) => item.url === selectedItem.url);
-				if (position === -1) return client.sendErrorNotification(subinteraction, `${selectedItem.isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_NOT_FOUND : lang.ERROR_LIBRARY_SONG_NOT_FOUND}`);
+				if (position === -1)
+					return client.sendErrorNotification(subinteraction, `${selectedItem.isPlaylist ? lang.ERROR_LIBRARY_PLAYLIST_NOT_FOUND : lang.ERROR_LIBRARY_SONG_NOT_FOUND}`);
 				// Remove item from library
 				library.splice(position, 1);
 				try {
 					// Update user data in database
 					await client.updateUserData(member, { library: library });
-					if (library.length === 0) return interaction.deleteReply().catch((error) => { });
+					if (library.length === 0)
+						return interaction.deleteReply().catch((error) => { });
 					// Update response
 					await module.exports.updateResponse(interaction, lang, library, library[0]);
 					selections[message.id] = library[0];
@@ -142,9 +152,28 @@ module.exports = {
 	updateResponse: async (interaction, lang, items, selectedItem) => {
 		// Update library embed, menu and buttons
 		const options = items.map((item, i) => { return { label: `${i + 1}. ${item.name.length > config.ITEM_NAME_MAX_LENGTH_DISPLAY ? item.name.substr(0, config.ITEM_NAME_MAX_LENGTH_DISPLAY).concat("...") : item.name}`, description: `${item.author || "-"}`, emoji: item.isPlaylist ? elements.EMOJI_PLAYLIST : elements.EMOJI_SONG, value: `${i}`, default: item === selectedItem } });
-		const libraryEmbed = new EmbedBuilder().setAuthor({ name: `${lang.MESSAGE_LIBRARY_TITLE} (${items.length}/${config.LIBRARY_MAX_LENGTH})`, iconURL: interaction.user.displayAvatarURL({ forceStatic: true }) }).addFields({ name: `**${lang.MESSAGE_ITEM_TITLE}**`, value: `[${selectedItem.name}](${selectedItem.url})` }, { name: `**${lang.MESSAGE_ITEM_AUTHOR}**`, value: `${selectedItem.author || "-"}`, inline: true }, { name: `**${lang.MESSAGE_ITEM_TYPE}**`, value: `${selectedItem.isPlaylist ? lang.ITEM_PLAYLIST : lang.ITEM_SONG}`, inline: true }).setThumbnail(selectedItem.thumbnail).setColor(elements.COLOR_FLOPY);
-		const libraryMenu = new ActionRowBuilder().addComponents(new StringSelectMenuBuilder().setCustomId("select").setOptions(options));
-		const libraryButtons = new ActionRowBuilder().addComponents(new ButtonBuilder().setCustomId("play").setStyle(ButtonStyle.Primary).setLabel(`${lang.BUTTON_PLAY}`), new ButtonBuilder().setCustomId("remove").setStyle(ButtonStyle.Danger).setLabel(`${lang.BUTTON_LIBRARY_REMOVE}`));
+		const libraryEmbed = new EmbedBuilder()
+			.setAuthor({ name: `${lang.MESSAGE_LIBRARY_TITLE} (${items.length}/${config.LIBRARY_MAX_LENGTH})`, iconURL: interaction.user.displayAvatarURL({ forceStatic: true }) })
+			.addFields({ name: `**${lang.MESSAGE_ITEM_TITLE}**`, value: `[${selectedItem.name}](${selectedItem.url})` }, { name: `**${lang.MESSAGE_ITEM_AUTHOR}**`, value: `${selectedItem.author || "-"}`, inline: true }, { name: `**${lang.MESSAGE_ITEM_TYPE}**`, value: `${selectedItem.isPlaylist ? lang.ITEM_PLAYLIST : lang.ITEM_SONG}`, inline: true })
+			.setThumbnail(selectedItem.thumbnail)
+			.setColor(elements.COLOR_FLOPY);
+		const libraryMenu = new ActionRowBuilder()
+			.addComponents(
+				new StringSelectMenuBuilder()
+					.setCustomId("select")
+					.setOptions(options)
+			);
+		const libraryButtons = new ActionRowBuilder()
+			.addComponents(
+				new ButtonBuilder()
+					.setCustomId("play")
+					.setStyle(ButtonStyle.Primary)
+					.setLabel(`${lang.BUTTON_PLAY}`),
+				new ButtonBuilder()
+					.setCustomId("remove")
+					.setStyle(ButtonStyle.Danger)
+					.setLabel(`${lang.BUTTON_LIBRARY_REMOVE}`)
+			);
 		await interaction.editReply({ embeds: [libraryEmbed], components: [libraryMenu, libraryButtons] });
 	}
 }

@@ -35,16 +35,22 @@ module.exports = {
 		switch (subcommand) {
 			case "toggle":
 				const name = options.getString("name");
-				if (!queue?.songs[0]) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_NO_PLAYING}`);
-				if (!client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
-				if (!client.handleCooldown("filterCommand", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+				if (!queue?.songs[0])
+					return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_NO_PLAYING}`);
+				if (!client.checkMemberIsInMyVoiceChannel(guild, member))
+					return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
+				if (!client.handleCooldown("filterCommand", guild.id, 2000))
+					return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
 				await interaction.deferReply().catch((error) => { });
 				try {
 					// Toggle filter
-					if (filters.has(name)) await filters.remove(name);
-						else await filters.add(name);
+					if (filters.has(name))
+						await filters.remove(name);
+					else
+						await filters.add(name);
 					// Resume queue if paused
-					if (queue.paused) client.distube.resume(queue);
+					if (queue.paused)
+						client.distube.resume(queue);
 					// Update dashboard message and send notification
 					const filterNames = filters.names.map((filterName, i) => { return `\`${filterName}\`` }).join(", ");
 					client.updateDashboardMessage(guild, queue, lang);
@@ -55,15 +61,19 @@ module.exports = {
 				}
 				break;
 			case "reset":
-				if (!filters?.size) return client.sendErrorNotification(interaction, `${lang.ERROR_FILTER_NO_ACTIVE}`);
-				if (!client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
-				if (!client.handleCooldown("filterCommand", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+				if (!filters?.size)
+					return client.sendErrorNotification(interaction, `${lang.ERROR_FILTER_NO_ACTIVE}`);
+				if (!client.checkMemberIsInMyVoiceChannel(guild, member))
+					return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
+				if (!client.handleCooldown("filterCommand", guild.id, 2000))
+					return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
 				await interaction.deferReply().catch((error) => { });
 				try {
 					// Clear filters
 					await filters.clear();
 					// Resume queue if paused
-					if (queue.paused) client.distube.resume(queue);
+					if (queue.paused)
+						client.distube.resume(queue);
 					// Update dashboard message and send notification
 					client.updateDashboardMessage(guild, queue, lang);
 					client.sendNotification(interaction, `${lang.MESSAGE_FILTERS_ACTIVE} ${lang.MESSAGE_FILTERS_NONE}`, { editReply: true });

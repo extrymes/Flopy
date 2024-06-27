@@ -21,13 +21,17 @@ module.exports = {
 		const language = options.getString("language");
 		const selectedLang = languages[language];
 
-		if (!client.checkMemberIsManager(member)) return client.sendErrorNotification(interaction, `${selectedLang.ERROR_MEMBER_MUST_BE_MANAGER}`);
-		if (!client.checkMessageIsSendable(guild, channel)) return client.sendErrorNotification(interaction, `${selectedLang.ERROR_DASHBOARD_UNABLE_SETUP}`);
-		if (!client.handleCooldown("setupCommand", guild.id, 4000)) return client.sendErrorNotification(interaction, `${selectedLang.ERROR_ACTION_NOT_POSSIBLE}`);
+		if (!client.checkMemberIsManager(member))
+			return client.sendErrorNotification(interaction, `${selectedLang.ERROR_MEMBER_MUST_BE_MANAGER}`);
+		if (!client.checkMessageIsSendable(guild, channel))
+			return client.sendErrorNotification(interaction, `${selectedLang.ERROR_DASHBOARD_UNABLE_SETUP}`);
+		if (!client.handleCooldown("setupCommand", guild.id, 4000))
+			return client.sendErrorNotification(interaction, `${selectedLang.ERROR_ACTION_NOT_POSSIBLE}`);
 		await interaction.deferReply({ ephemeral: true }).catch((error) => { });
 		try {
 			// Update language in database
-			if (language !== guildData.language) await client.updateGuildData(guild, { language: language });
+			if (language !== guildData.language)
+				await client.updateGuildData(guild, { language: language });
 			// Send new dashboard message and then delete reply
 			await client.sendDashboardMessage(guild, channel, queue, selectedLang);
 			client.sendNotification(interaction, `${selectedLang.MESSAGE_DASHBOARD_INSTALLED}`, { editReply: true });

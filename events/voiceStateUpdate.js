@@ -22,7 +22,8 @@ module.exports = async (client, oldState, newState) => {
 		if (client.handleCooldown("updateVoiceChannel", guild.id, config.VOICE_CHANNEL_UPDATE_COOLDOWN * 1000)) {
 			setTimeout(async () => {
 				// Leave voice channel if guild dashboard is not in hash
-				if (!client.dashboards[guild.id]) return client.leaveVoiceChannel(guild);
+				if (!client.dashboards[guild.id])
+					return client.leaveVoiceChannel(guild);
 				// Update voice channel in database
 				const voiceId = member.voice.channel?.id || null;
 				if (voiceId !== guildData.voice) {

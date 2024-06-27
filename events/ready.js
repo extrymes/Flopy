@@ -10,7 +10,8 @@ module.exports = async (client) => {
 	console.log("[!] Browse all guilds...".yellow);
 	client.guilds.cache.forEach(async (guild) => {
 		const guildData = await client.getGuildData(guild);
-		if (guildData.newGuild) return client.sendNewGuildMessage(guild);
+		if (guildData.newGuild)
+			return client.sendNewGuildMessage(guild);
 		try {
 			await client.getDashboardMessage(guild, guildData);
 			const voiceChannel = guild.channels.cache.get(guildData.voice);

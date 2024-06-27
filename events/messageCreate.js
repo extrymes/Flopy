@@ -14,9 +14,12 @@ module.exports = async (client, message) => {
 	}
 	// Delete message
 	message.delete().catch((error) => { });
-	if (!member.voice.channel) return client.sendErrorNotification(channel, `${lang.ERROR_MEMBER_MUST_JOIN_VOICE_CHANNEL}`);
-	if (!client.checkMemberIsInMyVoiceChannel(guild, member) && queue) return	client.sendErrorNotification(channel, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
-	if (!client.handleCooldown("playQuery", member.id, 2000)) return client.sendErrorNotification(channel, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+	if (!member.voice.channel)
+		return client.sendErrorNotification(channel, `${lang.ERROR_MEMBER_MUST_JOIN_VOICE_CHANNEL}`);
+	if (!client.checkMemberIsInMyVoiceChannel(guild, member) && queue)
+		return client.sendErrorNotification(channel, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
+	if (!client.handleCooldown("playQuery", member.id, 2000))
+		return client.sendErrorNotification(channel, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
 	await channel.sendTyping().catch((error) => { });
 	try {
 		// Play or add item to the queue using message content

@@ -10,9 +10,12 @@ module.exports = {
 	run: async (client, interaction, guildData, queue, lang) => {
 		const { guild, member } = interaction;
 
-		if (!queue?.songs[1]) return client.sendErrorNotification(interaction, `${lang.ERROR_QUEUE_NO_SONG}`);
-		if (!client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
-		if (!client.handleCooldown("shuffleCommand", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+		if (!queue?.songs[1])
+			return client.sendErrorNotification(interaction, `${lang.ERROR_QUEUE_NO_SONG}`);
+		if (!client.checkMemberIsInMyVoiceChannel(guild, member))
+			return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
+		if (!client.handleCooldown("shuffleCommand", guild.id, 2000))
+			return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
 		await interaction.deferReply().catch((error) => { });
 		try {
 			// Shuffle queue

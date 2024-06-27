@@ -4,7 +4,8 @@ module.exports = async (client, guild) => {
 	const guildData = await client.getGuildData(guild);
 
 	// Check if guild is a new guild
-	if (guildData.newGuild) return client.sendNewGuildMessage(guild);
+	if (guildData.newGuild)
+		return client.sendNewGuildMessage(guild);
 	try {
 		// Retrieve data, update dashboard message and join voice channel
 		await client.getDashboardMessage(guild, guildData);

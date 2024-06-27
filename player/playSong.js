@@ -10,9 +10,11 @@ module.exports = async (client, queue, song) => {
 	const playing = song.metadata.playing;
 
 	// Resume queue if paused
-	if (queue.paused) client.distube.resume(queue);
+	if (queue.paused)
+		client.distube.resume(queue);
 	// Update or send new dashboard message if its maximum lifetime is reached
-	if (Date.now() - client.dashboards[guild.id]?.createdTimestamp < config.DASHBOARD_MESSAGE_MAX_LIFETIME * 1000) await client.updateDashboardMessage(guild, queue, lang);
+	if (Date.now() - client.dashboards[guild.id]?.createdTimestamp < config.DASHBOARD_MESSAGE_MAX_LIFETIME * 1000)
+		await client.updateDashboardMessage(guild, queue, lang);
 	else {
 		try {
 			await client.sendDashboardMessage(guild, channel, queue, lang);
@@ -23,5 +25,6 @@ module.exports = async (client, queue, song) => {
 		}
 	}
 	// Send advanced notification if queue is not already playing before
-	if (!playing && (!song.playlist || song == song.playlist.songs[0])) client.sendAdvancedNotification(destination, `${lang.MESSAGE_NOW_PLAYING}`, `${song.name}`, song.thumbnail, { editReply: true });
+	if (!playing && (!song.playlist || song == song.playlist.songs[0]))
+		client.sendAdvancedNotification(destination, `${lang.MESSAGE_NOW_PLAYING}`, `${song.name}`, song.thumbnail, { editReply: true });
 }

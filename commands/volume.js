@@ -18,11 +18,16 @@ module.exports = {
 		const { guild, member, options } = interaction;
 		const percentage = options.getInteger("percentage");
 
-		if (!queue?.songs[0]) return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_NO_PLAYING}`);
-		if (!client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
-		if (percentage < 1 || percentage > 100) return client.sendErrorNotification(interaction, `${lang.ERROR_VOLUME_INVALID_PERCENTAGE}`);
-		if (percentage === queue.volume) return client.sendErrorNotification(interaction, `${lang.ERROR_VOLUME_ALREADY_SET.replace("$percentage", `\`${percentage}%\``)}`);
-		if (!client.handleCooldown("volumeCommand", guild.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+		if (!queue?.songs[0])
+			return client.sendErrorNotification(interaction, `${lang.ERROR_SONG_NO_PLAYING}`);
+		if (!client.checkMemberIsInMyVoiceChannel(guild, member))
+			return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_MY_VOICE_CHANNEL}`);
+		if (percentage < 1 || percentage > 100)
+			return client.sendErrorNotification(interaction, `${lang.ERROR_VOLUME_INVALID_PERCENTAGE}`);
+		if (percentage === queue.volume)
+			return client.sendErrorNotification(interaction, `${lang.ERROR_VOLUME_ALREADY_SET.replace("$percentage", `\`${percentage}%\``)}`);
+		if (!client.handleCooldown("volumeCommand", guild.id, 2000))
+			return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
 		await interaction.deferReply().catch((error) => { });
 		try {
 			// Set volume percentage

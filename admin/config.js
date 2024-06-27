@@ -17,7 +17,14 @@ module.exports = {
 	DISTUBE_SEARCH_MAX_RESULTS: 20, // Max. number of search results
 	DISTUBE_NSFW: true, // Play age-restricted content
 	DISTUBE_SAVE_PREVIOUS_SONGS: false, // Save previous songs in queue
-	DISTUBE_CUSTOM_FILTERS: { "8d": "apulsator=hz=0.08", "purebass": "bass=g=20,dynaudnorm=f=200,asubboost", "subboost": "asubboost", "fast": "atempo=1.3", "vibrato": "vibrato=f=6.5", "pulsator": "apulsator=hz=1" }, // Custom ffmpeg filters
+	DISTUBE_CUSTOM_FILTERS: { // Custom ffmpeg filters
+		"8d": "apulsator=hz=0.08",
+		"purebass": "bass=g=20,dynaudnorm=f=200,asubboost",
+		"subboost": "asubboost",
+		"fast": "atempo=1.3",
+		"vibrato": "vibrato=f=6.5",
+		"pulsator": "apulsator=hz=1"
+	},
 	DISTUBE_ERROR_MAPPING: [ // Map of distube error messages
 		{
 			keywords: ["I do not have permission to join this voice channel", "Cannot connect to the voice channel", "The voice channel is full"],

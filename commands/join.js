@@ -11,10 +11,14 @@ module.exports = {
 		const { guild, member } = interaction
 		const voiceChannel = member.voice.channel;
 
-		if (!voiceChannel) return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_VOICE_CHANNEL}`);
-		if (client.checkMemberIsInMyVoiceChannel(guild, member)) return client.sendErrorNotification(interaction, `${lang.ERROR_VOICE_CHANNEL_ALREADY_JOINED}`);
-		if (!client.checkMyVoiceChannelIsEmpty(guild) && queue) return client.sendErrorNotification(interaction, `${lang.ERROR_VOICE_CHANNEL_UNABLE_JOIN}`);
-		if (!client.handleCooldown("joinCommand", member.id, 2000)) return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
+		if (!voiceChannel)
+			return client.sendErrorNotification(interaction, `${lang.ERROR_MEMBER_MUST_JOIN_VOICE_CHANNEL}`);
+		if (client.checkMemberIsInMyVoiceChannel(guild, member))
+			return client.sendErrorNotification(interaction, `${lang.ERROR_VOICE_CHANNEL_ALREADY_JOINED}`);
+		if (!client.checkMyVoiceChannelIsEmpty(guild) && queue)
+			return client.sendErrorNotification(interaction, `${lang.ERROR_VOICE_CHANNEL_UNABLE_JOIN}`);
+		if (!client.handleCooldown("joinCommand", member.id, 2000))
+			return client.sendErrorNotification(interaction, `${lang.ERROR_ACTION_NOT_POSSIBLE}`);
 		await interaction.deferReply().catch((error) => { });
 		try {
 			// Join voice channel
