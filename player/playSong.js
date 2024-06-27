@@ -27,4 +27,5 @@ module.exports = async (client, queue, song) => {
 	// Send advanced notification if queue is not already playing before
 	if (!playing && (!song.playlist || song == song.playlist.songs[0]))
 		client.sendAdvancedNotification(destination, `${lang.MESSAGE_NOW_PLAYING}`, `${song.name}`, song.thumbnail, { editReply: true });
+	song.metadata.playing = true;
 }
