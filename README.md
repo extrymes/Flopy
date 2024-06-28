@@ -1,29 +1,29 @@
 # Flopy
-A Discord Music Bot that supports Youtube and is easy to use with its clean dashboard and simple commands.
+A Discord Music Bot that supports multiple platforms and is easy to use with its clean dashboard and simple commands.
 
 [Discord Invite](https://discord.com/api/oauth2/authorize?client_id=909205146863566858&permissions=3172352&scope=bot%20applications.commands) | [Discord Support Server](https://discord.gg/cEzzFUnYvb)
 
-![banner](https://i.imgur.com/qyqUfyM.png)
+![banner](https://i.imgur.com/a084EZ1.jpg)
 
 ## ✨ Features
 - Easy to use and setup
 - Clean dashboard and nice look
 - Simple commands
-- Youtube link support
+- Supports Youtube, Spotify and Tidal URLs
 - Custom library to save songs and playlists
 - 18 audio filters (bassboost, nightcore, vaporwave, ...)
 - Autoplay related songs
-- Supports 3 clients to play music in multiple voice channels at the same time
-- Multi-language support (English & French)
+- Up to 3 clients to play music in multiple voice channels at the same time
+- Speaks multiple languages (English & French)
 
-## 📦 Dependencies
-- [Node.js](https://nodejs.org) v16.11.0 or higher
+## 📦 Requirement
+- [Node.js](https://nodejs.org) v18.17.0 or higher
 - [FFmpeg](https://ffmpeg.org)
 - [discord.js](https://discord.js.org) v14
-- [distube](https://distube.js.org) v4
+- [distube](https://distube.js.org) v5
 - [@discordjs/opus](https://github.com/discordjs/opus)
 - [@discordjs/voice](https://github.com/discordjs/voice)
-- [libsodium-wrappers](https://npmjs.com/package/libsodium-wrappers)
+- [sodium-native](https://npmjs.com/package/sodium-native)
 - [node-mongodb-native](https://github.com/mongodb/node-mongodb-native)
 - [mongoose](https://github.com/Automattic/mongoose)
 
@@ -61,4 +61,4 @@ node index.js
 4. Listen
 
 ## 📸 Showcase
-![exemple](https://i.imgur.com/4DFXmxF.png)
+![exemple](https://i.imgur.com/R7N9vIn.jpg)
