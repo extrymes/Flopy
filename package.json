@@ -24,8 +24,8 @@
 		"distube": "^5.0.2",
 		"distube-tidal": "^0.1.0",
 		"dotenv": "^16.4.5",
-		"mongodb": "^6.7.0",
-		"mongoose": "^8.4.1",
+		"mongodb": "^6.8.0",
+		"mongoose": "^8.4.4",
 		"sodium-native": "^4.1.1"
 	}
 }
